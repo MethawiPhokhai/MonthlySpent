@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import type { ReactNode } from 'react'
 import { describe, expect, it, vi } from 'vitest'
-import { DonutChart } from './DonutChart'
+import { DonutChart } from '../components/DonutChart'
 import type { Category, ExpenseItem } from '../types/budget'
 
 vi.mock('recharts', async () => {

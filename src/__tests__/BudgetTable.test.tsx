@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
-import { BudgetTable } from './BudgetTable'
+import { BudgetTable } from '../components/BudgetTable'
 import type { Category, ExpenseItem, PaymentMethod } from '../types/budget'
 
 const categories: Category[] = [

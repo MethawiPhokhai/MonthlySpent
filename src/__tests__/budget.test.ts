@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { getCategoryTotals } from './budget'
+import { getCategoryTotals } from '../utils/budget'
 import type { Category, ExpenseItem } from '../types/budget'
 
 const categories: Category[] = [

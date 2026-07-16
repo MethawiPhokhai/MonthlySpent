@@ -1,6 +1,6 @@
 import { act, renderHook, waitFor } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
-import { useBudget } from './useBudget'
+import { useBudget } from '../hooks/useBudget'
 import type { BudgetData } from '../types/budget'
 
 const mockBudget: BudgetData = {

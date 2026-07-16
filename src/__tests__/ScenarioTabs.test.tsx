@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
-import { ScenarioTabs } from './ScenarioTabs'
+import { ScenarioTabs } from '../components/ScenarioTabs'
 import type { Scenario } from '../types/budget'
 
 const scenarios: Scenario[] = [

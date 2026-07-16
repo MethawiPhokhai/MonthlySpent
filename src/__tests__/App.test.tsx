@@ -1,10 +1,10 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
-import App from './App'
-import { useBudget } from './hooks/useBudget'
-import type { BudgetData } from './types/budget'
+import App from '../App'
+import { useBudget } from '../hooks/useBudget'
+import type { BudgetData } from '../types/budget'
 
-vi.mock('./hooks/useBudget', () => ({
+vi.mock('../hooks/useBudget', () => ({
   useBudget: vi.fn(),
 }))
 

@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { fetchBudgetFile, saveBudgetFile } from './github'
+import { fetchBudgetFile, saveBudgetFile } from '../api/github'
 import type { BudgetData } from '../types/budget'
 
 const mockBudget: BudgetData = {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { classNames, formatCurrency } from './format'
+import { classNames, formatCurrency } from '../utils/format'
 
 describe('formatCurrency', () => {
   it('formats THB with no decimal places', () => {

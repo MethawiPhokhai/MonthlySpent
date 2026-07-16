@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
-import { SettingsPanel } from './SettingsPanel'
+import { SettingsPanel } from '../components/SettingsPanel'
 import type { GitHubConfig } from '../types/budget'
 
 const config: GitHubConfig = { owner: 'tuscaffy', repo: 'MonthlySpent', token: 'token' }

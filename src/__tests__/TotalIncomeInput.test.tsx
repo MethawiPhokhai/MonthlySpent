@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
-import { TotalIncomeInput } from './TotalIncomeInput'
+import { TotalIncomeInput } from '../components/TotalIncomeInput'
 
 describe('TotalIncomeInput', () => {
   it('renders the total income value', () => {
