@@ -1,0 +1,80 @@
+{
+  "meta": {
+    "currency": "THB",
+    "version": "1.0.0"
+  },
+  "scenarios": [
+    {
+      "id": "employed",
+      "name": "มีรายได้",
+      "description": "งบประมาณตอนทำงานปกติ",
+      "income": {
+        "total": 50000
+      },
+      "expenses": [
+        {
+          "id": "exp-1",
+          "name": "เงินเก็บ",
+          "amount": 5000,
+          "categoryId": "savings",
+          "paymentMethodId": "dime",
+          "due": "monthly",
+          "note": ""
+        },
+        {
+          "id": "exp-2",
+          "name": "ค่าเช่า",
+          "amount": 15000,
+          "categoryId": "utilities",
+          "paymentMethodId": "ktb",
+          "due": "monthly",
+          "note": ""
+        },
+        {
+          "id": "exp-3",
+          "name": "กิน",
+          "amount": 8000,
+          "categoryId": "food",
+          "paymentMethodId": "kbank",
+          "due": "monthly",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "unemployed",
+      "name": "ไม่มีเงินเดือน",
+      "description": "กรณีไม่มีเงินเดือนจริง ๆ",
+      "income": {
+        "total": 0
+      },
+      "expenses": [
+        {
+          "id": "exp-u1",
+          "name": "ค่าเช่า",
+          "amount": 15000,
+          "categoryId": "utilities",
+          "paymentMethodId": "ktb",
+          "due": "monthly",
+          "note": ""
+        }
+      ]
+    }
+  ],
+  "categories": [
+    { "id": "savings", "name": "เงินเก็บ", "color": "#81C784" },
+    { "id": "investment", "name": "ลงทุน", "color": "#64B5F6" },
+    { "id": "utilities", "name": "ค่าใช้จ่าย", "color": "#FFB74D" },
+    { "id": "bills", "name": "บิลรายเดือน", "color": "#AED581" },
+    { "id": "subscriptions", "name": "สมัครสมาชิก", "color": "#F06292" },
+    { "id": "food", "name": "กิน", "color": "#DCE775" },
+    { "id": "misc", "name": "อื่น ๆ", "color": "#7986CB" }
+  ],
+  "paymentMethods": [
+    { "id": "ktb", "name": "KTB" },
+    { "id": "kbank", "name": "Kbank" },
+    { "id": "make", "name": "Make" },
+    { "id": "dime", "name": "Dime" },
+    { "id": "office", "name": "Office" }
+  ]
+}

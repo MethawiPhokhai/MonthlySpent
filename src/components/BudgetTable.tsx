@@ -1,0 +1,97 @@
+import type { Category, ExpenseItem, PaymentMethod } from '../types/budget'
+import { getCategoryTotals } from '../utils/budget'
+import { formatCurrency } from '../utils/format'
+
+interface BudgetTableProps {
+  expenses: ExpenseItem[]
+  categories: Category[]
+  paymentMethods: PaymentMethod[]
+  onEdit: (item: ExpenseItem) => void
+  onDelete: (itemId: string) => void
+  onAdd: () => void
+}
+
+export function BudgetTable({ expenses, categories, paymentMethods, onEdit, onDelete, onAdd }: BudgetTableProps) {
+  const totals = getCategoryTotals(expenses, categories)
+  const grouped = totals
+    .map((total) => ({
+      category: categories.find((c) => c.id === total.id)!,
+      total,
+      items: expenses.filter((expense) => expense.categoryId === total.id),
+    }))
+    .filter((group) => group.items.length > 0)
+
+  const getPaymentMethodName = (id: string | null) => paymentMethods.find((method) => method.id === id)?.name ?? '-'
+
+  return (
+    <div className="rounded-xl bg-white p-4 shadow-sm">
+      <div className="mb-4 flex items-center justify-between">
+        <h3 className="text-sm font-medium text-slate-600">รายจ่ายตามหมวดหมู่</h3>
+        <button
+          type="button"
+          onClick={onAdd}
+          className="rounded-lg bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700"
+        >
+          + เพิ่มรายการ
+        </button>
+      </div>
+
+      {grouped.length === 0 ? (
+        <p className="py-8 text-center text-slate-400">ยังไม่มีรายจ่าย</p>
+      ) : (
+        <div className="space-y-4">
+          {grouped.map(({ category, total, items }) => (
+            <div key={category.id}>
+              <div className="mb-2 flex items-center gap-2">
+                <span className="inline-block h-3 w-3 rounded-full" style={{ backgroundColor: category.color }} />
+                <span className="font-medium text-slate-800">{category.name}</span>
+                <span className="text-sm text-slate-500">({formatCurrency(total.value)})</span>
+              </div>
+              <div className="overflow-hidden rounded-lg border border-slate-200">
+                <table className="w-full text-sm">
+                  <thead className="bg-slate-50 text-slate-600">
+                    <tr>
+                      <th className="px-3 py-2 text-left font-medium">รายการ</th>
+                      <th className="px-3 py-2 text-left font-medium">รอบ</th>
+                      <th className="px-3 py-2 text-left font-medium">จ่าย</th>
+                      <th className="px-3 py-2 text-right font-medium">จำนวน</th>
+                      <th className="px-3 py-2 text-right font-medium">จัดการ</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {items.map((item) => (
+                      <tr key={item.id} className="border-t border-slate-100">
+                        <td className="px-3 py-2">{item.name}</td>
+                        <td className="px-3 py-2 text-slate-500">{item.due || '-'}</td>
+                        <td className="px-3 py-2 text-slate-500">{getPaymentMethodName(item.paymentMethodId)}</td>
+                        <td className="px-3 py-2 text-right font-medium">{formatCurrency(item.amount)}</td>
+                        <td className="px-3 py-2 text-right">
+                          <button
+                            type="button"
+                            onClick={() => onEdit(item)}
+                            className="mr-2 text-blue-600 hover:text-blue-800"
+                            aria-label={`แก้ไข ${item.name}`}
+                          >
+                            แก้ไข
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => onDelete(item.id)}
+                            className="text-rose-600 hover:text-rose-800"
+                            aria-label={`ลบ ${item.name}`}
+                          >
+                            ลบ
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
