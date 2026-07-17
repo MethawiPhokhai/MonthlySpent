@@ -59,7 +59,7 @@
         },
         {
           "id": "iv-2",
-          "name": "กองทุนพร้อส",
+          "name": "กองทุนฟรอย",
           "amount": 2000,
           "categoryId": "investment",
           "paymentMethodId": "dime",
