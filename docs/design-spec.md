@@ -313,7 +313,7 @@ npm run deploy
 name: Deploy to GitHub Pages
 on:
   push:
-    branches: [main]
+    branches: [master]
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
