@@ -151,8 +151,10 @@ export function useBudget(
   )
 
   useEffect(() => {
-    load()
-  }, [load])
+    if (config && config.owner && config.repo && config.token) {
+      load()
+    }
+  }, [load, config])
 
   return useMemo(
     () => ({
