@@ -212,7 +212,7 @@
         },
         {
           "id": "sk-1",
-          "name": "ทักษะช่างเตือน",
+          "name": "หักภาษี",
           "amount": 5000,
           "categoryId": "skills",
           "paymentMethodId": "office",
