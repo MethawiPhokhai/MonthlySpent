@@ -47,8 +47,8 @@ export function BudgetTable({ expenses, categories, paymentMethods, onEdit, onDe
                 <span className="font-medium text-slate-800">{category.name}</span>
                 <span className="text-sm text-slate-500">({formatCurrency(total.value)})</span>
               </div>
-              <div className="overflow-hidden rounded-lg border border-slate-200">
-                <table className="w-full text-sm">
+              <div className="overflow-x-auto rounded-lg border border-slate-200">
+                <table className="w-full min-w-[480px] text-sm">
                   <thead className="bg-slate-50 text-slate-600">
                     <tr>
                       <th className="px-3 py-2 text-left font-medium">รายการ</th>
