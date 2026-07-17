@@ -62,19 +62,62 @@
     }
   ],
   "categories": [
-    { "id": "savings", "name": "เงินเก็บ", "color": "#81C784" },
-    { "id": "investment", "name": "ลงทุน", "color": "#64B5F6" },
-    { "id": "utilities", "name": "ค่าใช้จ่าย", "color": "#FFB74D" },
-    { "id": "bills", "name": "บิลรายเดือน", "color": "#AED581" },
-    { "id": "subscriptions", "name": "สมัครสมาชิก", "color": "#F06292" },
-    { "id": "food", "name": "กิน", "color": "#DCE775" },
-    { "id": "misc", "name": "อื่น ๆ", "color": "#7986CB" }
+    {
+      "id": "savings",
+      "name": "เงินเก็บ",
+      "color": "#81C784"
+    },
+    {
+      "id": "investment",
+      "name": "ลงทุน",
+      "color": "#64B5F6"
+    },
+    {
+      "id": "utilities",
+      "name": "ค่าใช้จ่าย",
+      "color": "#FFB74D"
+    },
+    {
+      "id": "bills",
+      "name": "บิลรายเดือน",
+      "color": "#AED581"
+    },
+    {
+      "id": "subscriptions",
+      "name": "สมัครสมาชิก",
+      "color": "#F06292"
+    },
+    {
+      "id": "food",
+      "name": "กิน",
+      "color": "#DCE775"
+    },
+    {
+      "id": "misc",
+      "name": "อื่น ๆ",
+      "color": "#7986CB"
+    }
   ],
   "paymentMethods": [
-    { "id": "ktb", "name": "KTB" },
-    { "id": "kbank", "name": "Kbank" },
-    { "id": "make", "name": "Make" },
-    { "id": "dime", "name": "Dime" },
-    { "id": "office", "name": "Office" }
+    {
+      "id": "ktb",
+      "name": "KTB"
+    },
+    {
+      "id": "kbank",
+      "name": "Kbank"
+    },
+    {
+      "id": "make",
+      "name": "Make"
+    },
+    {
+      "id": "dime",
+      "name": "Dime"
+    },
+    {
+      "id": "office",
+      "name": "Office"
+    }
   ]
 }
