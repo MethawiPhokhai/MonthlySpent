@@ -9,36 +9,44 @@
       "name": "มีรายได้",
       "description": "งบประมาณตอนทำงานปกติ",
       "income": {
-        "total": 50000
+        "total": 103000
       },
       "expenses": [
-        {
-          "id": "exp-1",
-          "name": "เงินเก็บ",
-          "amount": 5000,
-          "categoryId": "savings",
-          "paymentMethodId": "dime",
-          "due": "monthly",
-          "note": ""
-        },
-        {
-          "id": "exp-2",
-          "name": "ค่าเช่า",
-          "amount": 15000,
-          "categoryId": "utilities",
-          "paymentMethodId": "ktb",
-          "due": "monthly",
-          "note": ""
-        },
-        {
-          "id": "exp-3",
-          "name": "กิน",
-          "amount": 8000,
-          "categoryId": "food",
-          "paymentMethodId": "kbank",
-          "due": "monthly",
-          "note": ""
-        }
+        { "id": "sv-1", "name": "เงินเก็บ", "amount": 12000, "categoryId": "savings", "paymentMethodId": "dime", "due": "monthly", "note": "" },
+        { "id": "sv-2", "name": "ประกันเกษียร FWD 90/5", "amount": 2084, "categoryId": "savings", "paymentMethodId": "make", "due": "2/29 end (yearly)", "note": "" },
+        { "id": "sv-3", "name": "ค่าประกัน AIA สะสมทรัพย์ 20/8", "amount": 1845, "categoryId": "savings", "paymentMethodId": "ktb", "due": "5/27 end (monthly)", "note": "" },
+        { "id": "sv-4", "name": "ประกันอุบัติเหตุ เมืองไทยสไลฟ์", "amount": 714, "categoryId": "savings", "paymentMethodId": "make", "due": "8560 yearly (no end) 23 April", "note": "" },
+
+        { "id": "iv-1", "name": "หุ้นต่างประเทศ", "amount": 15000, "categoryId": "investment", "paymentMethodId": "dime", "due": "S&P500 5000 Gold 5000 หุ้นไทย 5000", "note": "" },
+        { "id": "iv-2", "name": "กองทุนพร้อส", "amount": 2000, "categoryId": "investment", "paymentMethodId": "dime", "due": "monthly", "note": "" },
+        { "id": "iv-3", "name": "Condo (KTB)", "amount": 25000, "categoryId": "investment", "paymentMethodId": "ktb", "due": "monthly", "note": "" },
+
+        { "id": "ut-1", "name": "Condo ค่าส่วนกลาง (KTB)", "amount": 1200, "categoryId": "utilities", "paymentMethodId": "make", "due": "End of Feb", "note": "" },
+        { "id": "ut-2", "name": "Condo ค่าไฟ-น้ำ", "amount": 1300, "categoryId": "utilities", "paymentMethodId": null, "due": "monthly", "note": "" },
+        { "id": "ut-3", "name": "กรองน้ำ Coway", "amount": 490, "categoryId": "utilities", "paymentMethodId": "ktb", "due": "11/70", "note": "" },
+        { "id": "ut-4", "name": "กรองน้ำ Coway บ้าน", "amount": 690, "categoryId": "utilities", "paymentMethodId": "ktb", "due": "4/71", "note": "" },
+        { "id": "ut-5", "name": "กรองอากาศ Coway", "amount": 590, "categoryId": "utilities", "paymentMethodId": "ktb", "due": "3/73", "note": "" },
+        { "id": "ut-6", "name": "กรองอากาศ Coway บ้าน", "amount": 740, "categoryId": "utilities", "paymentMethodId": "ktb", "due": "3/73", "note": "" },
+
+        { "id": "bl-1", "name": "AIS มือถือ", "amount": 533, "categoryId": "bills", "paymentMethodId": "kbank", "due": "monthly", "note": "" },
+        { "id": "bl-2", "name": "AIS Fiber", "amount": 641, "categoryId": "bills", "paymentMethodId": "kbank", "due": "monthly", "note": "" },
+        { "id": "bl-3", "name": "Net 3BB", "amount": 749, "categoryId": "bills", "paymentMethodId": "kbank", "due": "monthly", "note": "" },
+        { "id": "bl-4", "name": "Jett Fitness", "amount": 1350, "categoryId": "bills", "paymentMethodId": "ktb", "due": "5/12", "note": "" },
+
+        { "id": "sb-1", "name": "Netflix", "amount": 105, "categoryId": "subscriptions", "paymentMethodId": "kbank", "due": "โอนให้ไอเท่าทุกเดือน", "note": "" },
+        { "id": "sb-2", "name": "Spotify", "amount": 209, "categoryId": "subscriptions", "paymentMethodId": "kbank", "due": "monthly", "note": "" },
+        { "id": "sb-3", "name": "Youtube", "amount": 159, "categoryId": "subscriptions", "paymentMethodId": "kbank", "due": "monthly", "note": "" },
+        { "id": "sb-4", "name": "Google one", "amount": 60, "categoryId": "subscriptions", "paymentMethodId": "kbank", "due": "700/Year", "note": "" },
+        { "id": "sb-5", "name": "Claude", "amount": 800, "categoryId": "subscriptions", "paymentMethodId": "kbank", "due": "monthly", "note": "" },
+
+        { "id": "fd-1", "name": "กิน", "amount": 10000, "categoryId": "food", "paymentMethodId": "kbank", "due": "monthly", "note": "" },
+
+        { "id": "sk-1", "name": "ทักษะช่างเตือน", "amount": 5000, "categoryId": "skills", "paymentMethodId": "office", "due": "monthly", "note": "" },
+        { "id": "sk-2", "name": "ประกันสังคม", "amount": 875, "categoryId": "skills", "paymentMethodId": "office", "due": "monthly", "note": "" },
+        { "id": "sk-3", "name": "โอนให้แม่", "amount": 6000, "categoryId": "skills", "paymentMethodId": "office", "due": "monthly", "note": "" },
+
+        { "id": "em-1", "name": "ค่ายาพ่อ", "amount": 2000, "categoryId": "emergency", "paymentMethodId": "make", "due": "monthly", "note": "" },
+        { "id": "em-2", "name": "ประกันสุขภาพ alliance", "amount": 2500, "categoryId": "emergency", "paymentMethodId": "make", "due": "monthly", "note": "" }
       ]
     },
     {
@@ -49,26 +57,47 @@
         "total": 0
       },
       "expenses": [
-        {
-          "id": "exp-u1",
-          "name": "ค่าเช่า",
-          "amount": 15000,
-          "categoryId": "utilities",
-          "paymentMethodId": "ktb",
-          "due": "monthly",
-          "note": ""
-        }
+        { "id": "u-sv-1", "name": "ประกันเกษียร FWD 90/5", "amount": 2084, "categoryId": "savings", "paymentMethodId": "make", "due": "2/29 end (yearly)", "note": "" },
+        { "id": "u-sv-2", "name": "ประกันอุบัติเหตุ เมืองไทยสไลฟ์", "amount": 714, "categoryId": "savings", "paymentMethodId": "make", "due": "8560 yearly (no end) 23 April", "note": "" },
+        { "id": "u-sv-3", "name": "ค่าประกัน AIA สะสมทรัพย์ 20/8", "amount": 1845, "categoryId": "savings", "paymentMethodId": "ktb", "due": "5/27 end (monthly)", "note": "" },
+
+        { "id": "u-iv-1", "name": "Condo (KTB)", "amount": 10000, "categoryId": "investment", "paymentMethodId": "ktb", "due": "monthly", "note": "" },
+
+        { "id": "u-ut-1", "name": "Condo ค่าส่วนกลาง (KTB)", "amount": 1200, "categoryId": "utilities", "paymentMethodId": "make", "due": "End of Feb", "note": "" },
+        { "id": "u-ut-2", "name": "Condo ค่าไฟ-น้ำ", "amount": 1300, "categoryId": "utilities", "paymentMethodId": null, "due": "monthly", "note": "" },
+        { "id": "u-ut-3", "name": "กรองน้ำ Coway", "amount": 490, "categoryId": "utilities", "paymentMethodId": "ktb", "due": "11/70", "note": "" },
+        { "id": "u-ut-4", "name": "กรองน้ำ Coway บ้าน", "amount": 690, "categoryId": "utilities", "paymentMethodId": "ktb", "due": "4/71", "note": "" },
+        { "id": "u-ut-5", "name": "กรองอากาศ Coway", "amount": 590, "categoryId": "utilities", "paymentMethodId": "ktb", "due": "3/73", "note": "" },
+        { "id": "u-ut-6", "name": "กรองอากาศ Coway บ้าน", "amount": 740, "categoryId": "utilities", "paymentMethodId": "ktb", "due": "3/73", "note": "" },
+
+        { "id": "u-bl-1", "name": "AIS มือถือ", "amount": 533, "categoryId": "bills", "paymentMethodId": "kbank", "due": "monthly", "note": "" },
+        { "id": "u-bl-2", "name": "AIS Fiber", "amount": 641, "categoryId": "bills", "paymentMethodId": "kbank", "due": "monthly", "note": "" },
+        { "id": "u-bl-3", "name": "Net 3BB", "amount": 749, "categoryId": "bills", "paymentMethodId": "kbank", "due": "monthly", "note": "" },
+        { "id": "u-bl-4", "name": "Jett Fitness", "amount": 1350, "categoryId": "bills", "paymentMethodId": "ktb", "due": "5/12", "note": "" },
+
+        { "id": "u-sb-1", "name": "Netflix", "amount": 105, "categoryId": "subscriptions", "paymentMethodId": "kbank", "due": "โอนให้ไอเท่าทุกเดือน", "note": "" },
+        { "id": "u-sb-2", "name": "Spotify", "amount": 209, "categoryId": "subscriptions", "paymentMethodId": "kbank", "due": "monthly", "note": "" },
+        { "id": "u-sb-3", "name": "Youtube", "amount": 159, "categoryId": "subscriptions", "paymentMethodId": "kbank", "due": "monthly", "note": "" },
+        { "id": "u-sb-4", "name": "Claude", "amount": 800, "categoryId": "subscriptions", "paymentMethodId": "kbank", "due": "monthly", "note": "" },
+
+        { "id": "u-fd-1", "name": "กิน", "amount": 7000, "categoryId": "food", "paymentMethodId": "kbank", "due": "monthly", "note": "" },
+
+        { "id": "u-sk-1", "name": "โอนให้แม่", "amount": 6000, "categoryId": "skills", "paymentMethodId": null, "due": "monthly", "note": "" },
+
+        { "id": "u-em-1", "name": "ค่ายาพ่อ", "amount": 2000, "categoryId": "emergency", "paymentMethodId": "make", "due": "monthly", "note": "" },
+        { "id": "u-em-2", "name": "ประกันสุขภาพ alliance", "amount": 2500, "categoryId": "emergency", "paymentMethodId": "make", "due": "monthly", "note": "" }
       ]
     }
   ],
   "categories": [
-    { "id": "savings", "name": "เงินเก็บ", "color": "#81C784" },
+    { "id": "savings", "name": "เงินเก็บ", "color": "#EF9A9A" },
     { "id": "investment", "name": "ลงทุน", "color": "#64B5F6" },
     { "id": "utilities", "name": "ค่าใช้จ่าย", "color": "#FFB74D" },
     { "id": "bills", "name": "บิลรายเดือน", "color": "#AED581" },
     { "id": "subscriptions", "name": "สมัครสมาชิก", "color": "#F06292" },
     { "id": "food", "name": "กิน", "color": "#DCE775" },
-    { "id": "misc", "name": "อื่น ๆ", "color": "#7986CB" }
+    { "id": "skills", "name": "ทักษะ/สวัสดิการ", "color": "#FFF176" },
+    { "id": "emergency", "name": "ฉุกเฉิน", "color": "#7986CB" }
   ],
   "paymentMethods": [
     { "id": "ktb", "name": "KTB" },
