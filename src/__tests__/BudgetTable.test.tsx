@@ -17,7 +17,7 @@ const expenses: ExpenseItem[] = [
 
 describe('BudgetTable', () => {
   it('renders expenses grouped by category', () => {
-    render(<BudgetTable expenses={expenses} categories={categories} paymentMethods={paymentMethods} onEdit={vi.fn()} onDelete={vi.fn()} onAdd={vi.fn()} />)
+    render(<BudgetTable expenses={expenses} categories={categories} paymentMethods={paymentMethods} onEdit={vi.fn()} onDelete={vi.fn()} />)
 
     expect(screen.getByText('กิน')).toBeInTheDocument()
     expect(screen.getAllByText('เงินเก็บ')).toHaveLength(2)
@@ -26,19 +26,10 @@ describe('BudgetTable', () => {
     expect(screen.getByText('฿12,000')).toBeInTheDocument()
   })
 
-  it('calls onAdd when add button is clicked', () => {
-    const onAdd = vi.fn()
-    render(<BudgetTable expenses={expenses} categories={categories} paymentMethods={paymentMethods} onEdit={vi.fn()} onDelete={vi.fn()} onAdd={onAdd} />)
-
-    fireEvent.click(screen.getByText('+ เพิ่มรายการ'))
-
-    expect(onAdd).toHaveBeenCalled()
-  })
-
   it('calls onEdit and onDelete', () => {
     const onEdit = vi.fn()
     const onDelete = vi.fn()
-    render(<BudgetTable expenses={expenses} categories={categories} paymentMethods={paymentMethods} onEdit={onEdit} onDelete={onDelete} onAdd={vi.fn()} />)
+    render(<BudgetTable expenses={expenses} categories={categories} paymentMethods={paymentMethods} onEdit={onEdit} onDelete={onDelete} />)
 
     fireEvent.click(screen.getByLabelText('แก้ไข อาหาร'))
     expect(onEdit).toHaveBeenCalledWith(expenses[0])

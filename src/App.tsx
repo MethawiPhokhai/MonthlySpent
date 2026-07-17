@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { BudgetTable } from './components/BudgetTable'
+import { Collapsible } from './components/Collapsible'
 import { DonutChart } from './components/DonutChart'
 import { ItemModal } from './components/ItemModal'
 import { ScenarioTabs } from './components/ScenarioTabs'
@@ -126,28 +127,46 @@ export default function App() {
             <p className="text-sm text-slate-500">{activeScenario.description}</p>
           )}
 
-          <SummaryCards income={activeScenario.income.total} expenses={totalExpenses} />
+          <Collapsible title="สรุปภาพรวม">
+            <SummaryCards income={activeScenario.income.total} expenses={totalExpenses} />
+          </Collapsible>
 
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
             <div className="lg:col-span-1">
-              <DonutChart expenses={activeScenario.expenses} categories={data.categories} />
+              <Collapsible title="สัดส่วนรายจ่าย">
+                <DonutChart expenses={activeScenario.expenses} categories={data.categories} />
+              </Collapsible>
             </div>
             <div className="space-y-6 lg:col-span-2">
-              <TotalIncomeInput
-                total={activeScenario.income.total}
-                onChange={async (total) => {
-                  updateIncome(activeScenarioId, total)
-                  await save()
-                }}
-              />
-              <BudgetTable
-                expenses={activeScenario.expenses}
-                categories={data.categories}
-                paymentMethods={data.paymentMethods}
-                onEdit={handleEdit}
-                onDelete={handleDelete}
-                onAdd={handleAdd}
-              />
+              <Collapsible title="รายได้ทั้งหมด">
+                <TotalIncomeInput
+                  total={activeScenario.income.total}
+                  onChange={async (total) => {
+                    updateIncome(activeScenarioId, total)
+                    await save()
+                  }}
+                />
+              </Collapsible>
+              <Collapsible
+                title="รายจ่ายตามหมวดหมู่"
+                action={
+                  <button
+                    type="button"
+                    onClick={handleAdd}
+                    className="rounded-lg bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700"
+                  >
+                    + เพิ่มรายการ
+                  </button>
+                }
+              >
+                <BudgetTable
+                  expenses={activeScenario.expenses}
+                  categories={data.categories}
+                  paymentMethods={data.paymentMethods}
+                  onEdit={handleEdit}
+                  onDelete={handleDelete}
+                />
+              </Collapsible>
             </div>
           </div>
         </div>

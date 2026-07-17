@@ -8,10 +8,9 @@ interface BudgetTableProps {
   paymentMethods: PaymentMethod[]
   onEdit: (item: ExpenseItem) => void
   onDelete: (itemId: string) => void
-  onAdd: () => void
 }
 
-export function BudgetTable({ expenses, categories, paymentMethods, onEdit, onDelete, onAdd }: BudgetTableProps) {
+export function BudgetTable({ expenses, categories, paymentMethods, onEdit, onDelete }: BudgetTableProps) {
   const totals = getCategoryTotals(expenses, categories)
   const grouped = totals
     .map((total) => ({
@@ -24,18 +23,7 @@ export function BudgetTable({ expenses, categories, paymentMethods, onEdit, onDe
   const getPaymentMethodName = (id: string | null) => paymentMethods.find((method) => method.id === id)?.name ?? '-'
 
   return (
-    <div className="rounded-xl bg-white p-4 shadow-sm">
-      <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-sm font-medium text-slate-600">รายจ่ายตามหมวดหมู่</h3>
-        <button
-          type="button"
-          onClick={onAdd}
-          className="rounded-lg bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700"
-        >
-          + เพิ่มรายการ
-        </button>
-      </div>
-
+    <div>
       {grouped.length === 0 ? (
         <p className="py-8 text-center text-slate-400">ยังไม่มีรายจ่าย</p>
       ) : (

@@ -34,7 +34,6 @@ describe('DonutChart', () => {
       </div>,
     )
 
-    expect(screen.getByText('สัดส่วนรายจ่าย')).toBeInTheDocument()
     expect(screen.getByTestId('chart-container')).toBeInTheDocument()
   })
 
