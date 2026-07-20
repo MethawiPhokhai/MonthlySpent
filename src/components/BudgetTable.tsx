@@ -35,7 +35,42 @@ export function BudgetTable({ expenses, categories, paymentMethods, onEdit, onDe
                 <span className="font-medium text-slate-800">{category.name}</span>
                 <span className="text-sm text-slate-500">({formatCurrency(total.value)})</span>
               </div>
-              <div className="overflow-x-auto rounded-lg border border-slate-200">
+
+              <div className="space-y-2 sm:hidden">
+                {items.map((item) => (
+                  <div key={item.id} className="rounded-lg border border-slate-200 p-3">
+                    <div className="flex items-start justify-between gap-2">
+                      <span className="font-medium text-slate-800">{item.name}</span>
+                      <span className="whitespace-nowrap font-medium text-slate-800">{formatCurrency(item.amount)}</span>
+                    </div>
+                    <div className="mt-1 flex items-center gap-2 text-xs text-slate-500">
+                      <span>{item.due || '-'}</span>
+                      <span>·</span>
+                      <span>{getPaymentMethodName(item.paymentMethodId)}</span>
+                    </div>
+                    <div className="mt-2 flex gap-3">
+                      <button
+                        type="button"
+                        onClick={() => onEdit(item)}
+                        className="text-sm text-blue-600 hover:text-blue-800"
+                        aria-label={`แก้ไข ${item.name}`}
+                      >
+                        แก้ไข
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => onDelete(item.id)}
+                        className="text-sm text-rose-600 hover:text-rose-800"
+                        aria-label={`ลบ ${item.name}`}
+                      >
+                        ลบ
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="hidden overflow-x-auto rounded-lg border border-slate-200 sm:block">
                 <table className="w-full min-w-[480px] text-sm">
                   <thead className="bg-slate-50 text-slate-600">
                     <tr>

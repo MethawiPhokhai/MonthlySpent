@@ -20,10 +20,10 @@ describe('BudgetTable', () => {
     render(<BudgetTable expenses={expenses} categories={categories} paymentMethods={paymentMethods} onEdit={vi.fn()} onDelete={vi.fn()} />)
 
     expect(screen.getByText('กิน')).toBeInTheDocument()
-    expect(screen.getAllByText('เงินเก็บ')).toHaveLength(2)
-    expect(screen.getByText('อาหาร')).toBeInTheDocument()
-    expect(screen.getByText('฿3,000')).toBeInTheDocument()
-    expect(screen.getByText('฿12,000')).toBeInTheDocument()
+    expect(screen.getAllByText('เงินเก็บ')).toHaveLength(3)
+    expect(screen.getAllByText('อาหาร')).toHaveLength(2)
+    expect(screen.getAllByText('฿3,000')).toHaveLength(2)
+    expect(screen.getAllByText('฿12,000')).toHaveLength(2)
   })
 
   it('calls onEdit and onDelete', () => {
@@ -31,10 +31,10 @@ describe('BudgetTable', () => {
     const onDelete = vi.fn()
     render(<BudgetTable expenses={expenses} categories={categories} paymentMethods={paymentMethods} onEdit={onEdit} onDelete={onDelete} />)
 
-    fireEvent.click(screen.getByLabelText('แก้ไข อาหาร'))
+    fireEvent.click(screen.getAllByLabelText('แก้ไข อาหาร')[0])
     expect(onEdit).toHaveBeenCalledWith(expenses[0])
 
-    fireEvent.click(screen.getByLabelText('ลบ อาหาร'))
+    fireEvent.click(screen.getAllByLabelText('ลบ อาหาร')[0])
     expect(onDelete).toHaveBeenCalledWith('1')
   })
 })

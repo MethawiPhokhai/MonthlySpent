@@ -54,7 +54,7 @@ describe('App', () => {
     expect(screen.getByText('มีรายได้')).toBeInTheDocument()
     expect(screen.getByText('รายรับรวม')).toBeInTheDocument()
     expect(screen.getAllByText('฿103,000')).toHaveLength(2)
-    expect(screen.getByText('อาหาร')).toBeInTheDocument()
+    expect(screen.getAllByText('อาหาร')).toHaveLength(2)
   })
 
   it('calls save when save button is clicked', () => {
