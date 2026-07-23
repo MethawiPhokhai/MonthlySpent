@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import type { GitHubConfig } from './api/github'
 import { BudgetTable } from './components/BudgetTable'
 import { Collapsible } from './components/Collapsible'
 import { DonutChart } from './components/DonutChart'
@@ -7,38 +8,24 @@ import { ScenarioTabs } from './components/ScenarioTabs'
 import { SettingsPanel } from './components/SettingsPanel'
 import { SummaryCards } from './components/SummaryCards'
 import { TotalIncomeInput } from './components/TotalIncomeInput'
+import { DEFAULT_SCENARIO_ID, LOCAL_STORAGE_CONFIG_KEY } from './constants'
 import { useBudget } from './hooks/useBudget'
-import type { ExpenseItem, GitHubConfig } from './types/budget'
-
-const CONFIG_KEY = 'monthlyspent-config'
-
-function getInitialConfig(): GitHubConfig {
-  try {
-    const saved = localStorage.getItem(CONFIG_KEY)
-    if (saved) return JSON.parse(saved)
-  } catch {
-    // ignore
-  }
-  return { owner: '', repo: 'MonthlySpent', token: '' }
-}
+import { useLocalStorage } from './hooks/useLocalStorage'
+import type { ExpenseItem } from './types/budget'
 
 export default function App() {
-  const [config, setConfig] = useState<GitHubConfig>(getInitialConfig)
-  const [activeScenarioId, setActiveScenarioId] = useState<string>('employed')
+  const [config, setConfig] = useLocalStorage<GitHubConfig>(LOCAL_STORAGE_CONFIG_KEY, {
+    owner: '',
+    repo: 'MonthlySpent',
+    token: '',
+  })
+  const [activeScenarioId, setActiveScenarioId] = useState<string>(DEFAULT_SCENARIO_ID)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [editingItem, setEditingItem] = useState<ExpenseItem | null>(null)
   const [showSettings, setShowSettings] = useState(false)
 
   const { data, loading, saving, error, saveError, load, save, addExpense, updateExpense, deleteExpense, updateIncome } =
     useBudget(config)
-
-  useEffect(() => {
-    try {
-      localStorage.setItem(CONFIG_KEY, JSON.stringify(config))
-    } catch {
-      // ignore
-    }
-  }, [config])
 
   const activeScenario = data?.scenarios.find((scenario) => scenario.id === activeScenarioId)
   const totalExpenses = activeScenario?.expenses.reduce((sum, item) => sum + item.amount, 0) ?? 0
@@ -53,20 +40,18 @@ export default function App() {
     setIsModalOpen(true)
   }
 
-  async function handleSaveItem(item: ExpenseItem | Omit<ExpenseItem, 'id'>) {
+  function handleSaveItem(item: ExpenseItem | Omit<ExpenseItem, 'id'>) {
     if ('id' in item) {
       updateExpense(activeScenarioId, item)
     } else {
       addExpense(activeScenarioId, item)
     }
     setIsModalOpen(false)
-    await save()
   }
 
-  async function handleDelete(itemId: string) {
+  function handleDelete(itemId: string) {
     if (confirm('ต้องการลบรายการนี้หรือไม่?')) {
       deleteExpense(activeScenarioId, itemId)
-      await save()
     }
   }
 
@@ -141,10 +126,7 @@ export default function App() {
               <Collapsible title="รายได้ทั้งหมด">
                 <TotalIncomeInput
                   total={activeScenario.income.total}
-                  onChange={async (total) => {
-                    updateIncome(activeScenarioId, total)
-                    await save()
-                  }}
+                  onChange={(total) => updateIncome(activeScenarioId, total)}
                 />
               </Collapsible>
               <Collapsible

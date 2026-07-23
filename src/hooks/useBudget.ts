@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import type { BudgetData, ExpenseItem, GitHubConfig } from '../types/budget'
+import type { BudgetData, ExpenseItem } from '../types/budget'
 import { fetchBudgetFile as defaultFetch, saveBudgetFile as defaultSave } from '../api/github'
+import type { GitHubConfig } from '../api/github'
 
 export interface UseBudgetDependencies {
   fetchBudgetFile?: (config: GitHubConfig) => Promise<{ data: BudgetData; sha: string } | { error: string }>
@@ -52,10 +53,10 @@ export function useBudget(
   const [error, setError] = useState<string | null>(null)
   const [saveError, setSaveError] = useState<string | null>(null)
 
-  const dataRef = useRef(data)
-  const shaRef = useRef(sha)
-  dataRef.current = data
-  shaRef.current = sha
+  // Snapshot of the data most recently persisted to the remote file.
+  // Written only inside callbacks/effects — never during render.
+  const lastSavedDataRef = useRef<BudgetData | null>(null)
+  const savingRef = useRef(false)
 
   const load = useCallback(async () => {
     if (!config) return
@@ -67,30 +68,51 @@ export function useBudget(
       setError(result.error)
       return
     }
+    lastSavedDataRef.current = result.data
     setData(result.data)
     setSha(result.sha)
   }, [config, fetchBudgetFile])
 
-  const save = useCallback(async () => {
-    const currentData = dataRef.current
-    const currentSha = shaRef.current
-    if (!config || !currentData || !currentSha) return
-    setSaving(true)
-    setSaveError(null)
-    const result = await saveBudgetFile(config, currentData, currentSha)
-    setSaving(false)
-    if ('error' in result) {
-      if (result.status === 409) {
-        setSaveError('ข้อมูลมีการเปลี่ยนแปลงบน server กรุณาโหลดข้อมูลล่าสุดแล้วลองอีกครั้ง')
-        await load()
-      } else {
-        setSaveError(result.error)
+  const persist = useCallback(
+    async (currentData: BudgetData, currentSha: string): Promise<boolean> => {
+      if (!config) return false
+      savingRef.current = true
+      setSaving(true)
+      setSaveError(null)
+      const result = await saveBudgetFile(config, currentData, currentSha)
+      savingRef.current = false
+      setSaving(false)
+      if ('error' in result) {
+        if (result.status === 409) {
+          setSaveError('ข้อมูลมีการเปลี่ยนแปลงบน server กรุณาโหลดข้อมูลล่าสุดแล้วลองอีกครั้ง')
+          await load()
+        } else {
+          setSaveError(result.error)
+        }
+        return false
       }
-      return
-    }
-    setSha(result.newSha)
-    setSaveError(null)
-  }, [config, saveBudgetFile, load])
+      setSha(result.newSha)
+      return true
+    },
+    [config, saveBudgetFile, load],
+  )
+
+  const save = useCallback(async () => {
+    if (!data || !sha) return
+    const ok = await persist(data, sha)
+    if (ok) lastSavedDataRef.current = data
+  }, [data, sha, persist])
+
+  // Auto-save after mutations. Runs after render, so it always sees fresh state.
+  // Lifecycle order: event -> setData -> render -> this effect -> persist.
+  useEffect(() => {
+    if (!data || !sha || savingRef.current) return
+    if (data === lastSavedDataRef.current) return
+    const snapshot = data
+    void persist(snapshot, sha).then((ok) => {
+      if (ok) lastSavedDataRef.current = snapshot
+    })
+  }, [data, sha, persist])
 
   const updateScenario = useCallback(
     (

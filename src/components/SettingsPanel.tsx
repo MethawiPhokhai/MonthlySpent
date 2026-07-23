@@ -1,4 +1,4 @@
-import type { GitHubConfig } from '../types/budget'
+import type { GitHubConfig } from '../api/github'
 
 interface SettingsPanelProps {
   config: GitHubConfig

@@ -45,9 +45,3 @@ export interface BudgetData {
   paymentMethods: PaymentMethod[]
 }
 
-export interface GitHubConfig {
-  owner: string
-  repo: string
-  token: string
-}
-

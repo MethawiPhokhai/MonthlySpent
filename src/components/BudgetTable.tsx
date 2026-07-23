@@ -10,6 +10,35 @@ interface BudgetTableProps {
   onDelete: (itemId: string) => void
 }
 
+interface ItemActionsProps {
+  item: ExpenseItem
+  onEdit: (item: ExpenseItem) => void
+  onDelete: (itemId: string) => void
+}
+
+function ItemActions({ item, onEdit, onDelete }: ItemActionsProps) {
+  return (
+    <div className="flex gap-3">
+      <button
+        type="button"
+        onClick={() => onEdit(item)}
+        className="text-sm text-blue-600 hover:text-blue-800"
+        aria-label={`แก้ไข ${item.name}`}
+      >
+        แก้ไข
+      </button>
+      <button
+        type="button"
+        onClick={() => onDelete(item.id)}
+        className="text-sm text-rose-600 hover:text-rose-800"
+        aria-label={`ลบ ${item.name}`}
+      >
+        ลบ
+      </button>
+    </div>
+  )
+}
+
 export function BudgetTable({ expenses, categories, paymentMethods, onEdit, onDelete }: BudgetTableProps) {
   const totals = getCategoryTotals(expenses, categories)
   const grouped = totals
@@ -48,23 +77,8 @@ export function BudgetTable({ expenses, categories, paymentMethods, onEdit, onDe
                       <span>·</span>
                       <span>{getPaymentMethodName(item.paymentMethodId)}</span>
                     </div>
-                    <div className="mt-2 flex gap-3">
-                      <button
-                        type="button"
-                        onClick={() => onEdit(item)}
-                        className="text-sm text-blue-600 hover:text-blue-800"
-                        aria-label={`แก้ไข ${item.name}`}
-                      >
-                        แก้ไข
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => onDelete(item.id)}
-                        className="text-sm text-rose-600 hover:text-rose-800"
-                        aria-label={`ลบ ${item.name}`}
-                      >
-                        ลบ
-                      </button>
+                    <div className="mt-2">
+                      <ItemActions item={item} onEdit={onEdit} onDelete={onDelete} />
                     </div>
                   </div>
                 ))}
@@ -89,22 +103,9 @@ export function BudgetTable({ expenses, categories, paymentMethods, onEdit, onDe
                         <td className="px-3 py-2 text-slate-500">{getPaymentMethodName(item.paymentMethodId)}</td>
                         <td className="px-3 py-2 text-right font-medium">{formatCurrency(item.amount)}</td>
                         <td className="px-3 py-2 text-right">
-                          <button
-                            type="button"
-                            onClick={() => onEdit(item)}
-                            className="mr-2 text-blue-600 hover:text-blue-800"
-                            aria-label={`แก้ไข ${item.name}`}
-                          >
-                            แก้ไข
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => onDelete(item.id)}
-                            className="text-rose-600 hover:text-rose-800"
-                            aria-label={`ลบ ${item.name}`}
-                          >
-                            ลบ
-                          </button>
+                          <div className="flex justify-end">
+                            <ItemActions item={item} onEdit={onEdit} onDelete={onDelete} />
+                          </div>
                         </td>
                       </tr>
                     ))}

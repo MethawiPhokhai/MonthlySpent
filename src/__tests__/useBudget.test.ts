@@ -57,9 +57,9 @@ describe('useBudget', () => {
     expect(result.current.data).toBeNull()
   })
 
-  it('adds an expense and saves', async () => {
+  it('auto-saves fresh data after a mutation', async () => {
     const fetchBudgetFile = vi.fn().mockResolvedValue({ data: mockBudget, sha: 'sha-1' })
-    const saveBudgetFile = vi.fn().mockResolvedValue({ success: true })
+    const saveBudgetFile = vi.fn().mockResolvedValue({ success: true, newSha: 'sha-2' })
 
     const { result } = renderHook(() => useBudget(config, { fetchBudgetFile, saveBudgetFile }))
 
@@ -76,14 +76,29 @@ describe('useBudget', () => {
       })
     })
 
-    expect(result.current.data?.scenarios[0].expenses).toHaveLength(2)
+    await waitFor(() => expect(saveBudgetFile).toHaveBeenCalledTimes(1))
+
+    const sentData = saveBudgetFile.mock.calls[0][1] as BudgetData
+    expect(sentData.scenarios[0].expenses).toHaveLength(2)
+    expect(sentData.scenarios[0].expenses[1].name).toBe('กินข้าว')
+  })
+
+  it('saves current data when save is called manually', async () => {
+    const fetchBudgetFile = vi.fn().mockResolvedValue({ data: mockBudget, sha: 'sha-1' })
+    const saveBudgetFile = vi.fn().mockResolvedValue({ success: true, newSha: 'sha-2' })
+
+    const { result } = renderHook(() => useBudget(config, { fetchBudgetFile, saveBudgetFile }))
+
+    await waitFor(() => expect(result.current.loading).toBe(false))
+
+    expect(saveBudgetFile).not.toHaveBeenCalled()
 
     await act(async () => {
       await result.current.save()
     })
 
     expect(saveBudgetFile).toHaveBeenCalledTimes(1)
-    expect(saveBudgetFile).toHaveBeenCalledWith(config, expect.any(Object), 'sha-1')
+    expect(saveBudgetFile).toHaveBeenCalledWith(config, mockBudget, 'sha-1')
   })
 
   it('updates an expense', async () => {

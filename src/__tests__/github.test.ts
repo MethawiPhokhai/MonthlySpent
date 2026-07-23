@@ -58,6 +58,16 @@ describe('fetchBudgetFile', () => {
     if (!('error' in result)) return
     expect(result.error).toBe('Not Found')
   })
+
+  it('returns an error instead of throwing when the network is down', async () => {
+    globalThis.fetch = vi.fn().mockRejectedValue(new TypeError('fetch failed'))
+
+    const result = await fetchBudgetFile(config)
+
+    expect('error' in result).toBe(true)
+    if (!('error' in result)) return
+    expect(result.error).toContain('Network error')
+  })
 })
 
 describe('saveBudgetFile', () => {
@@ -88,5 +98,15 @@ describe('saveBudgetFile', () => {
     expect('error' in result).toBe(true)
     if (!('error' in result)) return
     expect(result.error).toBe('Conflict')
+  })
+
+  it('returns an error instead of throwing when the network is down', async () => {
+    globalThis.fetch = vi.fn().mockRejectedValue(new TypeError('fetch failed'))
+
+    const result = await saveBudgetFile(config, mockBudget, 'abc123')
+
+    expect('error' in result).toBe(true)
+    if (!('error' in result)) return
+    expect(result.error).toContain('Network error')
   })
 })
