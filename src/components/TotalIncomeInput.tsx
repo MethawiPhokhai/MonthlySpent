@@ -5,6 +5,7 @@ interface TotalIncomeInputProps {
   readonly onChange: (total: number) => void
 }
 
+/** Editable total income field with a formatted preview. */
 export function TotalIncomeInput({ total, onChange }: TotalIncomeInputProps) {
   return (
     <div>

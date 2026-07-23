@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 
+/** Like useState, but persists the value in localStorage and restores it on load. */
 export function useLocalStorage<T>(key: string, initialValue: T) {
   const [value, setValue] = useState<T>(() => {
     try {
@@ -11,6 +12,7 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
     return initialValue
   })
 
+  // Lifecycle: write the value to localStorage after every change.
   useEffect(() => {
     try {
       localStorage.setItem(key, JSON.stringify(value))

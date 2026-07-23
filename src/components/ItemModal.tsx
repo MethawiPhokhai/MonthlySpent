@@ -20,9 +20,11 @@ const emptyItem: Omit<ExpenseItem, 'id'> = {
   note: '',
 }
 
+/** Modal form for adding or editing one expense item. */
 export function ItemModal({ isOpen, item, categories, paymentMethods, onClose, onSave }: ItemModalProps) {
   const [form, setForm] = useState<Omit<ExpenseItem, 'id'>>(emptyItem)
 
+  // Lifecycle: reset the form each time the modal is opened.
   useEffect(() => {
     if (isOpen) {
       setForm(item ? { ...item } : emptyItem)
@@ -34,6 +36,7 @@ export function ItemModal({ isOpen, item, categories, paymentMethods, onClose, o
   const isEditing = item !== null
   const title = isEditing ? 'แก้ไขรายการ' : 'เพิ่มรายการ'
 
+  /** Validate the form and emit it as a new or updated expense. */
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!form.name || !form.categoryId) return

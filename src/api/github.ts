@@ -10,18 +10,21 @@ export interface GitHubConfig {
 const API_BASE = 'https://api.github.com'
 const FILE_PATH = BUDGET_FILE_PATH
 
+/** Encode a UTF-8 string as base64 (safe for Thai text). */
 function utf8ToBase64(str: string): string {
   const bytes = new TextEncoder().encode(str)
   const binString = Array.from(bytes, (b) => String.fromCodePoint(b)).join('')
   return btoa(binString)
 }
 
+/** Decode base64 from the GitHub Contents API back to a UTF-8 string. */
 function base64ToUtf8(base64: string): string {
   const binString = atob(base64)
   const bytes = Uint8Array.from(binString, (c) => c.codePointAt(0)!)
   return new TextDecoder().decode(bytes)
 }
 
+/** Fetch and decode data/budget.json from the repo; returns an error object instead of throwing. */
 export async function fetchBudgetFile(
   config: GitHubConfig,
 ): Promise<{ data: BudgetData; sha: string } | { error: string }> {
@@ -52,6 +55,7 @@ export async function fetchBudgetFile(
   }
 }
 
+/** Write data/budget.json to the repo at the given sha; returns an error object instead of throwing. */
 export async function saveBudgetFile(
   config: GitHubConfig,
   data: BudgetData,

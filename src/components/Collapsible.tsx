@@ -8,6 +8,7 @@ interface CollapsibleProps {
   readonly children: ReactNode
 }
 
+/** Card section with a clickable header that collapses/expands its content. */
 export function Collapsible({ title, defaultOpen = true, action, children }: CollapsibleProps) {
   const [open, setOpen] = useState(defaultOpen)
 

@@ -7,6 +7,7 @@ interface DonutChartProps {
   readonly categories: Category[]
 }
 
+/** Donut chart showing the share of spending per category. */
 export function DonutChart({ expenses, categories }: DonutChartProps) {
   const data = getCategoryTotals(expenses, categories)
 

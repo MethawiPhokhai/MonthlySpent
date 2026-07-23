@@ -10,6 +10,7 @@ interface SettingsPanelProps {
   readonly saving: boolean
 }
 
+/** GitHub connection settings with a load action and status messages. */
 export function SettingsPanel({
   config,
   onChange,
@@ -19,6 +20,7 @@ export function SettingsPanel({
   saveError,
   saving,
 }: SettingsPanelProps) {
+  /** Merge one field change into the current config. */
   function updateField<K extends keyof GitHubConfig>(field: K, value: GitHubConfig[K]) {
     onChange({ ...config, [field]: value })
   }

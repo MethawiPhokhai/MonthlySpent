@@ -7,6 +7,7 @@ interface ScenarioTabsProps {
   readonly onChange: (scenarioId: string) => void
 }
 
+/** Tab bar for switching between budget scenarios. */
 export function ScenarioTabs({ scenarios, activeScenarioId, onChange }: ScenarioTabsProps) {
   return (
     <div className="flex space-x-1 rounded-lg bg-slate-200 p-1" role="tablist">

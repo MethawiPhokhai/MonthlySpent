@@ -32,6 +32,7 @@ export interface UseBudgetActions {
 
 export type UseBudgetResult = UseBudgetState & UseBudgetActions
 
+/** Generate a unique id for a new expense item. */
 function generateId(): string {
   if (typeof crypto !== 'undefined' && crypto.randomUUID) {
     return crypto.randomUUID()
@@ -39,6 +40,7 @@ function generateId(): string {
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`
 }
 
+/** Manage the budget lifecycle: load from GitHub, edit locally, auto-save after each change. */
 export function useBudget(
   config: GitHubConfig | null,
   deps: UseBudgetDependencies = {},
@@ -46,6 +48,7 @@ export function useBudget(
   const fetchBudgetFile = deps.fetchBudgetFile ?? defaultFetch
   const saveBudgetFile = deps.saveBudgetFile ?? defaultSave
 
+  // ----- Lifecycle stage 1: local state (data is null until the first successful load) -----
   const [data, setData] = useState<BudgetData | null>(null)
   const [sha, setSha] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
@@ -58,6 +61,7 @@ export function useBudget(
   const lastSavedDataRef = useRef<BudgetData | null>(null)
   const savingRef = useRef(false)
 
+  /** Lifecycle 2: fetch budget.json from GitHub and mark it as the last-persisted snapshot. */
   const load = useCallback(async () => {
     if (!config) return
     setLoading(true)
@@ -73,6 +77,7 @@ export function useBudget(
     setSha(result.sha)
   }, [config, fetchBudgetFile])
 
+  /** Lifecycle 3: PUT data to GitHub with the current sha; on conflict (409) reload the remote version. */
   const persist = useCallback(
     async (currentData: BudgetData, currentSha: string): Promise<boolean> => {
       if (!config) return false
@@ -97,14 +102,16 @@ export function useBudget(
     [config, saveBudgetFile, load],
   )
 
+  /** Manually persist the current state (header save button). */
   const save = useCallback(async () => {
     if (!data || !sha) return
     const ok = await persist(data, sha)
     if (ok) lastSavedDataRef.current = data
   }, [data, sha, persist])
 
-  // Auto-save after mutations. Runs after render, so it always sees fresh state.
-  // Lifecycle order: event -> setData -> render -> this effect -> persist.
+  // ----- Lifecycle 4: auto-save -----
+  // Runs after render whenever data differs from the last persisted snapshot,
+  // so it always sends fresh state: event -> setData -> render -> this effect -> persist.
   useEffect(() => {
     if (!data || !sha || savingRef.current) return
     if (data === lastSavedDataRef.current) return
@@ -114,6 +121,7 @@ export function useBudget(
     })
   }, [data, sha, persist])
 
+  /** Immutably update one scenario by id. */
   const updateScenario = useCallback(
     (
       scenarioId: string,
@@ -132,6 +140,7 @@ export function useBudget(
     [],
   )
 
+  /** Append a new expense with a generated id. */
   const addExpense = useCallback(
     (scenarioId: string, item: Omit<ExpenseItem, 'id'>) => {
       updateScenario(scenarioId, (scenario) => ({
@@ -142,6 +151,7 @@ export function useBudget(
     [updateScenario],
   )
 
+  /** Replace the expense with the same id. */
   const updateExpense = useCallback(
     (scenarioId: string, item: ExpenseItem) => {
       updateScenario(scenarioId, (scenario) => ({
@@ -152,6 +162,7 @@ export function useBudget(
     [updateScenario],
   )
 
+  /** Remove the expense with the given id. */
   const deleteExpense = useCallback(
     (scenarioId: string, itemId: string) => {
       updateScenario(scenarioId, (scenario) => ({
@@ -162,6 +173,7 @@ export function useBudget(
     [updateScenario],
   )
 
+  /** Set the scenario's total income. */
   const updateIncome = useCallback(
     (scenarioId: string, total: number) => {
       updateScenario(scenarioId, (scenario) => ({
@@ -172,12 +184,14 @@ export function useBudget(
     [updateScenario],
   )
 
+  // ----- Lifecycle 0: initial load — fetch once the GitHub config is complete -----
   useEffect(() => {
     if (config && config.owner && config.repo && config.token) {
       load()
     }
   }, [load, config])
 
+  // Memoized public API so the hook result keeps a stable identity between renders.
   return useMemo(
     () => ({
       data,

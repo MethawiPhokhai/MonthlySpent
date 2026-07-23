@@ -13,6 +13,7 @@ import { useBudget } from './hooks/useBudget'
 import { useLocalStorage } from './hooks/useLocalStorage'
 import type { ExpenseItem } from './types/budget'
 
+/** Root component: connects GitHub-backed budget state to the dashboard UI. */
 export default function App() {
   const [config, setConfig] = useLocalStorage<GitHubConfig>(LOCAL_STORAGE_CONFIG_KEY, {
     owner: '',
@@ -30,16 +31,19 @@ export default function App() {
   const activeScenario = data?.scenarios.find((scenario) => scenario.id === activeScenarioId)
   const totalExpenses = activeScenario?.expenses.reduce((sum, item) => sum + item.amount, 0) ?? 0
 
+  /** Open the modal with an empty form for a new expense. */
   function handleAdd() {
     setEditingItem(null)
     setIsModalOpen(true)
   }
 
+  /** Open the modal prefilled with the expense being edited. */
   function handleEdit(item: ExpenseItem) {
     setEditingItem(item)
     setIsModalOpen(true)
   }
 
+  /** Create or update the expense; useBudget auto-saves the change. */
   function handleSaveItem(item: ExpenseItem | Omit<ExpenseItem, 'id'>) {
     if ('id' in item) {
       updateExpense(activeScenarioId, item)
@@ -49,6 +53,7 @@ export default function App() {
     setIsModalOpen(false)
   }
 
+  /** Delete the expense after confirmation; useBudget auto-saves the change. */
   function handleDelete(itemId: string) {
     if (confirm('ต้องการลบรายการนี้หรือไม่?')) {
       deleteExpense(activeScenarioId, itemId)

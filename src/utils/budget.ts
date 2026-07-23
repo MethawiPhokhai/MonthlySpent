@@ -7,6 +7,7 @@ export interface CategoryTotal {
   value: number
 }
 
+/** Sum expenses per category, keeping only categories with spending. */
 export function getCategoryTotals(expenses: ExpenseItem[], categories: Category[]): CategoryTotal[] {
   return categories
     .map((category) => ({

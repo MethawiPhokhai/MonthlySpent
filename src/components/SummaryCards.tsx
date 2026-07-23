@@ -5,6 +5,7 @@ interface SummaryCardsProps {
   readonly expenses: number
 }
 
+/** Three summary cards: total income, total expenses, and remaining balance. */
 export function SummaryCards({ income, expenses }: SummaryCardsProps) {
   const remaining = income - expenses
 
