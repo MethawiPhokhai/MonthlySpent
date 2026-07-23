@@ -1,13 +1,13 @@
 import type { GitHubConfig } from '../api/github'
 
 interface SettingsPanelProps {
-  config: GitHubConfig
-  onChange: (config: GitHubConfig) => void
-  onLoad: () => void
-  loading: boolean
-  error: string | null
-  saveError: string | null
-  saving: boolean
+  readonly config: GitHubConfig
+  readonly onChange: (config: GitHubConfig) => void
+  readonly onLoad: () => void
+  readonly loading: boolean
+  readonly error: string | null
+  readonly saveError: string | null
+  readonly saving: boolean
 }
 
 export function SettingsPanel({

@@ -2,10 +2,10 @@ import { useState } from 'react'
 import type { ReactNode } from 'react'
 
 interface CollapsibleProps {
-  title: string
-  defaultOpen?: boolean
-  action?: ReactNode
-  children: ReactNode
+  readonly title: string
+  readonly defaultOpen?: boolean
+  readonly action?: ReactNode
+  readonly children: ReactNode
 }
 
 export function Collapsible({ title, defaultOpen = true, action, children }: CollapsibleProps) {

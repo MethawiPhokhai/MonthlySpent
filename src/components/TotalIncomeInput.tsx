@@ -1,8 +1,8 @@
 import { formatCurrency } from '../utils/format'
 
 interface TotalIncomeInputProps {
-  total: number
-  onChange: (total: number) => void
+  readonly total: number
+  readonly onChange: (total: number) => void
 }
 
 export function TotalIncomeInput({ total, onChange }: TotalIncomeInputProps) {

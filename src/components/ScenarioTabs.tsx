@@ -2,9 +2,9 @@ import type { Scenario } from '../types/budget'
 import { classNames } from '../utils/format'
 
 interface ScenarioTabsProps {
-  scenarios: Scenario[]
-  activeScenarioId: string
-  onChange: (scenarioId: string) => void
+  readonly scenarios: Scenario[]
+  readonly activeScenarioId: string
+  readonly onChange: (scenarioId: string) => void
 }
 
 export function ScenarioTabs({ scenarios, activeScenarioId, onChange }: ScenarioTabsProps) {

@@ -3,12 +3,12 @@ import type { Category, ExpenseItem, PaymentMethod } from '../types/budget'
 import { classNames } from '../utils/format'
 
 interface ItemModalProps {
-  isOpen: boolean
-  item: ExpenseItem | null
-  categories: Category[]
-  paymentMethods: PaymentMethod[]
-  onClose: () => void
-  onSave: (item: ExpenseItem | Omit<ExpenseItem, 'id'>) => void
+  readonly isOpen: boolean
+  readonly item: ExpenseItem | null
+  readonly categories: Category[]
+  readonly paymentMethods: PaymentMethod[]
+  readonly onClose: () => void
+  readonly onSave: (item: ExpenseItem | Omit<ExpenseItem, 'id'>) => void
 }
 
 const emptyItem: Omit<ExpenseItem, 'id'> = {
@@ -37,7 +37,7 @@ export function ItemModal({ isOpen, item, categories, paymentMethods, onClose, o
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!form.name || !form.categoryId) return
-    onSave(isEditing ? { ...(form as ExpenseItem), id: item!.id } : form)
+    onSave(isEditing ? { ...form, id: item.id } : form)
     onClose()
   }
 

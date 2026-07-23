@@ -3,8 +3,8 @@ import type { Category, ExpenseItem } from '../types/budget'
 import { getCategoryTotals } from '../utils/budget'
 
 interface DonutChartProps {
-  expenses: ExpenseItem[]
-  categories: Category[]
+  readonly expenses: ExpenseItem[]
+  readonly categories: Category[]
 }
 
 export function DonutChart({ expenses, categories }: DonutChartProps) {

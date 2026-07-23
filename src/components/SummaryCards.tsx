@@ -1,8 +1,8 @@
 import { formatCurrency } from '../utils/format'
 
 interface SummaryCardsProps {
-  income: number
-  expenses: number
+  readonly income: number
+  readonly expenses: number
 }
 
 export function SummaryCards({ income, expenses }: SummaryCardsProps) {
