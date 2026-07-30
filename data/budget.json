@@ -419,15 +419,6 @@
           "note": ""
         },
         {
-          "id": "u-sb-4",
-          "name": "Claude",
-          "amount": 800,
-          "categoryId": "subscriptions",
-          "paymentMethodId": "kbank",
-          "due": "monthly",
-          "note": ""
-        },
-        {
           "id": "u-fd-1",
           "name": "กิน",
           "amount": 7000,
