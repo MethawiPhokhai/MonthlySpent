@@ -194,11 +194,11 @@
         },
         {
           "id": "sb-4",
-          "name": "Google one",
-          "amount": 60,
+          "name": "iCloud",
+          "amount": 35,
           "categoryId": "subscriptions",
           "paymentMethodId": "kbank",
-          "due": "700/Year",
+          "due": "",
           "note": ""
         },
         {
@@ -208,7 +208,7 @@
           "categoryId": "food",
           "paymentMethodId": "kbank",
           "due": "monthly",
-          "note": ""
+          "note": "Whey 2400"
         },
         {
           "id": "sk-1",
@@ -419,13 +419,22 @@
           "note": ""
         },
         {
+          "id": "u-sb-4",
+          "name": "iCloud",
+          "amount": 35,
+          "categoryId": "subscriptions",
+          "paymentMethodId": "kbank",
+          "due": "",
+          "note": ""
+        },
+        {
           "id": "u-fd-1",
           "name": "กิน",
-          "amount": 7000,
+          "amount": 10000,
           "categoryId": "food",
           "paymentMethodId": "kbank",
           "due": "monthly",
-          "note": ""
+          "note": "Whey 2400"
         },
         {
           "id": "u-sk-1",
