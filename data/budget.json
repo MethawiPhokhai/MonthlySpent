@@ -9,7 +9,7 @@
       "name": "มีรายได้",
       "description": "งบประมาณตอนทำงานปกติ",
       "income": {
-        "total": 0
+        "total": 750
       },
       "expenses": [
         {
