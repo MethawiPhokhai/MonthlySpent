@@ -254,6 +254,15 @@
           "paymentMethodId": "make",
           "due": "monthly",
           "note": ""
+        },
+        {
+          "name": "Mac",
+          "amount": 5000,
+          "categoryId": "utilities",
+          "paymentMethodId": "kbank",
+          "due": "",
+          "note": "6 เดือน",
+          "id": "38693e4a-9286-41c7-9fe8-3c68be153dac"
         }
       ]
     },
