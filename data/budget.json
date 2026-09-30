@@ -15,7 +15,7 @@
         {
           "id": "sv-1",
           "name": "เงินเก็บ",
-          "amount": 12000,
+          "amount": 18000,
           "categoryId": "savings",
           "paymentMethodId": "dime",
           "due": "monthly",
