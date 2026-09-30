@@ -69,7 +69,7 @@
         {
           "id": "iv-3",
           "name": "Condo (KTB)",
-          "amount": 25000,
+          "amount": 10000,
           "categoryId": "investment",
           "paymentMethodId": "ktb",
           "due": "monthly",
