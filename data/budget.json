@@ -254,6 +254,15 @@
           "due": "",
           "note": "6 เดือน",
           "id": "38693e4a-9286-41c7-9fe8-3c68be153dac"
+        },
+        {
+          "name": "ค่าโรงแรม",
+          "amount": 6400,
+          "categoryId": "utilities",
+          "paymentMethodId": null,
+          "due": "",
+          "note": "ค่าโรงอรมรายวัน",
+          "id": "9752d9be-afa0-4a1b-9b60-848b27403371"
         }
       ]
     }
