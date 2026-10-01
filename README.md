@@ -45,7 +45,7 @@
 - `--fill-*` พื้นสีทึบที่มีตัวหนังสือขาว และ `--link-*` สีตัวอักษรที่กลับด้านในโหมดมืด — เลือกเฉดให้ผ่าน WCAG AA (4.5:1) แล้ว (ตรวจกับหน้าที่ build จริงได้ 0 จุดที่ตก)
 - `--chart-*` เพราะ Recharts วาดนอก class `dark:` จึงต้องอ่านค่าจาก CSS variable
 
-ฟอนต์: **Macondo** (display Latin) + **Charm** (ไทย calligraphic) + **JetBrains Mono** (label/ตัวเลข) — ต้องมี Charm เพราะ Macondo ไม่มี glyph ไทย
+ฟอนต์: **Kanit** (display — มีทั้งไทยและ Latin) + **Sarabun** (เนื้อหาไทย อ่านง่ายที่สุด) + **JetBrains Mono** (label/ตัวเลข) — ทุก stack ต้องมีฟอนต์ไทยจริงอยู่ท้าย ไม่งั้นตัวไทยจะไปตกที่ fallback ซึ่งอ่านยาก
 
 โหมดมืดเป็นค่าเริ่มต้น (`<html class="dark">` ใน `index.html` กันจอวาบ)
 

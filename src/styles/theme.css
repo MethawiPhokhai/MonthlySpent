@@ -6,7 +6,7 @@
 
      primary #3B82F6 · secondary #8B5CF6 · success #16A34A
      warning #D97706 · danger #DC2626 · surface #FFFFFF · text #111827
-     type: Macondo (Latin display) + Charm (Thai, calligraphic) + JetBrains Mono
+     type: Kanit (display, TH+Latin) + Sarabun (Thai body) + JetBrains Mono (labels, data)
      style: high-contrast letterpress — full-strength fills, 2px ink rules, hard shadows
 
    HOW TO CHANGE THE THEME
@@ -17,8 +17,11 @@
      • add a variant                    -> add a modifier class here, not in markup
    `npm run test` fails if a component carries a raw colour/typography utility.
 
-   Thai note: Macondo has no Thai glyphs, so Charm (calligraphic, TH+Latin) carries
-   Thai copy while Macondo keeps the Latin display voice.
+   Thai note: the theme is Thai-first, so every stack must end in a face with real
+   Thai glyphs. Kanit and Sarabun both carry Thai; JetBrains Mono does not, which is
+   why Sarabun sits second in the mono stack (labels such as "รายรับรวม" read as Thai,
+   not as a fallback serif). Calligraphic Thai faces are pretty but too slow to read
+   at UI sizes — keep the display face geometric and the body face plain.
    ========================================================================== */
 
 /* Dark mode is class-based: the `dark` class on <html> enables every `dark:` utility.
@@ -27,9 +30,9 @@
 
 /* Static foundations: type families and the letterpress corner radii (4px / 8px). */
 @theme {
-  --font-sans: "Charm", "Noto Sans Thai", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Macondo", "Charm", ui-serif, Georgia, serif;
-  --font-mono: "JetBrains Mono", "Charm", ui-monospace, monospace;
+  --font-sans: "Sarabun", "Noto Sans Thai", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Kanit", "Sarabun", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Sarabun", ui-monospace, monospace;
 
   --radius-md: 4px;
   --radius-lg: 8px;
@@ -212,8 +215,8 @@ body {
   /* Small caps label, set in the mono face per the skill's label-caps token. */
   .kicker {
     font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.14em;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--ink-muted);
   }
@@ -361,9 +364,9 @@ body {
   .table th {
     padding: 0.5rem 0.75rem;
     font-family: var(--font-mono);
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
     font-weight: 400;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     text-align: left;
   }
@@ -442,17 +445,18 @@ body {
   }
 
   .stat-label {
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    opacity: 0.9;
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    opacity: 0.95;
   }
 
   .stat-value {
     margin-top: 0.25rem;
     font-family: var(--font-display);
     font-size: 1.875rem;
+    font-weight: 600;
     line-height: 1;
   }
 
