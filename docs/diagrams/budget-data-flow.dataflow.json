@@ -1,0 +1,337 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "MonthlySpent — Budget Data Flow",
+    "output": "public/dataflow.html",
+    "viewBox": [
+      900,
+      440
+    ],
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/MethawiPhokhai/MonthlySpent.git",
+      "provider": "github",
+      "link_mode": "web",
+      "revision": "93319550f172794b6d6304907278b4fd4f2d89fb"
+    }
+  },
+  "stages": [
+    {
+      "label": "Source of truth"
+    },
+    {
+      "label": "GitHub API"
+    },
+    {
+      "label": "State"
+    },
+    {
+      "label": "Dashboard UI"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "repo",
+      "type": "external",
+      "label": "GitHub repo",
+      "sublabel": "data/budget.json · master",
+      "tag": "single source of truth",
+      "stage": 0,
+      "row": 0,
+      "sources": [
+        {
+          "path": "data/budget.json",
+          "line": 6
+        },
+        {
+          "path": "src/constants.ts",
+          "line": 3,
+          "label": "file path"
+        }
+      ]
+    },
+    {
+      "id": "token",
+      "type": "security",
+      "label": "GitHub token",
+      "sublabel": "localStorage · owner / repo",
+      "tag": "PAT · read+write",
+      "stage": 0,
+      "row": 1,
+      "sources": [
+        {
+          "path": "src/constants.ts",
+          "line": 1
+        },
+        {
+          "path": "src/components/SettingsPanel.tsx",
+          "line": 61,
+          "end_line": 66,
+          "label": "PAT field"
+        }
+      ]
+    },
+    {
+      "id": "contents",
+      "type": "cloud",
+      "label": "Contents API",
+      "sublabel": "base64 → JSON · CORS",
+      "tag": "GET · read half",
+      "stage": 1,
+      "row": 0,
+      "sources": [
+        {
+          "path": "src/api/github.ts",
+          "line": 10,
+          "label": "API base"
+        },
+        {
+          "path": "src/api/github.ts",
+          "line": 28,
+          "end_line": 38,
+          "label": "fetch file"
+        },
+        {
+          "path": "src/api/github.ts",
+          "line": 21,
+          "end_line": 25,
+          "label": "codec"
+        }
+      ]
+    },
+    {
+      "id": "state",
+      "type": "backend",
+      "label": "useBudget",
+      "sublabel": "load → edit → auto-save",
+      "tag": "React state · no store",
+      "stage": 2,
+      "row": 0,
+      "sources": [
+        {
+          "path": "src/hooks/useBudget.ts",
+          "line": 64,
+          "end_line": 78,
+          "label": "load"
+        },
+        {
+          "path": "src/hooks/useBudget.ts",
+          "line": 112,
+          "end_line": 119,
+          "label": "auto-save"
+        }
+      ]
+    },
+    {
+      "id": "app",
+      "type": "frontend",
+      "label": "App",
+      "sublabel": "active scenario + totals",
+      "tag": "god node · 19 edges",
+      "stage": 3,
+      "row": 0,
+      "sources": [
+        {
+          "path": "src/App.tsx",
+          "line": 31,
+          "end_line": 35
+        }
+      ]
+    },
+    {
+      "id": "views",
+      "type": "frontend",
+      "label": "Dashboard UI",
+      "sublabel": "cards · donut · table",
+      "tag": "presentational",
+      "stage": 3,
+      "row": 1,
+      "sources": [
+        {
+          "path": "src/components/SummaryCards.tsx",
+          "line": 9,
+          "end_line": 12,
+          "label": "cards"
+        },
+        {
+          "path": "src/components/BudgetTable.tsx",
+          "line": 156,
+          "end_line": 171,
+          "label": "table"
+        }
+      ]
+    },
+    {
+      "id": "savefile",
+      "type": "backend",
+      "label": "saveBudgetFile",
+      "sublabel": "utf8ToBase64 + PUT + sha",
+      "tag": "409 → reload",
+      "stage": 1,
+      "row": 1,
+      "sources": [
+        {
+          "path": "src/api/github.ts",
+          "line": 59,
+          "end_line": 67,
+          "label": "PUT"
+        },
+        {
+          "path": "src/hooks/useBudget.ts",
+          "line": 91,
+          "end_line": 93,
+          "label": "conflict"
+        }
+      ]
+    }
+  ],
+  "flows": [
+    {
+      "id": "read",
+      "from": "repo",
+      "to": "contents",
+      "label": "read file",
+      "classification": "at master",
+      "variant": "default",
+      "route": "straight"
+    },
+    {
+      "id": "auth",
+      "from": "token",
+      "to": "contents",
+      "label": "Bearer PAT",
+      "classification": "credentialed request",
+      "variant": "security",
+      "fromSide": "top",
+      "toSide": "bottom",
+      "via": [
+        [
+          100,
+          200
+        ],
+        [
+          315,
+          200
+        ]
+      ],
+      "labelAt": [
+        200,
+        206
+      ]
+    },
+    {
+      "id": "parse",
+      "from": "contents",
+      "to": "state",
+      "label": "BudgetData",
+      "classification": "parsed on load",
+      "variant": "emphasis",
+      "route": "straight"
+    },
+    {
+      "id": "derive",
+      "from": "state",
+      "to": "app",
+      "label": "scenarios + expenses",
+      "classification": "derived totals",
+      "variant": "default",
+      "route": "straight",
+      "labelAt": [
+        637,
+        201
+      ]
+    },
+    {
+      "id": "render",
+      "from": "app",
+      "to": "views",
+      "label": "render",
+      "classification": "read-only props",
+      "variant": "default",
+      "labelAt": [
+        745,
+        201
+      ]
+    },
+    {
+      "id": "write",
+      "from": "state",
+      "to": "savefile",
+      "label": "changed data",
+      "classification": "auto-save",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "right",
+      "via": [
+        [
+          530,
+          271
+        ]
+      ],
+      "labelAt": [
+        450,
+        271
+      ]
+    },
+    {
+      "id": "commit",
+      "from": "savefile",
+      "to": "repo",
+      "label": "PUT commits budget.json",
+      "classification": "write-back",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "left",
+      "via": [
+        [
+          315,
+          340
+        ],
+        [
+          20,
+          340
+        ],
+        [
+          20,
+          157
+        ]
+      ],
+      "labelAt": [
+        167,
+        340
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Repo as the database",
+      "items": [
+        "data/budget.json is the only store — the browser reads and writes it through the GitHub Contents API",
+        "No backend and no database: a page reload shows exactly the last commit",
+        "The PUT closes the loop: each save is a real commit on master",
+        "localStorage holds only the token/config and the theme"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Trust boundary",
+      "items": [
+        "The PAT lives in localStorage and travels as an Authorization header on every read and write",
+        "It needs Contents read+write, so a leaked token is write access to the budget file",
+        "The Contents API is the only network dependency; GitHub Pages serves the static build"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Conflict and ordering",
+      "items": [
+        "PUT carries the sha of the last known revision",
+        "A 409 means the remote moved: useBudget reloads the remote version instead of overwriting it",
+        "auto-save compares data against the last persisted snapshot, so an unchanged render never writes",
+        "Edits never touch the API directly: the UI calls useBudget mutators and the effect persists"
+      ]
+    }
+  ]
+}

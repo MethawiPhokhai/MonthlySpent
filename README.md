@@ -75,6 +75,43 @@ graphify path "App()" "ExpenseItem"
 
 ข้อจำกัดที่ต้องรู้: กราฟช่วยตอน **"หา"** ไม่ได้ช่วยตอน **"แก้"** — ไฟล์ที่จะแก้ยังต้องอ่านจริง · กราฟจะให้ข้อมูลผิดถ้าไม่รีเฟรช (รัน `npm run graph:update` หลังแก้โค้ด) · สถาปัตยกรรมที่เปลี่ยนจะไม่โผล่จนกว่าจะรันซ้ำ
 
+## Data Flow (archify)
+
+ไดอะแกรมการไหลของข้อมูลงบประมาณ — จากไฟล์ JSON บน GitHub เข้ามาใน UI แล้วเขียนกลับเป็น commit สร้างด้วย [archify](https://github.com/tt-a1i/archify) ประเภท `dataflow`
+
+![MonthlySpent budget data flow — 4 stages: Source of truth, GitHub API, State, Dashboard UI](docs/images/budget-data-flow.png)
+
+- เปิดดูแบบ interactive: [dataflow.html](https://methawiphokhai.github.io/MonthlySpent/dataflow.html)
+- ต้นฉบับที่ใช้สร้าง (source of truth): [`docs/diagrams/budget-data-flow.dataflow.json`](docs/diagrams/budget-data-flow.dataflow.json)
+
+### 4 stages
+
+| Stage | Node | หน้าที่ |
+|---|---|---|
+| 01 Source of truth | `GitHub repo` · `GitHub token` | `data/budget.json` บน `master` + PAT ที่เก็บใน localStorage |
+| 02 GitHub API | `Contents API` · `saveBudgetFile` | ครึ่งอ่าน (GET + base64) และครึ่งเขียน (PUT + sha) |
+| 03 State | `useBudget` | load → edit → auto-save (state เดียว ไม่มี store) |
+| 04 Dashboard UI | `App` · `Dashboard UI` | render จาก props เท่านั้น ไม่เขียนข้อมูลเอง |
+
+**เส้นทางข้อมูล:** `read file` → `Bearer PAT` → `BudgetData` → `scenarios + expenses` → `render`
+**เส้นทางเขียนกลับ:** `changed data` (auto-save) → `PUT commits budget.json`
+
+### จุดที่ไดอะแกรมยืนยันจากโค้ด
+
+- **ไม่มี backend และไม่มีฐานข้อมูล** — `data/budget.json` คือ store เดียว เบราว์เซอร์อ่าน/เขียนผ่าน GitHub Contents API ตรง ๆ (CORS) รีเฟรชหน้าแล้วได้สถานะของ commit ล่าสุดเสมอ
+- **Trust boundary** — PAT อยู่ใน localStorage และถูกส่งเป็น Authorization header ทุกครั้ง ถ้า token หลุด = สิทธิ์เขียนไฟล์งบประมาณ
+- **กันเขียนทับ** — PUT แนบ `sha` ของ revision ล่าสุด ถ้าได้ `409` ให้ `useBudget` โหลดเวอร์ชันจาก remote กลับมาแทน
+- **ไม่เขียนมั่ว** — auto-save เทียบข้อมูลกับ snapshot ที่ persist ล่าสุด render ที่ข้อมูลไม่เปลี่ยนจะไม่ยิง write
+
+### คำสั่งที่ใช้บ่อย
+
+```bash
+archify validate dataflow docs/diagrams/budget-data-flow.dataflow.json --quality showcase
+archify render   dataflow docs/diagrams/budget-data-flow.dataflow.json   # เขียนทับ public/dataflow.html
+```
+
+`finalize` คือคำสั่งที่ใช้จริงตอนสร้างไฟล์นี้ — มันรัน validate + browser check + composition check ให้ในตัว ถ้าแก้ flow แล้วมีเส้นทับกันหรือ label ชน node มันจะบอกพิกัดที่ชนมาตรง ๆ
+
 ## Scripts
 
 ```bash
@@ -83,6 +120,8 @@ npm run dev        # รัน dev server
 npm run build      # build สำหรับ production
 npm run test       # รัน tests
 npm run typecheck  # เช็ค TypeScript types
+npm run graph      # สร้าง knowledge graph ของโค้ดใหม่
+npm run diagram    # validate + render data flow diagram ใหม่
 ```
 
 ## Deploy
@@ -114,5 +153,7 @@ event (user แก้ไข) -> setData -> render -> auto-save effect -> PUT ข
 
 เพื่อให้ข้อมูลที่ส่งขึ้น server เป็นข้อมูลล่าสุดเสมอ ไม่มีการอ่าน state ระหว่าง render
 (ดู comment แบ่ง lifecycle ไว้ใน `src/hooks/useBudget.ts`)
+
+ดูภาพรวมทั้งเส้น (อ่าน + เขียนกลับ) ได้ที่ [Data Flow (archify)](#data-flow-archify) ด้านบน — [`docs/diagrams/budget-data-flow.dataflow.json`](docs/diagrams/budget-data-flow.dataflow.json)
 
 ดูรายละเอียดเพิ่มเติมได้ใน [`docs/design-spec.md`](docs/design-spec.md)

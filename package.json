@@ -12,7 +12,8 @@
     "typecheck": "tsc -b",
     "deploy": "gh-pages -d dist",
     "graph": "graphify extract . --code-only --force && graphify cluster-only . && graphify export wiki && graphify export html && cp graphify-out/graph.html public/graph.html",
-    "graph:update": "graphify update . && graphify cluster-only . && graphify export wiki && graphify export html && cp graphify-out/graph.html public/graph.html"
+    "graph:update": "graphify update . && graphify cluster-only . && graphify export wiki && graphify export html && cp graphify-out/graph.html public/graph.html",
+    "diagram": "archify validate dataflow docs/diagrams/budget-data-flow.dataflow.json --quality showcase && archify render dataflow docs/diagrams/budget-data-flow.dataflow.json --repo-root . --quality showcase"
   },
   "dependencies": {
     "react": "^18.3.1",
