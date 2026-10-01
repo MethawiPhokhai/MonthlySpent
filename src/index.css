@@ -1,42 +1,4 @@
+/* Entry point. Every theme decision lives in styles/theme.css — this file only
+   wires Tailwind up and pulls the theme in. */
 @import "tailwindcss";
-
-/* Dark mode is class-based: the `dark` class on <html> enables every `dark:` utility.
-   index.html ships with class="dark", so the app paints dark on first frame. */
-@custom-variant dark (&:where(.dark, .dark *));
-
-@theme {
-  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    sans-serif;
-}
-
-/* Chart colours are driven by CSS variables so Recharts (canvas/SVG, not classed)
-   follows the active theme without prop plumbing. */
-:root {
-  --chart-tooltip-bg: #ffffff;
-  --chart-tooltip-border: #e2e8f0;
-  --chart-tooltip-fg: #1e293b;
-  --chart-label: #475569;
-}
-
-.dark {
-  --chart-tooltip-bg: #1e293b;
-  --chart-tooltip-border: #334155;
-  --chart-tooltip-fg: #e2e8f0;
-  --chart-label: #cbd5e1;
-}
-
-body {
-  margin: 0;
-  background-color: #f8fafc;
-  color: #1e293b;
-}
-
-/* Dark is the default theme, so the page shell is dark unless the user opts out. */
-.dark body {
-  background-color: #020617;
-  color: #e2e8f0;
-}
-
-#root {
-  min-height: 100vh;
-}
+@import "./styles/theme.css";

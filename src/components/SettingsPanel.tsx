@@ -10,9 +10,8 @@ interface SettingsPanelProps {
   readonly saving: boolean
 }
 
-const inputClass =
-  'mt-1 block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100'
-const labelClass = 'block text-xs font-medium text-slate-500 dark:text-slate-400'
+const inputClass = 'input'
+const labelClass = 'kicker'
 
 /** GitHub connection settings with a load action and status messages. */
 export function SettingsPanel({
@@ -30,8 +29,8 @@ export function SettingsPanel({
   }
 
   return (
-    <div className="rounded-xl bg-white p-4 shadow-sm dark:border dark:border-slate-800 dark:bg-slate-900">
-      <h3 className="mb-3 text-sm font-medium text-slate-600 dark:text-slate-300">ตั้งค่า GitHub</h3>
+    <div className="card p-4">
+      <h3 className="title-lg mb-3">ตั้งค่า GitHub</h3>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <label htmlFor="gh-owner" className={labelClass}>
@@ -77,15 +76,15 @@ export function SettingsPanel({
           type="button"
           onClick={onLoad}
           disabled={!config.owner || !config.repo || !config.token || loading}
-          className="rounded-lg bg-slate-800 px-4 py-2 text-sm font-medium text-white hover:bg-slate-900 disabled:cursor-not-allowed disabled:bg-slate-400 dark:bg-slate-700 dark:hover:bg-slate-600 dark:disabled:bg-slate-800 dark:disabled:text-slate-500"
+          className="btn btn-primary"
         >
           {loading ? 'กำลังโหลด...' : 'โหลดข้อมูล'}
         </button>
-        {(loading || saving) && <span className="text-sm text-slate-500 dark:text-slate-400">กำลังทำงาน...</span>}
+        {(loading || saving) && <span className="meta">กำลังทำงาน...</span>}
       </div>
 
-      {error && <p className="mt-2 text-sm text-rose-600 dark:text-rose-400">โหลดล้มเหลว: {error}</p>}
-      {saveError && <p className="mt-2 text-sm text-rose-600 dark:text-rose-400">บันทึกล้มเหลว: {saveError}</p>}
+      {error && <p className="error-text">โหลดล้มเหลว: {error}</p>}
+      {saveError && <p className="error-text">บันทึกล้มเหลว: {saveError}</p>}
     </div>
   )
 }

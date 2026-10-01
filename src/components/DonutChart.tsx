@@ -41,7 +41,7 @@ export function DonutChart({ expenses, categories }: DonutChartProps) {
 
   if (data.length === 0) {
     return (
-      <div className="flex h-64 items-center justify-center text-slate-400 dark:text-slate-500">
+      <div className="empty-state flex h-64 items-center justify-center">
         ยังไม่มีรายจ่าย
       </div>
     )

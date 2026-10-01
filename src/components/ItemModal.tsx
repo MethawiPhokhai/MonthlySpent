@@ -20,9 +20,8 @@ const emptyItem: Omit<ExpenseItem, 'id'> = {
   note: '',
 }
 
-const fieldClass =
-  'mt-1 block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100'
-const labelClass = 'block text-sm font-medium text-slate-600 dark:text-slate-300'
+const fieldClass = 'input'
+const labelClass = 'field-label'
 
 /** Modal form for adding or editing one expense item. */
 export function ItemModal({ isOpen, item, categories, paymentMethods, onClose, onSave }: ItemModalProps) {
@@ -49,9 +48,9 @@ export function ItemModal({ isOpen, item, categories, paymentMethods, onClose, o
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 dark:bg-black/70">
-      <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-lg dark:border dark:border-slate-800 dark:bg-slate-900">
-        <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-slate-100">{title}</h2>
+    <div className="modal-backdrop">
+      <div className="modal">
+        <h2 className="title-md mb-4">{title}</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="item-name" className={labelClass}>
@@ -155,7 +154,7 @@ export function ItemModal({ isOpen, item, categories, paymentMethods, onClose, o
             <button
               type="button"
               onClick={onClose}
-              className="rounded-lg px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+              className="btn btn-ghost"
             >
               ยกเลิก
             </button>
@@ -163,10 +162,8 @@ export function ItemModal({ isOpen, item, categories, paymentMethods, onClose, o
               type="submit"
               disabled={!form.name || !form.categoryId || form.amount <= 0}
               className={classNames(
-                'rounded-lg px-4 py-2 text-sm font-medium text-white',
-                form.name && form.categoryId && form.amount > 0
-                  ? 'bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500'
-                  : 'cursor-not-allowed bg-slate-400 dark:bg-slate-700',
+                'btn',
+                form.name && form.categoryId && form.amount > 0 ? 'btn-primary' : '',
               )}
             >
               บันทึก

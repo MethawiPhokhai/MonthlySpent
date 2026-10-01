@@ -67,33 +67,31 @@ export default function App() {
 
   if (loading && !data) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-50 dark:bg-slate-950">
-        <p className="text-slate-500 dark:text-slate-400">กำลังโหลดข้อมูล...</p>
+      <div className="page flex items-center justify-center">
+        <p className="meta">กำลังโหลดข้อมูล...</p>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 transition-colors dark:bg-slate-950 dark:text-slate-100">
-      <div className="mx-auto max-w-6xl p-4 sm:p-6 lg:p-8">
-        <header className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">MonthlySpent</h1>
-          <div className="flex items-center gap-2">
+    <div className="page">
+      <div className="shell">
+        <header className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="kicker">สมุดบัญชีส่วนตัว</p>
+            <h1 className="title-xl">MonthlySpent</h1>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
             <ThemeToggle theme={theme} onToggle={toggleTheme} />
             {data && (
-              <button
-                type="button"
-                onClick={save}
-                disabled={saving}
-                className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-400 dark:hover:bg-blue-500 dark:disabled:bg-slate-700"
-              >
+              <button type="button" onClick={save} disabled={saving} className="btn btn-primary">
                 {saving ? 'กำลังบันทึก...' : 'บันทึกลง GitHub'}
               </button>
             )}
             <button
               type="button"
               onClick={() => setShowSettings((prev) => !prev)}
-              className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
+              className="btn btn-ghost"
             >
               ⚙️ Settings
             </button>
@@ -122,9 +120,7 @@ export default function App() {
               />
             )}
 
-            {activeScenario.description && (
-              <p className="text-sm text-slate-500 dark:text-slate-400">{activeScenario.description}</p>
-            )}
+            {activeScenario.description && <p className="meta">{activeScenario.description}</p>}
 
             <Collapsible title="สรุปภาพรวม">
               <SummaryCards income={activeScenario.income.total} expenses={totalExpenses} />
@@ -146,11 +142,7 @@ export default function App() {
                 <Collapsible
                   title="รายจ่ายตามหมวดหมู่"
                   action={
-                    <button
-                      type="button"
-                      onClick={handleAdd}
-                      className="rounded-lg bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700 dark:hover:bg-blue-500"
-                    >
+                    <button type="button" onClick={handleAdd} className="btn btn-primary btn-sm">
                       + เพิ่มรายการ
                     </button>
                   }
@@ -167,9 +159,9 @@ export default function App() {
             </div>
           </div>
         ) : (
-          <div className="mt-8 rounded-xl bg-slate-100 p-8 text-center text-slate-500 dark:bg-slate-900 dark:text-slate-400">
-            <p>กรอกข้อมูล GitHub ด้านบนแล้วกด "โหลดข้อมูล" เพื่อเริ่มใช้งาน</p>
-            <p className="mt-2 text-sm">ต้องการ Personal Access Token ที่มีสิทธิ์ Contents ของ repo นี้</p>
+          <div className="card empty-state mt-8">
+            <p className="title-md">กรอกข้อมูล GitHub ด้านบนแล้วกด "โหลดข้อมูล" เพื่อเริ่มใช้งาน</p>
+            <p className="meta mt-2">ต้องการ Personal Access Token ที่มีสิทธิ์ Contents ของ repo นี้</p>
           </div>
         )}
 

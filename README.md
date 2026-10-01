@@ -27,6 +27,31 @@
 - บนมือถือแสดงรายจ่ายเป็น card อ่านง่าย ไม่ต้อง scroll ซ้ายขวา
 - บันทึกขึ้น GitHub อัตโนมัติทุกครั้งที่แก้ไข (หรือกดปุ่มบันทึกเองก็ได้)
 
+## Theme (retro)
+
+ธีมทั้งแอปมาจาก**ไฟล์เดียว**: [`src/styles/theme.css`](src/styles/theme.css) — design system สไตล์ retro แบบ letterpress (สีทึบเต็ม, เส้นขอบหมึก 2px, เงาแข็ง) ตาม skill [retro](https://www.typeui.sh/design-skills/retro)
+
+หลักการเดียว: component ถือแค่ **semantic class** (`.card`, `.btn`, `.stat`, `.table`, `.kicker` …) ห้ามใส่ utility สี/ฟอนต์/มุมโค้งลงใน component — [`src/__tests__/theme.test.ts`](src/__tests__/theme.test.ts) จะ fail ถ้ามีหลุดเข้าไป
+
+| อยากแก้อะไร | แก้ที่ไหน |
+|---|---|
+| สี / ฟอนต์ / เงา / โหมดมืด | token ใน `:root` + `.dark` |
+| หน้าตา component เช่น `.btn` ทุกปุ่ม | rule ใน `@layer components` |
+| เพิ่ม variant ใหม่ | เพิ่ม modifier class ที่ theme.css ไม่ใช่ใน markup |
+
+โทเคนสำคัญ
+
+- `--primary #3B82F6` · `--secondary #8B5CF6` · `--line` เส้นหมึก · `--ink` / `--ink-soft` / `--ink-muted` ลำดับตัวอักษร
+- `--fill-*` พื้นสีทึบที่มีตัวหนังสือขาว และ `--link-*` สีตัวอักษรที่กลับด้านในโหมดมืด — เลือกเฉดให้ผ่าน WCAG AA (4.5:1) แล้ว (ตรวจกับหน้าที่ build จริงได้ 0 จุดที่ตก)
+- `--chart-*` เพราะ Recharts วาดนอก class `dark:` จึงต้องอ่านค่าจาก CSS variable
+
+ฟอนต์: **Macondo** (display Latin) + **Charm** (ไทย calligraphic) + **JetBrains Mono** (label/ตัวเลข) — ต้องมี Charm เพราะ Macondo ไม่มี glyph ไทย
+
+โหมดมืดเป็นค่าเริ่มต้น (`<html class="dark">` ใน `index.html` กันจอวาบ)
+
+![MonthlySpent retro theme — dark](docs/images/theme-dark.png)
+![MonthlySpent retro theme — light](docs/images/theme-light.png)
+
 ## Code Graph (graphify)
 
 repo นี้มี **knowledge graph ของโค้ดตัวเอง** อยู่ที่ [`graphify-out/`](graphify-out/) — ใช้เป็นจุดเริ่มต้นก่อนอ่านโค้ด จะเร็วกว่าและประหยัด token กว่าไล่อ่านทุกไฟล์
@@ -136,6 +161,7 @@ src/
   hooks/useBudget.ts      # data lifecycle: load -> edit -> auto-save
   hooks/useLocalStorage.ts
   hooks/useTheme.ts       # theme state; keeps the `dark` class on <html> in sync
+  styles/theme.css        # ทุกอย่างของธีมอยู่ที่นี่ (token + component class)
   components/             # presentational components (props เป็น readonly ทั้งหมด)
   utils/                  # formatCurrency, getCategoryTotals
   types/budget.ts         # shared domain types

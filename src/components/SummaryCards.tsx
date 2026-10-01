@@ -10,31 +10,21 @@ export function SummaryCards({ income, expenses }: SummaryCardsProps) {
   const remaining = income - expenses
 
   const cards = [
-    {
-      label: 'รายรับรวม',
-      value: income,
-      color: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300',
-    },
-    {
-      label: 'รายจ่ายรวม',
-      value: expenses,
-      color: 'bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-300',
-    },
+    { label: 'รายรับรวม', value: income, cls: 'stat-income' },
+    { label: 'รายจ่ายรวม', value: expenses, cls: 'stat-expense' },
     {
       label: 'คงเหลือ',
       value: remaining,
-      color: remaining >= 0
-        ? 'bg-blue-100 text-blue-800 dark:bg-blue-950/60 dark:text-blue-300'
-        : 'bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300',
+      cls: remaining >= 0 ? 'stat-balance' : 'stat-balance-warn',
     },
   ]
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
       {cards.map((card) => (
-        <div key={card.label} className={`rounded-xl p-4 shadow-sm ${card.color}`}>
-          <p className="text-sm font-medium opacity-80">{card.label}</p>
-          <p className="mt-1 text-2xl font-semibold">{formatCurrency(card.value)}</p>
+        <div key={card.label} className={`stat ${card.cls}`}>
+          <p className="stat-label">{card.label}</p>
+          <p className="stat-value">{formatCurrency(card.value)}</p>
         </div>
       ))}
     </div>

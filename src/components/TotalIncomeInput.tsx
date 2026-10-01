@@ -17,9 +17,9 @@ export function TotalIncomeInput({ total, onChange }: TotalIncomeInputProps) {
           value={total}
           aria-label="รายได้ทั้งหมด"
           onChange={(e) => onChange(Number(e.target.value))}
-          className="block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+          className="input"
         />
-        <span className="text-sm text-slate-500 dark:text-slate-400">{formatCurrency(total)}</span>
+        <span className="meta">{formatCurrency(total)}</span>
       </div>
     </div>
   )

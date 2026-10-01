@@ -271,42 +271,42 @@
     {
       "id": "savings",
       "name": "เงินเก็บ",
-      "color": "#EF9A9A"
+      "color": "#DC2626"
     },
     {
       "id": "investment",
       "name": "ลงทุน",
-      "color": "#64B5F6"
+      "color": "#3B82F6"
     },
     {
       "id": "utilities",
       "name": "ค่าใช้จ่าย",
-      "color": "#FFB74D"
+      "color": "#D97706"
     },
     {
       "id": "bills",
       "name": "บิลรายเดือน",
-      "color": "#AED581"
+      "color": "#16A34A"
     },
     {
       "id": "subscriptions",
       "name": "สมัครสมาชิก",
-      "color": "#F06292"
+      "color": "#DB2777"
     },
     {
       "id": "food",
       "name": "กิน",
-      "color": "#DCE775"
+      "color": "#CA8A04"
     },
     {
       "id": "skills",
       "name": "ทักษะ/สวัสดิการ",
-      "color": "#FFF176"
+      "color": "#0891B2"
     },
     {
       "id": "emergency",
       "name": "ฉุกเฉิน",
-      "color": "#7986CB"
+      "color": "#8B5CF6"
     }
   ],
   "paymentMethods": [

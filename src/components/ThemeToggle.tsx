@@ -16,7 +16,7 @@ export function ThemeToggle({ theme, onToggle }: ThemeToggleProps) {
       onClick={onToggle}
       title={label}
       aria-label={label}
-      className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
+      className="btn btn-ghost"
     >
       <span aria-hidden="true">{isDark ? '☀️' : '🌙'}</span>
     </button>
