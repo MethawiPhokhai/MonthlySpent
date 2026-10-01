@@ -4,7 +4,7 @@
 
 สร้างเว็บส่วนตัวสำหรับบันทึกรายรับรายจ่ายรายเดือน โดยมีคุณสมบัติหลักดังนี้:
 
-- รองรับ **2 สถานการณ์** คือ "มีรายได้" และ "ไม่มีเงินเดือน" (ตกงาน)
+- สถานการณ์เดียว: **"มีรายได้"** (สถานการณ์ "ไม่มีเงินเดือน" ถูกถอดออกแล้ว — โครงสร้างยังรองรับหลายสถานการณ์ถ้าเพิ่มกลับใน `data/budget.json`)
 - แก้ไข เพิ่ม ลบ รายการรายรับ/รายจ่ายผ่านหน้าเว็บ
 - แสดงภาพรวมรายรับรายจ่าย พร้อมกราฟและเปอร์เซ็นต์ คล้ายกับสเปรดชีตที่ให้มา
 - เก็บข้อมูลเป็น **JSON file** ใน **git repository** เดียวกัน
@@ -84,15 +84,6 @@
           "note": ""
         }
       ]
-    },
-    {
-      "id": "unemployed",
-      "name": "ไม่มีเงินเดือน",
-      "description": "กรณีไม่มีเงินเดือนจริง ๆ",
-      "income": {
-        "total": 0
-      },
-      "expenses": []
     }
   ],
   "categories": [
@@ -138,7 +129,7 @@
 
 - แต่ละ scenario มี income total เป็นตัวเลขเดียว ไม่แยกเป็นรายการ
 - รายจ่ายแยกตาม category โดยใช้ `categoryId`
-- สีของ category เก็บใน lookup `categories` ใช้ร่วมกันทั้ง 2 scenario
+- สีของ category เก็บใน lookup `categories` ใช้ร่วมกันทุก scenario
 - วิธีการจ่ายเก็บใน lookup `paymentMethods`
 - totals ทั้งหมดคำนวณจาก UI ไม่เก็บใน JSON
 
@@ -148,9 +139,9 @@
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│  MonthlySpent                           [⚙️ Settings]     │
+│  [ ธีม ] [ บันทึก ] [ ⚙️ Settings ]  ← theme toggle อยู่ซ้ายสุด  │
 ├─────────────────────────────────────────────────────────┤
-│  [ มีรายได้ ] [ ไม่มีเงินเดือน ]  ← Tabs สลับ scenario   │
+│  (แถบ Tabs สลับ scenario — แสดงเมื่อมีมากกว่า 1)          │
 ├─────────────────────────────────────────────────────────┤
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  │
 │  │ รายรับรวม    │  │ รายจ่ายรวม  │  │ เหลือ        │  │
@@ -168,7 +159,8 @@
 
 | Component | หน้าที่ |
 |---|---|
-| `ScenarioTabs` | แท็บสลับระหว่าง "มีรายได้" / "ไม่มีเงินเดือน" |
+| `ThemeToggle` | ปุ่มสลับธีมมืด/สว่าง (ค่าเริ่มต้นคือธีมมืด) |
+| `ScenarioTabs` | แท็บสลับ scenario — App แสดงเฉพาะเมื่อมีมากกว่า 1 scenario |
 | `SummaryCards` | แสดง รายรับรวม / รายจ่ายรวม / คงเหลือ |
 | `DonutChart` | กราฟโดนัทแสดงสัดส่วนรายจ่ายตาม category |
 | `BudgetTable` | ตารางรายจ่าย แบ่ง group ตาม category มีปุ่ม Edit/Delete |
@@ -195,6 +187,13 @@
 - ใช้ card, spacing, rounded corner, สีหมวดหมู่ตาม `category.color`
 - แสดงตัวเลขเงินด้วย comma separator และสกุลเงิน ฿
 - รองรับ responsive แต่ optimize สำหรับ desktop เป็นหลัก
+
+### 5.5 ธีม (Theme)
+
+- **ค่าเริ่มต้นคือธีมมืด (dark mode)** — `index.html` มี `class="dark"` บน `<html>` ตั้งแต่ markup แรก จึงไม่กระพริบขาวก่อน React mount
+- สลับธีมด้วยปุ่ม `ThemeToggle` ใน header; ค่าที่เลือกเก็บใน `localStorage` key `monthlyspent-theme` (`useTheme`)
+- ใช้ dark variant แบบ class-based ของ Tailwind v4: `@custom-variant dark (&:where(.dark, .dark *))` ใน `src/index.css`
+- สีที่ Tailwind คุมไม่ได้ (Tooltip และ label ของ Recharts, พื้นหลัง `body`) ขับด้วย CSS variable — `--chart-tooltip-bg`, `--chart-tooltip-border`, `--chart-tooltip-fg`, `--chart-label` ประกาศคู่ไว้ใน `:root` (light) และ `.dark`
 
 ## 6. Tech Stack
 

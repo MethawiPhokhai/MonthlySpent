@@ -15,13 +15,6 @@ const mockBudget: BudgetData = {
         { id: 'exp-1', name: 'เงินเก็บ', amount: 12000, categoryId: 'savings', paymentMethodId: 'dime', due: 'monthly', note: '' },
       ],
     },
-    {
-      id: 'unemployed',
-      name: 'ไม่มีเงินเดือน',
-      description: '',
-      income: { total: 0 },
-      expenses: [],
-    },
   ],
   categories: [{ id: 'savings', name: 'เงินเก็บ', color: '#81C784' }],
   paymentMethods: [{ id: 'dime', name: 'Dime' }],

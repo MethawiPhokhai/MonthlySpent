@@ -22,7 +22,7 @@ function ItemActions({ item, onEdit, onDelete }: ItemActionsProps) {
       <button
         type="button"
         onClick={() => onEdit(item)}
-        className="text-sm text-blue-600 hover:text-blue-800"
+        className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
         aria-label={`แก้ไข ${item.name}`}
       >
         แก้ไข
@@ -30,7 +30,7 @@ function ItemActions({ item, onEdit, onDelete }: ItemActionsProps) {
       <button
         type="button"
         onClick={() => onDelete(item.id)}
-        className="text-sm text-rose-600 hover:text-rose-800"
+        className="text-sm text-rose-600 hover:text-rose-800 dark:text-rose-400 dark:hover:text-rose-300"
         aria-label={`ลบ ${item.name}`}
       >
         ลบ
@@ -54,12 +54,14 @@ interface ItemViewProps {
 /** One expense as a vertical card (mobile layout). */
 function ExpenseItemCard({ item, paymentMethods, onEdit, onDelete }: ItemViewProps) {
   return (
-    <div className="rounded-lg border border-slate-200 p-3">
+    <div className="rounded-lg border border-slate-200 p-3 dark:border-slate-700">
       <div className="flex items-start justify-between gap-2">
-        <span className="font-medium text-slate-800">{item.name}</span>
-        <span className="whitespace-nowrap font-medium text-slate-800">{formatCurrency(item.amount)}</span>
+        <span className="font-medium text-slate-800 dark:text-slate-100">{item.name}</span>
+        <span className="whitespace-nowrap font-medium text-slate-800 dark:text-slate-100">
+          {formatCurrency(item.amount)}
+        </span>
       </div>
-      <div className="mt-1 flex items-center gap-2 text-xs text-slate-500">
+      <div className="mt-1 flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
         <span>{item.due || '-'}</span>
         <span>·</span>
         <span>{getPaymentMethodName(paymentMethods, item.paymentMethodId)}</span>
@@ -74,10 +76,12 @@ function ExpenseItemCard({ item, paymentMethods, onEdit, onDelete }: ItemViewPro
 /** One expense as a table row (desktop layout). */
 function ExpenseItemRow({ item, paymentMethods, onEdit, onDelete }: ItemViewProps) {
   return (
-    <tr className="border-t border-slate-100">
+    <tr className="border-t border-slate-100 dark:border-slate-800">
       <td className="px-3 py-2">{item.name}</td>
-      <td className="px-3 py-2 text-slate-500">{item.due || '-'}</td>
-      <td className="px-3 py-2 text-slate-500">{getPaymentMethodName(paymentMethods, item.paymentMethodId)}</td>
+      <td className="px-3 py-2 text-slate-500 dark:text-slate-400">{item.due || '-'}</td>
+      <td className="px-3 py-2 text-slate-500 dark:text-slate-400">
+        {getPaymentMethodName(paymentMethods, item.paymentMethodId)}
+      </td>
       <td className="px-3 py-2 text-right font-medium">{formatCurrency(item.amount)}</td>
       <td className="px-3 py-2 text-right">
         <div className="flex justify-end">
@@ -104,8 +108,8 @@ function CategoryGroup({ category, items, paymentMethods, onEdit, onDelete }: Ca
     <div>
       <div className="mb-2 flex items-center gap-2">
         <span className="inline-block h-3 w-3 rounded-full" style={{ backgroundColor: category.color }} />
-        <span className="font-medium text-slate-800">{category.name}</span>
-        <span className="text-sm text-slate-500">({formatCurrency(total)})</span>
+        <span className="font-medium text-slate-800 dark:text-slate-100">{category.name}</span>
+        <span className="text-sm text-slate-500 dark:text-slate-400">({formatCurrency(total)})</span>
       </div>
 
       <div className="space-y-2 sm:hidden">
@@ -120,9 +124,9 @@ function CategoryGroup({ category, items, paymentMethods, onEdit, onDelete }: Ca
         ))}
       </div>
 
-      <div className="hidden overflow-x-auto rounded-lg border border-slate-200 sm:block">
+      <div className="hidden overflow-x-auto rounded-lg border border-slate-200 sm:block dark:border-slate-700">
         <table className="w-full min-w-[480px] text-sm">
-          <thead className="bg-slate-50 text-slate-600">
+          <thead className="bg-slate-50 text-slate-600 dark:bg-slate-800/60 dark:text-slate-300">
             <tr>
               <th className="px-3 py-2 text-left font-medium">รายการ</th>
               <th className="px-3 py-2 text-left font-medium">รอบ</th>
@@ -158,7 +162,7 @@ export function BudgetTable({ expenses, categories, paymentMethods, onEdit, onDe
     .filter((group) => group.items.length > 0)
 
   if (grouped.length === 0) {
-    return <p className="py-8 text-center text-slate-400">ยังไม่มีรายจ่าย</p>
+    return <p className="py-8 text-center text-slate-400 dark:text-slate-500">ยังไม่มีรายจ่าย</p>
   }
 
   return (

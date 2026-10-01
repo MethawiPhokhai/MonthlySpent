@@ -13,12 +13,12 @@ export function Collapsible({ title, defaultOpen = true, action, children }: Col
   const [open, setOpen] = useState(defaultOpen)
 
   return (
-    <div className="rounded-xl bg-white p-4 shadow-sm">
+    <div className="rounded-xl bg-white p-4 shadow-sm transition-colors dark:border dark:border-slate-800 dark:bg-slate-900">
       <div className="flex items-center justify-between">
         <button
           type="button"
           onClick={() => setOpen(!open)}
-          className="flex items-center gap-2 text-sm font-medium text-slate-600"
+          className="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-300"
           aria-expanded={open}
         >
           <svg

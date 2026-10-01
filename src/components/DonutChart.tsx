@@ -7,19 +7,45 @@ interface DonutChartProps {
   readonly categories: Category[]
 }
 
+interface CategoryLabelProps {
+  readonly x?: number
+  readonly y?: number
+  readonly textAnchor?: 'start' | 'middle' | 'end'
+  readonly name?: string
+  readonly percent?: number
+}
+
+/**
+ * Slice label rendered as SVG text. It reads its colour from the `--chart-label`
+ * CSS variable so it stays legible in both themes (Recharts renders outside Tailwind's
+ * class-based `dark:` variant).
+ */
+function CategoryLabel({ x, y, textAnchor, name, percent }: CategoryLabelProps) {
+  return (
+    <text
+      x={x}
+      y={y}
+      textAnchor={textAnchor}
+      dominantBaseline="central"
+      fill="var(--chart-label)"
+      fontSize={12}
+    >
+      {`${name ?? ''} ${Math.round((percent ?? 0) * 100)}%`}
+    </text>
+  )
+}
+
 /** Donut chart showing the share of spending per category. */
 export function DonutChart({ expenses, categories }: DonutChartProps) {
   const data = getCategoryTotals(expenses, categories)
 
   if (data.length === 0) {
     return (
-      <div className="flex h-64 items-center justify-center text-slate-400">
+      <div className="flex h-64 items-center justify-center text-slate-400 dark:text-slate-500">
         ยังไม่มีรายจ่าย
       </div>
     )
   }
-
-  const total = data.reduce((sum, item) => sum + item.value, 0)
 
   return (
     <div className="h-64 w-full">
@@ -32,13 +58,22 @@ export function DonutChart({ expenses, categories }: DonutChartProps) {
             innerRadius="50%"
             outerRadius="80%"
             paddingAngle={2}
-            label={(entry) => `${entry.name} ${Math.round((entry.value / total) * 100)}%`}
+            label={<CategoryLabel />}
           >
             {data.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={entry.color} />
             ))}
           </Pie>
-          <Tooltip />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: 'var(--chart-tooltip-bg)',
+              border: '1px solid var(--chart-tooltip-border)',
+              borderRadius: 8,
+              color: 'var(--chart-tooltip-fg)',
+            }}
+            itemStyle={{ color: 'var(--chart-tooltip-fg)' }}
+            labelStyle={{ color: 'var(--chart-tooltip-fg)' }}
+          />
         </PieChart>
       </ResponsiveContainer>
     </div>

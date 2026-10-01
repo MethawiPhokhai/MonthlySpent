@@ -20,6 +20,10 @@ const emptyItem: Omit<ExpenseItem, 'id'> = {
   note: '',
 }
 
+const fieldClass =
+  'mt-1 block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100'
+const labelClass = 'block text-sm font-medium text-slate-600 dark:text-slate-300'
+
 /** Modal form for adding or editing one expense item. */
 export function ItemModal({ isOpen, item, categories, paymentMethods, onClose, onSave }: ItemModalProps) {
   const [form, setForm] = useState<Omit<ExpenseItem, 'id'>>(emptyItem)
@@ -45,24 +49,28 @@ export function ItemModal({ isOpen, item, categories, paymentMethods, onClose, o
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-lg">
-        <h2 className="mb-4 text-lg font-semibold text-slate-900">{title}</h2>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 dark:bg-black/70">
+      <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-lg dark:border dark:border-slate-800 dark:bg-slate-900">
+        <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-slate-100">{title}</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="item-name" className="block text-sm font-medium text-slate-600">ชื่อรายการ</label>
+            <label htmlFor="item-name" className={labelClass}>
+              ชื่อรายการ
+            </label>
             <input
               id="item-name"
               type="text"
               required
               value={form.name}
               onChange={(e) => setForm((prev) => ({ ...prev, name: e.target.value }))}
-              className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-blue-500 focus:outline-none"
+              className={fieldClass}
             />
           </div>
 
           <div>
-            <label htmlFor="item-amount" className="block text-sm font-medium text-slate-600">จำนวนเงิน (THB)</label>
+            <label htmlFor="item-amount" className={labelClass}>
+              จำนวนเงิน (THB)
+            </label>
             <input
               id="item-amount"
               type="number"
@@ -74,18 +82,20 @@ export function ItemModal({ isOpen, item, categories, paymentMethods, onClose, o
                 const amount = raw === '' || Number.isNaN(raw) ? 0 : Math.max(0, raw)
                 setForm((prev) => ({ ...prev, amount }))
               }}
-              className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-blue-500 focus:outline-none"
+              className={fieldClass}
             />
           </div>
 
           <div>
-            <label htmlFor="item-category" className="block text-sm font-medium text-slate-600">หมวดหมู่</label>
+            <label htmlFor="item-category" className={labelClass}>
+              หมวดหมู่
+            </label>
             <select
               id="item-category"
               required
               value={form.categoryId}
               onChange={(e) => setForm((prev) => ({ ...prev, categoryId: e.target.value }))}
-              className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-blue-500 focus:outline-none"
+              className={fieldClass}
             >
               <option value="">เลือกหมวดหมู่</option>
               {categories.map((category) => (
@@ -97,14 +107,14 @@ export function ItemModal({ isOpen, item, categories, paymentMethods, onClose, o
           </div>
 
           <div>
-            <label htmlFor="item-payment" className="block text-sm font-medium text-slate-600">วิธีจ่าย</label>
+            <label htmlFor="item-payment" className={labelClass}>
+              วิธีจ่าย
+            </label>
             <select
               id="item-payment"
               value={form.paymentMethodId ?? ''}
-              onChange={(e) =>
-                setForm((prev) => ({ ...prev, paymentMethodId: e.target.value || null }))
-              }
-              className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-blue-500 focus:outline-none"
+              onChange={(e) => setForm((prev) => ({ ...prev, paymentMethodId: e.target.value || null }))}
+              className={fieldClass}
             >
               <option value="">ไม่ระบุ</option>
               {paymentMethods.map((method) => (
@@ -116,24 +126,28 @@ export function ItemModal({ isOpen, item, categories, paymentMethods, onClose, o
           </div>
 
           <div>
-            <label htmlFor="item-due" className="block text-sm font-medium text-slate-600">รอบ/วันครบกำหนด</label>
+            <label htmlFor="item-due" className={labelClass}>
+              รอบ/วันครบกำหนด
+            </label>
             <input
               id="item-due"
               type="text"
               value={form.due}
               onChange={(e) => setForm((prev) => ({ ...prev, due: e.target.value }))}
-              className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-blue-500 focus:outline-none"
+              className={fieldClass}
             />
           </div>
 
           <div>
-            <label htmlFor="item-note" className="block text-sm font-medium text-slate-600">หมายเหตุ</label>
+            <label htmlFor="item-note" className={labelClass}>
+              หมายเหตุ
+            </label>
             <input
               id="item-note"
               type="text"
               value={form.note}
               onChange={(e) => setForm((prev) => ({ ...prev, note: e.target.value }))}
-              className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-blue-500 focus:outline-none"
+              className={fieldClass}
             />
           </div>
 
@@ -141,7 +155,7 @@ export function ItemModal({ isOpen, item, categories, paymentMethods, onClose, o
             <button
               type="button"
               onClick={onClose}
-              className="rounded-lg px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100"
+              className="rounded-lg px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
             >
               ยกเลิก
             </button>
@@ -150,7 +164,9 @@ export function ItemModal({ isOpen, item, categories, paymentMethods, onClose, o
               disabled={!form.name || !form.categoryId || form.amount <= 0}
               className={classNames(
                 'rounded-lg px-4 py-2 text-sm font-medium text-white',
-                form.name && form.categoryId && form.amount > 0 ? 'bg-blue-600 hover:bg-blue-700' : 'cursor-not-allowed bg-slate-400',
+                form.name && form.categoryId && form.amount > 0
+                  ? 'bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500'
+                  : 'cursor-not-allowed bg-slate-400 dark:bg-slate-700',
               )}
             >
               บันทึก

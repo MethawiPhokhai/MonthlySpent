@@ -7,10 +7,10 @@ interface ScenarioTabsProps {
   readonly onChange: (scenarioId: string) => void
 }
 
-/** Tab bar for switching between budget scenarios. */
+/** Tab bar for switching between budget scenarios (hidden by App when there is only one). */
 export function ScenarioTabs({ scenarios, activeScenarioId, onChange }: ScenarioTabsProps) {
   return (
-    <div className="flex space-x-1 rounded-lg bg-slate-200 p-1" role="tablist">
+    <div className="flex space-x-1 rounded-lg bg-slate-200 p-1 dark:bg-slate-800" role="tablist">
       {scenarios.map((scenario) => (
         <button
           key={scenario.id}
@@ -20,8 +20,8 @@ export function ScenarioTabs({ scenarios, activeScenarioId, onChange }: Scenario
           className={classNames(
             'flex-1 rounded-md px-4 py-2 text-sm font-medium transition-colors',
             scenario.id === activeScenarioId
-              ? 'bg-white text-slate-900 shadow'
-              : 'text-slate-600 hover:bg-slate-100',
+              ? 'bg-white text-slate-900 shadow dark:bg-slate-700 dark:text-white'
+              : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700/60',
           )}
         >
           {scenario.name}

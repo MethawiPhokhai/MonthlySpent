@@ -1,6 +1,6 @@
 # MonthlySpent
 
-เว็บส่วนตัวสำหรับบันทึกรายรับรายจ่ายรายเดือน รองรับ 2 สถานการณ์ (มีรายได้ / ไม่มีเงินเดือน) แก้ไขเพิ่มลบรายการผ่านหน้าเว็บ เก็บข้อมูลเป็น JSON file ใน git repo และ deploy บน GitHub Pages
+เว็บส่วนตัวสำหรับบันทึกรายรับรายจ่ายรายเดือน (สถานการณ์ "มีรายได้") แก้ไขเพิ่มลบรายการผ่านหน้าเว็บ เก็บข้อมูลเป็น JSON file ใน git repo และ deploy บน GitHub Pages
 
 ## Tech Stack
 
@@ -19,7 +19,8 @@
 
 ## Features
 
-- สลับสถานการณ์ มีรายได้ / ไม่มีเงินเดือน
+- ธีมมืด (dark mode) เป็นค่าเริ่มต้น + ปุ่มสลับเป็นธีมสว่างที่จำค่าไว้ใน browser
+- แถบสลับสถานการณ์แสดงเฉพาะเมื่อมีมากกว่า 1 scenario ใน JSON
 - เพิ่ม แก้ไข ลบ รายจ่าย พร้อมจัดหมวดหมู่และวิธีจ่าย
 - การ์ดสรุปยอด + กราฟโดนัทสัดส่วนรายจ่าย
 - ทุก section พับ/กางได้ (collapsible)
@@ -47,6 +48,7 @@ src/
   api/github.ts           # GitHub Contents API client (fetch/save budget.json)
   hooks/useBudget.ts      # data lifecycle: load -> edit -> auto-save
   hooks/useLocalStorage.ts
+  hooks/useTheme.ts       # theme state; keeps the `dark` class on <html> in sync
   components/             # presentational components (props เป็น readonly ทั้งหมด)
   utils/                  # formatCurrency, getCategoryTotals
   types/budget.ts         # shared domain types

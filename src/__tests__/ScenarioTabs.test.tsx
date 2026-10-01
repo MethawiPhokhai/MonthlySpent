@@ -5,7 +5,7 @@ import type { Scenario } from '../types/budget'
 
 const scenarios: Scenario[] = [
   { id: 'employed', name: 'มีรายได้', description: '', income: { total: 0 }, expenses: [] },
-  { id: 'unemployed', name: 'ไม่มีเงินเดือน', description: '', income: { total: 0 }, expenses: [] },
+  { id: 'freelance', name: 'ฟรีแลนซ์', description: '', income: { total: 0 }, expenses: [] },
 ]
 
 describe('ScenarioTabs', () => {
@@ -13,15 +13,15 @@ describe('ScenarioTabs', () => {
     render(<ScenarioTabs scenarios={scenarios} activeScenarioId="employed" onChange={vi.fn()} />)
 
     expect(screen.getByRole('tab', { name: 'มีรายได้' })).toBeInTheDocument()
-    expect(screen.getByRole('tab', { name: 'ไม่มีเงินเดือน' })).toBeInTheDocument()
+    expect(screen.getByRole('tab', { name: 'ฟรีแลนซ์' })).toBeInTheDocument()
   })
 
   it('calls onChange when a tab is clicked', () => {
     const onChange = vi.fn()
     render(<ScenarioTabs scenarios={scenarios} activeScenarioId="employed" onChange={onChange} />)
 
-    fireEvent.click(screen.getByRole('tab', { name: 'ไม่มีเงินเดือน' }))
+    fireEvent.click(screen.getByRole('tab', { name: 'ฟรีแลนซ์' }))
 
-    expect(onChange).toHaveBeenCalledWith('unemployed')
+    expect(onChange).toHaveBeenCalledWith('freelance')
   })
 })

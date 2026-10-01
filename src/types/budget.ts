@@ -1,4 +1,9 @@
-export type ScenarioId = 'employed' | 'unemployed'
+/**
+ * Scenario ids come from `data/budget.json`, which is edited by hand (or by the app
+ * itself), so they are plain strings rather than a closed union — adding a scenario
+ * to the JSON must not require a code change.
+ */
+export type ScenarioId = string
 
 export interface Category {
   id: string
@@ -44,4 +49,3 @@ export interface BudgetData {
   categories: Category[]
   paymentMethods: PaymentMethod[]
 }
-
