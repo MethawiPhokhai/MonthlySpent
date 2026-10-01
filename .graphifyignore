@@ -1,0 +1,19 @@
+# Keep the graph about app architecture, not dependency/build plumbing.
+
+# Generated & vendored
+node_modules/
+dist/
+coverage/
+graphify-out/
+
+# Dependency + build config (noise in the graph: tsconfig flags and package
+# lists show up as highly-connected "god nodes" and drown out real symbols)
+package.json
+package-lock.json
+tsconfig.json
+tsconfig.app.json
+tsconfig.node.json
+
+# Content, not code
+data/
+docs/

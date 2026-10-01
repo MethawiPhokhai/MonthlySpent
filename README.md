@@ -27,6 +27,54 @@
 - บนมือถือแสดงรายจ่ายเป็น card อ่านง่าย ไม่ต้อง scroll ซ้ายขวา
 - บันทึกขึ้น GitHub อัตโนมัติทุกครั้งที่แก้ไข (หรือกดปุ่มบันทึกเองก็ได้)
 
+## Code Graph (graphify)
+
+repo นี้มี **knowledge graph ของโค้ดตัวเอง** อยู่ที่ [`graphify-out/`](graphify-out/) — ใช้เป็นจุดเริ่มต้นก่อนอ่านโค้ด จะเร็วกว่าและประหยัด token กว่าไล่อ่านทุกไฟล์
+
+| ไฟล์ | ใช้ทำอะไร |
+|---|---|
+| [`graphify-out/wiki/index.md`](graphify-out/wiki/index.md) | **จุดเริ่มต้นสำหรับ AI** — สารบัญ community + god nodes |
+| [`graphify-out/GRAPH_REPORT.md`](graphify-out/GRAPH_REPORT.md) | god nodes, ความเชื่อมโยงน่าสนใจ, import cycles, คำถามที่กราฟตอบได้ |
+| [`graphify-out/graph.json`](graphify-out/graph.json) | กราฟเต็ม (123 nodes / 283 edges) สำหรับ `query` / `path` / `explain` |
+| [graph.html](https://methawiphokhai.github.io/MonthlySpent/graph.html) | กราฟแบบ interactive เปิดในเบราว์เซอร์ |
+
+### โครงสร้างโค้ดตามกราฟ (10 communities)
+
+| Community | ไฟล์หลัก | หน้าที่ |
+|---|---|---|
+| App shell + ธีม (29) | `App.tsx`, `Collapsible`, `ItemModal`, `ThemeToggle`, `constants.ts` | ประกอบหน้า, modal, สลับธีม |
+| Expense table (26) | `components/BudgetTable.tsx` | จัดกลุ่มรายจ่ายตามหมวด — card บนมือถือ, ตารางบน desktop |
+| useBudget state machine (14) | `hooks/useBudget.ts` | load → edit → auto-save |
+| Donut chart (13) | `components/DonutChart.tsx` | กราฟสัดส่วนรายจ่ายตามหมวด |
+| Summary & formatting (12) | `SummaryCards.tsx`, `TotalIncomeInput.tsx`, `utils/format.ts` | การ์ดสรุปยอด + จัดรูปเงิน/class |
+| GitHub API client (10) | `api/github.ts` | GitHub Contents API (fetch/save `data/budget.json`) |
+| Scenario tabs & types (10) | `types/budget.ts`, `components/ScenarioTabs.tsx` | type ของ domain |
+| Settings panel (7) | `components/SettingsPanel.tsx` | owner/repo/token + สถานะ sync |
+
+**God nodes** (concept ที่ทุกอย่างวิ่งผ่าน) — `App()` 19 · `ExpenseItem` 18 · `Category` 13 · `formatCurrency()` 10 · `PaymentMethod` 9 · `BudgetData` 8 · `useBudget()` 8 · `GitHubConfig` 7
+**Import cycles:** ไม่มี
+
+### คำสั่งที่ใช้บ่อย
+
+```bash
+npm run graph          # สร้างกราฟใหม่ทั้งรอบ (AST ล้วน ไม่ใช้ LLM ไม่มีค่าใช้จ่าย)
+npm run graph:update   # อัปเดตหลังแก้โค้ด (เร็ว)
+graphify query "how does budget data flow from GitHub to the UI"
+graphify explain "useBudget"
+graphify path "App()" "ExpenseItem"
+```
+
+### ประหยัด token แค่ไหน (วัดจริงใน repo นี้)
+
+| วิธี | token |
+|---|---|
+| อ่าน `src/` ทั้งหมด (34 ไฟล์) | 18,134 |
+| อ่าน `wiki/index.md` เพื่อทำความเข้าใจโครงสร้าง | **432** (42x น้อยกว่า) |
+| อ่าน `GRAPH_REPORT.md` | **1,368** (13x น้อยกว่า) |
+| `graphify query` 1 คำถาม | 1,402 – 5,781 |
+
+ข้อจำกัดที่ต้องรู้: กราฟช่วยตอน **"หา"** ไม่ได้ช่วยตอน **"แก้"** — ไฟล์ที่จะแก้ยังต้องอ่านจริง · กราฟจะให้ข้อมูลผิดถ้าไม่รีเฟรช (รัน `npm run graph:update` หลังแก้โค้ด) · สถาปัตยกรรมที่เปลี่ยนจะไม่โผล่จนกว่าจะรันซ้ำ
+
 ## Scripts
 
 ```bash
