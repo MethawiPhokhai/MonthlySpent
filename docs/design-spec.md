@@ -145,7 +145,7 @@
 ├─────────────────────────────────────────────────────────┤
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  │
 │  │ รายรับรวม    │  │ รายจ่ายรวม  │  │ เหลือ        │  │
-│  │ ฿103,000     │  │ ฿41,699      │  │ ฿61,301       │  │
+│  │ 🪙103,000    │  │ 🪙41,699     │  │ 🪙61,301      │  │
 │  └──────────────┘  └──────────────┘  └──────────────┘  │
 ├─────────────────────────────────────────────────────────┤
 │  ┌─────────────────────┐  ┌───────────────────────────┐ │
@@ -185,14 +185,14 @@
 
 - **Clean web UI** ไม่ clone Excel เป๊ะ ๆ
 - ใช้ card, spacing, rounded corner, สีหมวดหมู่ตาม `category.color`
-- แสดงตัวเลขเงินด้วย comma separator และสกุลเงิน ฿
+- แสดงตัวเลขเงินด้วย comma separator และนำหน้าด้วยเหรียญ 🪙 (ใช้แทนสัญลักษณ์ ฿ — `formatCurrency` ใน `src/utils/format.ts`)
 - รองรับ responsive แต่ optimize สำหรับ desktop เป็นหลัก
 
 ### 5.5 ธีม (Theme)
 
 - **ค่าเริ่มต้นคือธีมมืด (dark mode)** — `index.html` มี `class="dark"` บน `<html>` ตั้งแต่ markup แรก จึงไม่กระพริบขาวก่อน React mount
 - สลับธีมด้วยปุ่ม `ThemeToggle` ใน header; ค่าที่เลือกเก็บใน `localStorage` key `monthlyspent-theme` (`useTheme`)
-- ใช้ dark variant แบบ class-based ของ Tailwind v4: `@custom-variant dark (&:where(.dark, .dark *))` ใน `src/index.css`
+- ใช้ dark variant แบบ class-based ของ Tailwind v4: `@custom-variant dark (&:where(.dark, .dark *))` ใน `src/styles/theme.css` (ธีมทั้งหมดอยู่ไฟล์นี้ — token + component class)
 - สีที่ Tailwind คุมไม่ได้ (Tooltip และ label ของ Recharts, พื้นหลัง `body`) ขับด้วย CSS variable — `--chart-tooltip-bg`, `--chart-tooltip-border`, `--chart-tooltip-fg`, `--chart-label` ประกาศคู่ไว้ใน `:root` (light) และ `.dark`
 
 ## 6. Tech Stack

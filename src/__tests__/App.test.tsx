@@ -50,7 +50,7 @@ describe('App', () => {
 
     expect(screen.getByText('MonthlySpent')).toBeInTheDocument()
     expect(screen.getByText('รายรับรวม')).toBeInTheDocument()
-    expect(screen.getAllByText('฿103,000')).toHaveLength(2)
+    expect(screen.getAllByText('🪙103,000')).toHaveLength(2)
     expect(screen.getAllByText('อาหาร')).toHaveLength(2)
   })
 

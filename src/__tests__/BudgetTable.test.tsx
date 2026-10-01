@@ -22,8 +22,8 @@ describe('BudgetTable', () => {
     expect(screen.getByText('กิน')).toBeInTheDocument()
     expect(screen.getAllByText('เงินเก็บ')).toHaveLength(3)
     expect(screen.getAllByText('อาหาร')).toHaveLength(2)
-    expect(screen.getAllByText('฿3,000')).toHaveLength(2)
-    expect(screen.getAllByText('฿12,000')).toHaveLength(2)
+    expect(screen.getAllByText('🪙3,000')).toHaveLength(2)
+    expect(screen.getAllByText('🪙12,000')).toHaveLength(2)
   })
 
   it('calls onEdit and onDelete', () => {

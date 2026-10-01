@@ -7,7 +7,7 @@ describe('TotalIncomeInput', () => {
     render(<TotalIncomeInput total={103000} onChange={vi.fn()} />)
 
     expect(screen.getByLabelText('รายได้ทั้งหมด')).toHaveValue(103000)
-    expect(screen.getByText('฿103,000')).toBeInTheDocument()
+    expect(screen.getByText('🪙103,000')).toBeInTheDocument()
   })
 
   it('calls onChange when the value changes', () => {

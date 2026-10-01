@@ -3,15 +3,15 @@ import { classNames, formatCurrency } from '../utils/format'
 
 describe('formatCurrency', () => {
   it('formats THB with no decimal places', () => {
-    expect(formatCurrency(103000)).toBe('฿103,000')
+    expect(formatCurrency(103000)).toBe('🪙103,000')
   })
 
   it('formats zero', () => {
-    expect(formatCurrency(0)).toBe('฿0')
+    expect(formatCurrency(0)).toBe('🪙0')
   })
 
   it('formats negative amounts', () => {
-    expect(formatCurrency(-1200)).toBe('-฿1,200')
+    expect(formatCurrency(-1200)).toBe('-🪙1,200')
   })
 })
 
