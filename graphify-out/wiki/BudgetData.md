@@ -2,7 +2,7 @@
 
 > God node · 8 connections · `src/types/budget.ts`
 
-**Community:** [useBudget state machine](useBudget_state_machine.md)
+**Community:** [GitHub sync & useBudget](GitHub_sync_&_useBudget.md)
 
 ## Connections by Relation
 

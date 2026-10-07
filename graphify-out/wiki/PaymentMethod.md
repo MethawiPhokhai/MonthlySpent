@@ -1,8 +1,8 @@
 # PaymentMethod
 
-> God node · 9 connections · `src/types/budget.ts`
+> God node · 7 connections · `src/types/budget.ts`
 
-**Community:** [Expense table & category groups](Expense_table_&_category_groups.md)
+**Community:** [Item modal & domain types](Item_modal_&_domain_types.md)
 
 ## Connections by Relation
 
@@ -10,16 +10,14 @@
 - types/budget.ts `EXTRACTED`
 
 ### imports
-- BudgetTable.tsx `EXTRACTED`
 - ItemModal.tsx `EXTRACTED`
-- BudgetTable.test.tsx `EXTRACTED`
+- CategoryDetail.test.tsx `EXTRACTED`
+- CategoryDetail.tsx `EXTRACTED`
 - ItemModal.test.tsx `EXTRACTED`
 
 ### references
-- BudgetTableProps `EXTRACTED`
-- CategoryGroupProps `EXTRACTED`
+- CategoryDetailProps `EXTRACTED`
 - ItemModalProps `EXTRACTED`
-- ItemViewProps `EXTRACTED`
 
 ---
 

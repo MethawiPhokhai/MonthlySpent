@@ -1,8 +1,8 @@
 # Category
 
-> God node · 13 connections · `src/types/budget.ts`
+> God node · 12 connections · `src/types/budget.ts`
 
-**Community:** [Expense table & category groups](Expense_table_&_category_groups.md)
+**Community:** [Item modal & domain types](Item_modal_&_domain_types.md)
 
 ## Connections by Relation
 
@@ -10,20 +10,19 @@
 - types/budget.ts `EXTRACTED`
 
 ### imports
-- BudgetTable.tsx `EXTRACTED`
-- DonutChart.tsx `EXTRACTED`
 - ItemModal.tsx `EXTRACTED`
-- BudgetTable.test.tsx `EXTRACTED`
+- CategoryDetail.test.tsx `EXTRACTED`
+- CategoryBreakdown.tsx `EXTRACTED`
+- CategoryDetail.tsx `EXTRACTED`
 - ItemModal.test.tsx `EXTRACTED`
+- CategoryBreakdown.test.tsx `EXTRACTED`
 - budget.test.ts `EXTRACTED`
-- DonutChart.test.tsx `EXTRACTED`
 - utils/budget.ts `EXTRACTED`
 
 ### references
-- BudgetTableProps `EXTRACTED`
-- CategoryGroupProps `EXTRACTED`
+- CategoryDetailProps `EXTRACTED`
 - ItemModalProps `EXTRACTED`
-- DonutChartProps `EXTRACTED`
+- CategoryBreakdownProps `EXTRACTED`
 
 ---
 

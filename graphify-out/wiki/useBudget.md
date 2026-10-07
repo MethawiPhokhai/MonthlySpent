@@ -2,7 +2,7 @@
 
 > God node · 8 connections · `src/hooks/useBudget.ts`
 
-**Community:** [useBudget state machine](useBudget_state_machine.md)
+**Community:** [GitHub sync & useBudget](GitHub_sync_&_useBudget.md)
 
 ## Connections by Relation
 
@@ -17,8 +17,10 @@
 
 ### imports
 - App.tsx `EXTRACTED`
-- App.test.tsx `EXTRACTED`
 - useBudget.test.ts `EXTRACTED`
+
+### indirect_call
+- App.test.tsx `INFERRED`
 
 ---
 

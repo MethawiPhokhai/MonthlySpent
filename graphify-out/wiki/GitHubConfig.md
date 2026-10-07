@@ -2,7 +2,7 @@
 
 > God node · 7 connections · `src/api/github.ts`
 
-**Community:** [GitHub settings panel](GitHub_settings_panel.md)
+**Community:** [GitHub sync & useBudget](GitHub_sync_&_useBudget.md)
 
 ## Connections by Relation
 

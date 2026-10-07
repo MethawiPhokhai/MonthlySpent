@@ -2,29 +2,29 @@
 
 > God node · 19 connections · `src/App.tsx`
 
-**Community:** [App shell (App, Collapsible, ItemModal, ThemeToggle)](App_shell_App,_Collapsible,_ItemModal,_ThemeToggle.md)
+**Community:** [App handlers, menu & modal](App_handlers,_menu_&_modal.md)
 
 ## Connections by Relation
 
 ### calls
 - [useBudget()](useBudget.md) `EXTRACTED`
-- DonutChart() `EXTRACTED`
-- [ItemModal()](ItemModal.md) `EXTRACTED`
+- [CategoryDetail()](CategoryDetail.md) `EXTRACTED`
+- HeaderMenu() `EXTRACTED`
+- SummaryCards() `EXTRACTED`
+- CategoryBreakdown() `EXTRACTED`
+- ItemModal() `EXTRACTED`
 - [useTheme()](useTheme.md) `EXTRACTED`
 - SettingsPanel() `EXTRACTED`
-- ScenarioTabs() `EXTRACTED`
-- SummaryCards() `EXTRACTED`
-- TotalIncomeInput() `EXTRACTED`
-- BudgetTable() `EXTRACTED`
 - useLocalStorage() `EXTRACTED`
 - ThemeToggle() `EXTRACTED`
-- Collapsible() `EXTRACTED`
+- ScenarioTabs() `EXTRACTED`
 
 ### contains
 - App.tsx `EXTRACTED`
 - handleAdd() `EXTRACTED`
 - handleEdit() `EXTRACTED`
 - handleSaveItem() `EXTRACTED`
+- handleSaveSettings() `EXTRACTED`
 - handleDelete() `EXTRACTED`
 
 ### imports

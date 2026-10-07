@@ -81,25 +81,27 @@ repo นี้มี **knowledge graph ของโค้ดตัวเอง**
 |---|---|
 | [`graphify-out/wiki/index.md`](graphify-out/wiki/index.md) | **จุดเริ่มต้นสำหรับ AI** — สารบัญ community + god nodes |
 | [`graphify-out/GRAPH_REPORT.md`](graphify-out/GRAPH_REPORT.md) | god nodes, ความเชื่อมโยงน่าสนใจ, import cycles, คำถามที่กราฟตอบได้ |
-| [`graphify-out/graph.json`](graphify-out/graph.json) | กราฟเต็ม (123 nodes / 283 edges) สำหรับ `query` / `path` / `explain` |
+| [`graphify-out/graph.json`](graphify-out/graph.json) | กราฟเต็ม (130 nodes / 301 edges) สำหรับ `query` / `path` / `explain` |
 | [graph.html](https://methawiphokhai.github.io/MonthlySpent/graph.html) | กราฟแบบ interactive เปิดในเบราว์เซอร์ |
 
-### โครงสร้างโค้ดตามกราฟ (10 communities)
+### โครงสร้างโค้ดตามกราฟ (11 communities)
 
-> กราฟใน `graphify-out/` ยังเป็นของก่อน redesign v3 — รัน `npm run graph` เพื่อสร้างใหม่ (ตารางด้านล่างอัปเดตด้วยมือแล้ว)
-
-| Community | ไฟล์หลัก | หน้าที่ |
+| Community (nodes) | ไฟล์หลัก | หน้าที่ |
 |---|---|---|
-| App shell + ธีม (29) | `App.tsx`, `HeaderMenu`, `ItemModal`, `ThemeToggle`, `constants.ts` | ประกอบหน้า (สรุป ↔ รายละเอียดหมวด), modal, สลับธีม |
-| Category screens | `components/CategoryBreakdown.tsx`, `components/CategoryDetail.tsx` | แถบสัดส่วน + รายการหมวด และหน้ารายการในหมวด (แทน `BudgetTable`, `DonutChart`, `Collapsible` เดิม) |
-| useBudget state machine (14) | `hooks/useBudget.ts` | load → edit → auto-save |
-| Summary & formatting (12) | `SummaryCards.tsx`, `utils/format.ts` | การ์ดสรุปยอด (แก้รายรับได้ในการ์ด) + จัดรูปเงิน/class |
-| GitHub API client (10) | `api/github.ts` | GitHub Contents API (fetch/save `data/budget.json`) |
-| Scenario tabs & types (10) | `types/budget.ts`, `components/ScenarioTabs.tsx` | type ของ domain |
-| Settings panel (7) | `components/SettingsPanel.tsx` | owner/repo/token + สถานะ sync |
+| GitHub sync & useBudget (31) | `api/github.ts`, `hooks/useBudget.ts`, `components/SettingsPanel.tsx` | ตั้งค่า GitHub (บันทึกเมื่อกด "บันทึก") → load → edit → auto-save (PUT + sha) |
+| App shell & header (22) | `App.tsx`, `HeaderMenu`, `ThemeToggle`, `constants.ts`, `useLocalStorage` | โครงหน้า, เมนู ☰, สลับธีม, ค่าที่เก็บใน localStorage |
+| App handlers, menu & modal (15) | `App()`, `HeaderMenu()`, `ItemModal()` | handler เพิ่ม/แก้/ลบ/บันทึกตั้งค่า, สลับหน้าสรุป ↔ หน้าหมวด |
+| Summary cards & formatting (14) | `SummaryCards.tsx` (`IncomeCard`), `utils/format.ts` | ยอดคงเหลือ + การ์ดรายรับ (แก้ในการ์ด) / รายจ่าย, จัดรูปเงิน 🪙 |
+| Category breakdown & totals (13) | `CategoryBreakdown.tsx`, `utils/budget.ts` | แถบสัดส่วน + รายการหมวด, `getCategoryTotals` |
+| Item modal & domain types (10) | `ItemModal.tsx`, `types/budget.ts` | ฟอร์มเพิ่ม/แก้รายการ (เลือกหมวดล่วงหน้าได้) |
+| Category detail screen (8) | `CategoryDetail.tsx` | หน้ารายการในหมวด + แก้/ลบ |
+| Scenario tabs (6) | `ScenarioTabs.tsx` | แท็บสถานการณ์ (แสดงเมื่อมี > 1) |
+| Vite config · Budget types · Test setup (4/4/3) | `vite.config.ts`, `types/budget.ts`, `setupTests.ts` | config, type ย่อย, setup ของ test |
 
-**God nodes** (concept ที่ทุกอย่างวิ่งผ่าน) — `App()` 19 · `ExpenseItem` 18 · `Category` 13 · `formatCurrency()` 10 · `PaymentMethod` 9 · `BudgetData` 8 · `useBudget()` 8 · `GitHubConfig` 7
+**God nodes** (concept ที่ทุกอย่างวิ่งผ่าน) — `App()` 19 · `ExpenseItem` 15 · `Category` 12 · `formatCurrency()` 9 · `BudgetData` 8 · `useBudget()` 8 · `GitHubConfig` 7 · `PaymentMethod` 7 · `CategoryDetail()` 7 · `useTheme()` 6
 **Import cycles:** ไม่มี
+
+ชื่อ community ตั้งตามขั้น "Label communities" ของ skill graphify (เก็บใน `graphify-out/.graphify_labels.json` — ถ้า community เปลี่ยนหลัง `npm run graph` ให้ตั้งชื่อใหม่ หรือรัน `graphify label .` เมื่อมี LLM backend)
 
 ### คำสั่งที่ใช้บ่อย
 
@@ -111,7 +113,7 @@ graphify explain "useBudget"
 graphify path "App()" "ExpenseItem"
 ```
 
-### ประหยัด token แค่ไหน (วัดจริงใน repo นี้)
+### ประหยัด token แค่ไหน (วัดตอนสร้างกราฟครั้งแรก ก่อน redesign v3)
 
 | วิธี | token |
 |---|---|
@@ -130,7 +132,6 @@ graphify path "App()" "ExpenseItem"
 
 - เปิดดูแบบ interactive: [dataflow.html](https://methawiphokhai.github.io/MonthlySpent/dataflow.html)
 - ต้นฉบับที่ใช้สร้าง (source of truth): [`docs/diagrams/budget-data-flow.dataflow.json`](docs/diagrams/budget-data-flow.dataflow.json)
-- ต้นฉบับ JSON อัปเดตตาม layout v3 แล้ว แต่ภาพ PNG / `dataflow.html` ยังเป็นรุ่นก่อน redesign — รัน `npm run diagram` (ต้องใช้ archify 3.x) เพื่อ render ใหม่
 
 ### 4 stages
 

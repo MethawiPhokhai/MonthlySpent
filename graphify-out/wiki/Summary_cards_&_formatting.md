@@ -1,40 +1,45 @@
 # Summary cards & formatting
 
-> 12 nodes · cohesion 0.29
+> 14 nodes · cohesion 0.23
 
 ## Key Concepts
 
-- **formatCurrency()** (10 connections) — `src/utils/format.ts`
-- **format.ts** (8 connections) — `src/utils/format.ts`
-- **SummaryCards.tsx** (6 connections) — `src/components/SummaryCards.tsx`
-- **TotalIncomeInput.tsx** (6 connections) — `src/components/TotalIncomeInput.tsx`
-- **classNames()** (6 connections) — `src/utils/format.ts`
-- **SummaryCards()** (5 connections) — `src/components/SummaryCards.tsx`
-- **TotalIncomeInput()** (5 connections) — `src/components/TotalIncomeInput.tsx`
-- **format.test.ts** (3 connections) — `src/__tests__/format.test.ts`
-- **SummaryCards.test.tsx** (2 connections) — `src/__tests__/SummaryCards.test.tsx`
-- **TotalIncomeInput.test.tsx** (2 connections) — `src/__tests__/TotalIncomeInput.test.tsx`
+- **ref_vitest** (14 connections)
+- **SummaryCards.tsx** (9 connections) — `src/components/SummaryCards.tsx`
+- **formatCurrency()** (9 connections) — `src/utils/format.ts`
+- **format.ts** (7 connections) — `src/utils/format.ts`
+- **SummaryCards()** (6 connections) — `src/components/SummaryCards.tsx`
+- **IncomeCard()** (4 connections) — `src/components/SummaryCards.tsx`
+- **format.test.ts** (4 connections) — `src/__tests__/format.test.ts`
+- **SummaryCards.test.tsx** (4 connections) — `src/__tests__/SummaryCards.test.tsx`
+- **classNames()** (4 connections) — `src/utils/format.ts`
+- **theme.test.ts** (2 connections) — `src/__tests__/theme.test.ts`
+- **commit()** (1 connections) — `src/components/SummaryCards.tsx`
+- **IncomeCardProps** (1 connections) — `src/components/SummaryCards.tsx`
 - **SummaryCardsProps** (1 connections) — `src/components/SummaryCards.tsx`
-- **TotalIncomeInputProps** (1 connections) — `src/components/TotalIncomeInput.tsx`
+- **uiFiles** (1 connections) — `src/__tests__/theme.test.ts`
 
 ## Relationships
 
-- [App shell (App, Collapsible, ItemModal, ThemeToggle)](App_shell_App,_Collapsible,_ItemModal,_ThemeToggle.md) (7 shared connections)
-- [Expense table & category groups](Expense_table_&_category_groups.md) (7 shared connections)
-- [Scenario tabs & domain types](Scenario_tabs_&_domain_types.md) (3 shared connections)
+- [App shell & header](App_shell_&_header.md) (6 shared connections)
+- [Category breakdown & totals](Category_breakdown_&_totals.md) (5 shared connections)
+- [GitHub sync & useBudget](GitHub_sync_&_useBudget.md) (4 shared connections)
+- [Category detail screen](Category_detail_screen.md) (4 shared connections)
+- [Item modal & domain types](Item_modal_&_domain_types.md) (3 shared connections)
+- [App handlers, menu & modal](App_handlers,_menu_&_modal.md) (2 shared connections)
+- [Scenario tabs](Scenario_tabs.md) (1 shared connections)
 
 ## Source Files
 
 - `src/__tests__/SummaryCards.test.tsx`
-- `src/__tests__/TotalIncomeInput.test.tsx`
 - `src/__tests__/format.test.ts`
+- `src/__tests__/theme.test.ts`
 - `src/components/SummaryCards.tsx`
-- `src/components/TotalIncomeInput.tsx`
 - `src/utils/format.ts`
 
 ## Audit Trail
 
-- EXTRACTED: 36 (100%)
+- EXTRACTED: 46 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

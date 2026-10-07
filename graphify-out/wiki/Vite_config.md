@@ -1,10 +1,13 @@
 # Vite config
 
-> 1 nodes · cohesion 1.00
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- **vite.config.ts** (0 connections) — `vite.config.ts`
+- **vite.config.ts** (3 connections) — `vite.config.ts`
+- **ref_tailwindcss_vite** (1 connections)
+- **ref_vite** (1 connections)
+- **ref_vitejs_plugin_react** (1 connections)
 
 ## Relationships
 
@@ -16,7 +19,7 @@
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 3 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

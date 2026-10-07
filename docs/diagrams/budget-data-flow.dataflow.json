@@ -55,15 +55,11 @@
       "id": "token",
       "type": "security",
       "label": "GitHub token",
-      "sublabel": "localStorage · saved on บันทึก",
+      "sublabel": "localStorage · on บันทึก",
       "tag": "PAT · read+write",
       "stage": 0,
       "row": 1,
       "sources": [
-        {
-          "path": "src/constants.ts",
-          "line": 1
-        },
         {
           "path": "src/components/SettingsPanel.tsx",
           "line": 68,

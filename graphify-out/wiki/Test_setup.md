@@ -1,10 +1,12 @@
 # Test setup
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- **setupTests.ts** (0 connections) — `src/__tests__/setupTests.ts`
+- **setupTests.ts** (2 connections) — `src/__tests__/setupTests.ts`
+- **ref_testing_library_jest_dom** (1 connections)
+- **length()** (1 connections) — `src/__tests__/setupTests.ts`
 
 ## Relationships
 
@@ -16,7 +18,7 @@
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

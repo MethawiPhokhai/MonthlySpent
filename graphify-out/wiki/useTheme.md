@@ -2,7 +2,7 @@
 
 > God node · 6 connections · `src/hooks/useTheme.ts`
 
-**Community:** [App shell (App, Collapsible, ItemModal, ThemeToggle)](App_shell_App,_Collapsible,_ItemModal,_ThemeToggle.md)
+**Community:** [App shell & header](App_shell_&_header.md)
 
 ## Connections by Relation
 
