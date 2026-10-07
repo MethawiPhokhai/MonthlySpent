@@ -7,6 +7,7 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   base: '/MonthlySpent/',
+  server: { port: Number(process.env.PORT) || 5173 },
   test: {
     globals: true,
     environment: 'jsdom',
