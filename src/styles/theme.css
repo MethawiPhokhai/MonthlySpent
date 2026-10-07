@@ -548,6 +548,40 @@ body {
     line-height: 1.2;
   }
 
+  /* --- Header menu (hamburger dropdown) -------------------------------- */
+  .menu {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.5rem);
+    z-index: 40;
+    display: flex;
+    min-width: 12rem;
+    flex-direction: column;
+    border: 2px solid var(--line);
+    border-radius: var(--radius-lg);
+    background-color: var(--surface);
+    box-shadow: 4px 4px 0 0 var(--shadow-hard);
+    padding: 0.25rem;
+  }
+
+  .menu-item {
+    border-radius: var(--radius-md);
+    padding: 0.625rem 0.75rem;
+    text-align: left;
+    font-family: var(--font-display);
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  .menu-item:hover:not(:disabled) {
+    background-color: var(--surface-2);
+  }
+
+  .menu-item:disabled {
+    cursor: not-allowed;
+    color: var(--ink-muted);
+  }
+
   /* --- Modal ------------------------------------------------------------- */
   .modal-backdrop {
     position: fixed;

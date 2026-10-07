@@ -13,7 +13,7 @@
 
 1. Fork หรือ clone repo นี้
 2. สร้าง GitHub Personal Access Token (fine-grained) ที่มีสิทธิ์ **Contents: read and write** สำหรับ repo นี้
-3. เปิดเว็บ กรอก Owner, Repo, Token แล้วกด "โหลดข้อมูล"
+3. เปิดเว็บ กดเมนู ☰ มุมขวาบน → "ตั้งค่า GitHub" กรอก Owner, Repo, Token แล้วกด "โหลดข้อมูล" (โหลดสำเร็จแล้วแผงตั้งค่าจะพับเก็บเอง ถ้าล้มเหลวจะค้างไว้พร้อมข้อความ error)
 4. เริ่มแก้ไขรายรับรายจ่ายได้เลย
 
 ## Features
@@ -34,7 +34,8 @@ layout เป็นคอลัมน์เดียวขนาดมือถ�
 
 **ทั่วไป**
 - ธีมมืด (dark mode) เป็นค่าเริ่มต้น + ปุ่มสลับเป็นธีมสว่างที่จำค่าไว้ใน browser
-- บันทึกขึ้น GitHub อัตโนมัติทุกครั้งที่แก้ไข (หรือกดปุ่มบันทึกเองก็ได้)
+- บันทึกขึ้น GitHub อัตโนมัติทุกครั้งที่แก้ไข (หรือกด ☰ → "บันทึกลง GitHub" เองก็ได้)
+- เมนูแฮมเบอร์เกอร์ ☰ มุมขวาบนรวม "บันทึกลง GitHub" และ "ตั้งค่า GitHub" (ปิดเองเมื่อเลือก, คลิกนอกเมนู หรือกด Esc)
 
 ## Theme (retro)
 
@@ -77,7 +78,7 @@ repo นี้มี **knowledge graph ของโค้ดตัวเอง**
 
 | Community | ไฟล์หลัก | หน้าที่ |
 |---|---|---|
-| App shell + ธีม (29) | `App.tsx`, `ItemModal`, `ThemeToggle`, `constants.ts` | ประกอบหน้า (สรุป ↔ รายละเอียดหมวด), modal, สลับธีม |
+| App shell + ธีม (29) | `App.tsx`, `HeaderMenu`, `ItemModal`, `ThemeToggle`, `constants.ts` | ประกอบหน้า (สรุป ↔ รายละเอียดหมวด), modal, สลับธีม |
 | Category screens | `components/CategoryBreakdown.tsx`, `components/CategoryDetail.tsx` | แถบสัดส่วน + รายการหมวด และหน้ารายการในหมวด (แทน `BudgetTable`, `DonutChart`, `Collapsible` เดิม) |
 | useBudget state machine (14) | `hooks/useBudget.ts` | load → edit → auto-save |
 | Summary & formatting (12) | `SummaryCards.tsx`, `TotalIncomeInput.tsx`, `utils/format.ts` | การ์ดสรุปยอด + จัดรูปเงิน/class |

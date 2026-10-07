@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import type { GitHubConfig } from './api/github'
 import { CategoryBreakdown } from './components/CategoryBreakdown'
 import { CategoryDetail } from './components/CategoryDetail'
+import { HeaderMenu } from './components/HeaderMenu'
 import { ItemModal } from './components/ItemModal'
 import { ScenarioTabs } from './components/ScenarioTabs'
 import { SettingsPanel } from './components/SettingsPanel'
@@ -66,6 +67,13 @@ export default function App() {
     setIsModalOpen(false)
   }
 
+  /** Load from GitHub; on success fold the settings panel away so the budget is in view. */
+  async function handleLoad() {
+    if (await load()) {
+      setShowSettings(false)
+    }
+  }
+
   /** Delete the expense after confirmation; useBudget auto-saves the change. */
   function handleDelete(itemId: string) {
     if (activeScenario && confirm('ต้องการลบรายการนี้หรือไม่?')) {
@@ -84,25 +92,20 @@ export default function App() {
   return (
     <div className="page">
       <div className="shell shell-narrow">
-        <header className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <header className="mb-6 flex items-end justify-between gap-4">
           <div>
             <p className="kicker">สมุดบัญชีส่วนตัว</p>
             <h1 className="title-xl">MonthlySpent</h1>
           </div>
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex items-center gap-2">
             <ThemeToggle theme={theme} onToggle={toggleTheme} />
-            {data && (
-              <button type="button" onClick={save} disabled={saving} className="btn btn-primary">
-                {saving ? 'กำลังบันทึก...' : 'บันทึกลง GitHub'}
-              </button>
-            )}
-            <button
-              type="button"
-              onClick={() => setShowSettings((prev) => !prev)}
-              className="btn btn-ghost"
-            >
-              ⚙️ Settings
-            </button>
+            <HeaderMenu
+              canSave={data !== null}
+              saving={saving}
+              settingsOpen={showSettings}
+              onSave={save}
+              onToggleSettings={() => setShowSettings((prev) => !prev)}
+            />
           </div>
         </header>
 
@@ -110,7 +113,7 @@ export default function App() {
           <SettingsPanel
             config={config}
             onChange={setConfig}
-            onLoad={load}
+            onLoad={handleLoad}
             loading={loading}
             error={error}
             saveError={saveError}
@@ -179,7 +182,7 @@ export default function App() {
           </main>
         ) : (
           <div className="card empty-state mt-8">
-            <p className="title-md">กรอกข้อมูล GitHub ด้านบนแล้วกด "โหลดข้อมูล" เพื่อเริ่มใช้งาน</p>
+            <p className="title-md">กดเมนู ☰ → ตั้งค่า GitHub แล้วกด "โหลดข้อมูล" เพื่อเริ่มใช้งาน</p>
             <p className="meta mt-2">ต้องการ Personal Access Token ที่มีสิทธิ์ Contents ของ repo นี้</p>
           </div>
         )}

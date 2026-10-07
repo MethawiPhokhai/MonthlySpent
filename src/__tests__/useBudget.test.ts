@@ -50,6 +50,30 @@ describe('useBudget', () => {
     expect(result.current.data).toBeNull()
   })
 
+  it('load resolves true on success and false on error', async () => {
+    const fetchBudgetFile = vi
+      .fn()
+      .mockResolvedValueOnce({ data: mockBudget, sha: 'sha-1' })
+      .mockResolvedValueOnce({ data: mockBudget, sha: 'sha-1' })
+      .mockResolvedValueOnce({ error: 'Bad credentials' })
+    const saveBudgetFile = vi.fn().mockResolvedValue({ success: true })
+
+    const { result } = renderHook(() => useBudget(config, { fetchBudgetFile, saveBudgetFile }))
+    await waitFor(() => expect(result.current.loading).toBe(false))
+
+    let ok: boolean | undefined
+    await act(async () => {
+      ok = await result.current.load()
+    })
+    expect(ok).toBe(true)
+
+    await act(async () => {
+      ok = await result.current.load()
+    })
+    expect(ok).toBe(false)
+    expect(result.current.error).toBe('Bad credentials')
+  })
+
   it('auto-saves fresh data after a mutation', async () => {
     const fetchBudgetFile = vi.fn().mockResolvedValue({ data: mockBudget, sha: 'sha-1' })
     const saveBudgetFile = vi.fn().mockResolvedValue({ success: true, newSha: 'sha-2' })

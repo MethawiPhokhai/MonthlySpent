@@ -1,5 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react'
-import { describe, expect, it, vi } from 'vitest'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import App from '../App'
 import { useBudget } from '../hooks/useBudget'
 import type { BudgetData } from '../types/budget'
@@ -42,7 +42,17 @@ function mockUseBudget(overrides: Record<string, unknown> = {}) {
   })
 }
 
+/** Fill owner and token so the settings panel's load button is enabled. */
+function fillGitHubSettings() {
+  fireEvent.change(screen.getByLabelText('Owner'), { target: { value: 'tuscaffy' } })
+  fireEvent.change(screen.getByLabelText('Personal Access Token'), { target: { value: 'token' } })
+}
+
 describe('App', () => {
+  beforeEach(() => {
+    localStorage.clear()
+  })
+
   it('renders dashboard when budget data is loaded', () => {
     mockUseBudget()
 
@@ -143,9 +153,55 @@ describe('App', () => {
 
     render(<App />)
 
+    expect(screen.queryByText('บันทึกลง GitHub')).not.toBeInTheDocument()
+    fireEvent.click(screen.getByLabelText('เมนู'))
     fireEvent.click(screen.getByText('บันทึกลง GitHub'))
 
     expect(save).toHaveBeenCalled()
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument()
+  })
+
+  it('opens GitHub settings from the hamburger menu', () => {
+    mockUseBudget()
+
+    render(<App />)
+
+    fireEvent.click(screen.getByLabelText('เมนู'))
+    fireEvent.click(screen.getByText('⚙️ ตั้งค่า GitHub'))
+
+    expect(screen.getByText('ตั้งค่า GitHub')).toBeInTheDocument()
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument()
+  })
+
+  it('closes the settings panel after a successful load', async () => {
+    const load = vi.fn().mockResolvedValue(true)
+    mockUseBudget({ load })
+
+    render(<App />)
+
+    fireEvent.click(screen.getByLabelText('เมนู'))
+    fireEvent.click(screen.getByText('⚙️ ตั้งค่า GitHub'))
+    fillGitHubSettings()
+    fireEvent.click(screen.getByText('โหลดข้อมูล'))
+
+    await waitFor(() => expect(screen.queryByText('ตั้งค่า GitHub')).not.toBeInTheDocument())
+    expect(load).toHaveBeenCalled()
+  })
+
+  it('keeps the settings panel open when the load fails', async () => {
+    const load = vi.fn().mockResolvedValue(false)
+    mockUseBudget({ load, error: 'Bad credentials' })
+
+    render(<App />)
+
+    fireEvent.click(screen.getByLabelText('เมนู'))
+    fireEvent.click(screen.getByText('⚙️ ตั้งค่า GitHub'))
+    fillGitHubSettings()
+    fireEvent.click(screen.getByText('โหลดข้อมูล'))
+
+    await waitFor(() => expect(load).toHaveBeenCalled())
+    expect(screen.getByText('ตั้งค่า GitHub')).toBeInTheDocument()
+    expect(screen.getByText('โหลดล้มเหลว: Bad credentials')).toBeInTheDocument()
   })
 
   it('renders a theme toggle button', () => {
