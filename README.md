@@ -7,7 +7,6 @@
 - React 18 + TypeScript
 - Vite
 - Tailwind CSS
-- Recharts
 - GitHub REST API (client-side)
 
 ## การตั้งค่า
@@ -19,19 +18,29 @@
 
 ## Features
 
-- ธีมมืด (dark mode) เป็นค่าเริ่มต้น + ปุ่มสลับเป็นธีมสว่างที่จำค่าไว้ใน browser
+layout เป็นคอลัมน์เดียวขนาดมือถือ (ทุกขนาดจอ) ตามดีไซน์ "Monthly Spent v3 Simple" ใน Claude Design แต่ใช้ธีม retro ของ repo นี้ — มี 2 หน้า
+
+**หน้าสรุป**
+- ยอดคงเหลือตัวใหญ่ พร้อมป้าย "อยู่ในงบ" หรือ "จ่ายเกินรายรับ" (สีแดง) เมื่อรายจ่ายเกินรายรับ
+- การ์ดรายรับรวม / รายจ่ายรวม และช่องแก้ไขรายได้ทั้งหมด
+- แถบสัดส่วนรายจ่ายตามหมวด + รายการหมวดพร้อม % และยอดรวม — แตะหมวดเพื่อเข้าหน้ารายละเอียด
+- ปุ่ม "+ เพิ่มรายการ" ติดอยู่ด้านล่างเสมอ
 - แถบสลับสถานการณ์แสดงเฉพาะเมื่อมีมากกว่า 1 scenario ใน JSON
-- เพิ่ม แก้ไข ลบ รายจ่าย พร้อมจัดหมวดหมู่และวิธีจ่าย
-- การ์ดสรุปยอด + กราฟโดนัทสัดส่วนรายจ่าย
-- ทุก section พับ/กางได้ (collapsible)
-- บนมือถือแสดงรายจ่ายเป็น card อ่านง่าย ไม่ต้อง scroll ซ้ายขวา
+
+**หน้ารายละเอียดหมวด**
+- ยอดรวมของหมวด และ % ของรายจ่ายทั้งเดือน
+- รายการในหมวด พร้อมรอบจ่ายและวิธีจ่าย ปุ่ม "แก้" / "ลบ" ต่อรายการ
+- ปุ่ม "+ เพิ่มรายการในหมวดนี้" เปิดฟอร์มโดยเลือกหมวดไว้ให้แล้ว · ปุ่ม "<" กลับหน้าสรุป
+
+**ทั่วไป**
+- ธีมมืด (dark mode) เป็นค่าเริ่มต้น + ปุ่มสลับเป็นธีมสว่างที่จำค่าไว้ใน browser
 - บันทึกขึ้น GitHub อัตโนมัติทุกครั้งที่แก้ไข (หรือกดปุ่มบันทึกเองก็ได้)
 
 ## Theme (retro)
 
 ธีมทั้งแอปมาจาก**ไฟล์เดียว**: [`src/styles/theme.css`](src/styles/theme.css) — design system สไตล์ retro แบบ letterpress (สีทึบเต็ม, เส้นขอบหมึก 2px, เงาแข็ง) ตาม skill [retro](https://www.typeui.sh/design-skills/retro)
 
-หลักการเดียว: component ถือแค่ **semantic class** (`.card`, `.btn`, `.stat`, `.table`, `.kicker` …) ห้ามใส่ utility สี/ฟอนต์/มุมโค้งลงใน component — [`src/__tests__/theme.test.ts`](src/__tests__/theme.test.ts) จะ fail ถ้ามีหลุดเข้าไป
+หลักการเดียว: component ถือแค่ **semantic class** (`.card`, `.btn`, `.stat`, `.screen`, `.list-row`, `.kicker` …) ห้ามใส่ utility สี/ฟอนต์/มุมโค้งลงใน component — [`src/__tests__/theme.test.ts`](src/__tests__/theme.test.ts) จะ fail ถ้ามีหลุดเข้าไป
 
 | อยากแก้อะไร | แก้ที่ไหน |
 |---|---|
@@ -43,7 +52,6 @@
 
 - `--primary #3B82F6` · `--secondary #8B5CF6` · `--line` เส้นหมึก · `--ink` / `--ink-soft` / `--ink-muted` ลำดับตัวอักษร
 - `--fill-*` พื้นสีทึบที่มีตัวหนังสือขาว และ `--link-*` สีตัวอักษรที่กลับด้านในโหมดมืด — เลือกเฉดให้ผ่าน WCAG AA (4.5:1) แล้ว (ตรวจกับหน้าที่ build จริงได้ 0 จุดที่ตก)
-- `--chart-*` เพราะ Recharts วาดนอก class `dark:` จึงต้องอ่านค่าจาก CSS variable
 
 ฟอนต์: **Kanit** (display — มีทั้งไทยและ Latin) + **Sarabun** (เนื้อหาไทย อ่านง่ายที่สุด) + **JetBrains Mono** (label/ตัวเลข) — ทุก stack ต้องมีฟอนต์ไทยจริงอยู่ท้าย ไม่งั้นตัวไทยจะไปตกที่ fallback ซึ่งอ่านยาก
 
@@ -65,12 +73,13 @@ repo นี้มี **knowledge graph ของโค้ดตัวเอง**
 
 ### โครงสร้างโค้ดตามกราฟ (10 communities)
 
+> กราฟใน `graphify-out/` ยังเป็นของก่อน redesign v3 — รัน `npm run graph` เพื่อสร้างใหม่ (ตารางด้านล่างอัปเดตด้วยมือแล้ว)
+
 | Community | ไฟล์หลัก | หน้าที่ |
 |---|---|---|
-| App shell + ธีม (29) | `App.tsx`, `Collapsible`, `ItemModal`, `ThemeToggle`, `constants.ts` | ประกอบหน้า, modal, สลับธีม |
-| Expense table (26) | `components/BudgetTable.tsx` | จัดกลุ่มรายจ่ายตามหมวด — card บนมือถือ, ตารางบน desktop |
+| App shell + ธีม (29) | `App.tsx`, `ItemModal`, `ThemeToggle`, `constants.ts` | ประกอบหน้า (สรุป ↔ รายละเอียดหมวด), modal, สลับธีม |
+| Category screens | `components/CategoryBreakdown.tsx`, `components/CategoryDetail.tsx` | แถบสัดส่วน + รายการหมวด และหน้ารายการในหมวด (แทน `BudgetTable`, `DonutChart`, `Collapsible` เดิม) |
 | useBudget state machine (14) | `hooks/useBudget.ts` | load → edit → auto-save |
-| Donut chart (13) | `components/DonutChart.tsx` | กราฟสัดส่วนรายจ่ายตามหมวด |
 | Summary & formatting (12) | `SummaryCards.tsx`, `TotalIncomeInput.tsx`, `utils/format.ts` | การ์ดสรุปยอด + จัดรูปเงิน/class |
 | GitHub API client (10) | `api/github.ts` | GitHub Contents API (fetch/save `data/budget.json`) |
 | Scenario tabs & types (10) | `types/budget.ts`, `components/ScenarioTabs.tsx` | type ของ domain |
@@ -163,6 +172,7 @@ src/
   hooks/useTheme.ts       # theme state; keeps the `dark` class on <html> in sync
   styles/theme.css        # ทุกอย่างของธีมอยู่ที่นี่ (token + component class)
   components/             # presentational components (props เป็น readonly ทั้งหมด)
+                          #   SummaryCards + CategoryBreakdown = หน้าสรุป, CategoryDetail = หน้าหมวด
   utils/                  # formatCurrency, getCategoryTotals
   types/budget.ts         # shared domain types
   constants.ts            # storage key, file path, default scenario

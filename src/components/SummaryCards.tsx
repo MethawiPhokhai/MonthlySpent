@@ -5,28 +5,31 @@ interface SummaryCardsProps {
   readonly expenses: number
 }
 
-/** Three summary cards: total income, total expenses, and remaining balance. */
+/** Remaining-balance hero with an over/within-budget badge, plus income and expense cards. */
 export function SummaryCards({ income, expenses }: SummaryCardsProps) {
   const remaining = income - expenses
-
-  const cards = [
-    { label: 'รายรับรวม', value: income, cls: 'stat-income' },
-    { label: 'รายจ่ายรวม', value: expenses, cls: 'stat-expense' },
-    {
-      label: 'คงเหลือ',
-      value: remaining,
-      cls: remaining >= 0 ? 'stat-balance' : 'stat-balance-warn',
-    },
-  ]
+  const isOver = remaining < 0
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-      {cards.map((card) => (
-        <div key={card.label} className={`stat ${card.cls}`}>
-          <p className="stat-label">{card.label}</p>
-          <p className="stat-value">{formatCurrency(card.value)}</p>
+    <div>
+      <div className="balance">
+        <p className="balance-label">คงเหลือ</p>
+        <p className={`balance-value ${isOver ? 'is-over' : ''}`}>{formatCurrency(remaining)}</p>
+        <span className={`badge ${isOver ? 'badge-over' : 'badge-ok'}`}>
+          {isOver ? 'จ่ายเกินรายรับ' : 'อยู่ในงบ'}
+        </span>
+      </div>
+
+      <div className="mt-7 grid grid-cols-2 gap-4">
+        <div className="stat stat-income">
+          <p className="stat-label">รายรับรวม</p>
+          <p className="stat-value">{formatCurrency(income)}</p>
         </div>
-      ))}
+        <div className="stat stat-expense">
+          <p className="stat-label">รายจ่ายรวม</p>
+          <p className="stat-value">{formatCurrency(expenses)}</p>
+        </div>
+      </div>
     </div>
   )
 }

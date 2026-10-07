@@ -7,6 +7,7 @@ interface ItemModalProps {
   readonly item: ExpenseItem | null
   readonly categories: Category[]
   readonly paymentMethods: PaymentMethod[]
+  readonly defaultCategoryId?: string
   readonly onClose: () => void
   readonly onSave: (item: ExpenseItem | Omit<ExpenseItem, 'id'>) => void
 }
@@ -24,15 +25,23 @@ const fieldClass = 'input'
 const labelClass = 'field-label'
 
 /** Modal form for adding or editing one expense item. */
-export function ItemModal({ isOpen, item, categories, paymentMethods, onClose, onSave }: ItemModalProps) {
+export function ItemModal({
+  isOpen,
+  item,
+  categories,
+  paymentMethods,
+  defaultCategoryId = '',
+  onClose,
+  onSave,
+}: ItemModalProps) {
   const [form, setForm] = useState<Omit<ExpenseItem, 'id'>>(emptyItem)
 
   // Lifecycle: reset the form each time the modal is opened.
   useEffect(() => {
     if (isOpen) {
-      setForm(item ? { ...item } : emptyItem)
+      setForm(item ? { ...item } : { ...emptyItem, categoryId: defaultCategoryId })
     }
-  }, [isOpen, item])
+  }, [isOpen, item, defaultCategoryId])
 
   if (!isOpen) return null
 

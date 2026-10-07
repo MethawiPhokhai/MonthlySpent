@@ -31,7 +31,7 @@ export function SettingsPanel({
   return (
     <div className="card p-4">
       <h3 className="title-lg mb-3">ตั้งค่า GitHub</h3>
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div>
           <label htmlFor="gh-owner" className={labelClass}>
             Owner

@@ -55,6 +55,12 @@ describe('ItemModal', () => {
     )
   })
 
+  it('preselects the default category for a new item', () => {
+    render(<ItemModal isOpen item={null} categories={categories} paymentMethods={paymentMethods} defaultCategoryId="savings" onClose={vi.fn()} onSave={vi.fn()} />)
+
+    expect(screen.getByLabelText('หมวดหมู่')).toHaveValue('savings')
+  })
+
   it('calls onClose when cancel is clicked', () => {
     const onClose = vi.fn()
     render(<ItemModal isOpen item={null} categories={categories} paymentMethods={paymentMethods} onClose={onClose} onSave={vi.fn()} />)

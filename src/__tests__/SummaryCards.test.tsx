@@ -11,5 +11,13 @@ describe('SummaryCards', () => {
     expect(screen.getByText('คงเหลือ')).toBeInTheDocument()
     expect(screen.getByText('🪙103,000')).toBeInTheDocument()
     expect(screen.getByText('🪙61,301')).toBeInTheDocument()
+    expect(screen.getByText('อยู่ในงบ')).toBeInTheDocument()
+  })
+
+  it('flags spending over income', () => {
+    render(<SummaryCards income={75000} expenses={75209} />)
+
+    expect(screen.getByText('-🪙209')).toBeInTheDocument()
+    expect(screen.getByText('จ่ายเกินรายรับ')).toBeInTheDocument()
   })
 })

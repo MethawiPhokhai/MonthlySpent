@@ -51,7 +51,65 @@ describe('App', () => {
     expect(screen.getByText('MonthlySpent')).toBeInTheDocument()
     expect(screen.getByText('รายรับรวม')).toBeInTheDocument()
     expect(screen.getAllByText('🪙103,000')).toHaveLength(2)
-    expect(screen.getAllByText('อาหาร')).toHaveLength(2)
+    expect(screen.getByText('กิน')).toBeInTheDocument()
+  })
+
+  it('opens the category detail when a category is clicked and goes back', () => {
+    mockUseBudget()
+
+    render(<App />)
+
+    fireEvent.click(screen.getByText('กิน'))
+    expect(screen.getByText('อาหาร')).toBeInTheDocument()
+    expect(screen.getByText('รวมหมวดนี้')).toBeInTheDocument()
+
+    fireEvent.click(screen.getByLabelText('กลับ'))
+    expect(screen.queryByText('รวมหมวดนี้')).not.toBeInTheDocument()
+  })
+
+  it('edits and deletes an item from the category detail', () => {
+    const deleteExpense = vi.fn()
+    vi.spyOn(window, 'confirm').mockReturnValue(true)
+    mockUseBudget({ deleteExpense })
+
+    render(<App />)
+
+    fireEvent.click(screen.getByText('กิน'))
+    fireEvent.click(screen.getByLabelText('แก้ไข อาหาร'))
+    expect(screen.getByText('แก้ไขรายการ')).toBeInTheDocument()
+    expect(screen.getByDisplayValue('อาหาร')).toBeInTheDocument()
+    fireEvent.click(screen.getByText('ยกเลิก'))
+
+    fireEvent.click(screen.getByLabelText('ลบ อาหาร'))
+    expect(deleteExpense).toHaveBeenCalledWith('employed', '1')
+  })
+
+  it('adds an item with the category preselected from the category detail', () => {
+    const addExpense = vi.fn()
+    mockUseBudget({ addExpense })
+
+    render(<App />)
+
+    fireEvent.click(screen.getByText('กิน'))
+    fireEvent.click(screen.getByText('+ เพิ่มรายการในหมวดนี้'))
+    expect(screen.getByLabelText('หมวดหมู่')).toHaveValue('food')
+
+    fireEvent.change(screen.getByLabelText('ชื่อรายการ'), { target: { value: 'กาแฟ' } })
+    fireEvent.change(screen.getByLabelText('จำนวนเงิน (THB)'), { target: { value: '80' } })
+    fireEvent.click(screen.getByText('บันทึก'))
+
+    expect(addExpense).toHaveBeenCalledWith('employed', expect.objectContaining({ name: 'กาแฟ', amount: 80, categoryId: 'food' }))
+  })
+
+  it('updates income from the summary screen', () => {
+    const updateIncome = vi.fn()
+    mockUseBudget({ updateIncome })
+
+    render(<App />)
+
+    fireEvent.change(screen.getByLabelText('รายได้ทั้งหมด'), { target: { value: '90000' } })
+
+    expect(updateIncome).toHaveBeenCalledWith('employed', 90000)
   })
 
   it('hides the scenario tab bar when there is only one scenario', () => {

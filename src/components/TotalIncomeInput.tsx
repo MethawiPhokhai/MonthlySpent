@@ -19,7 +19,7 @@ export function TotalIncomeInput({ total, onChange }: TotalIncomeInputProps) {
           onChange={(e) => onChange(Number(e.target.value))}
           className="input"
         />
-        <span className="meta">{formatCurrency(total)}</span>
+        <span className="meta whitespace-nowrap">{formatCurrency(total)}</span>
       </div>
     </div>
   )
