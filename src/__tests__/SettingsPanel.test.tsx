@@ -7,32 +7,40 @@ const config: GitHubConfig = { owner: 'tuscaffy', repo: 'MonthlySpent', token: '
 
 describe('SettingsPanel', () => {
   it('renders config fields', () => {
-    render(<SettingsPanel config={config} onChange={vi.fn()} onLoad={vi.fn()} loading={false} error={null} saveError={null} saving={false} />)
+    render(<SettingsPanel config={config} onSave={vi.fn()} loading={false} error={null} saveError={null} saving={false} />)
 
     expect(screen.getByLabelText('Owner')).toHaveValue('tuscaffy')
     expect(screen.getByLabelText('Repo')).toHaveValue('MonthlySpent')
   })
 
-  it('calls onChange when a field changes', () => {
-    const onChange = vi.fn()
-    render(<SettingsPanel config={config} onChange={onChange} onLoad={vi.fn()} loading={false} error={null} saveError={null} saving={false} />)
+  it('edits a local draft without saving while typing', () => {
+    const onSave = vi.fn()
+    render(<SettingsPanel config={config} onSave={onSave} loading={false} error={null} saveError={null} saving={false} />)
 
     fireEvent.change(screen.getByLabelText('Owner'), { target: { value: 'new-owner' } })
 
-    expect(onChange).toHaveBeenCalledWith({ ...config, owner: 'new-owner' })
+    expect(screen.getByLabelText('Owner')).toHaveValue('new-owner')
+    expect(onSave).not.toHaveBeenCalled()
   })
 
-  it('calls onLoad when load button is clicked', () => {
-    const onLoad = vi.fn()
-    render(<SettingsPanel config={config} onChange={vi.fn()} onLoad={onLoad} loading={false} error={null} saveError={null} saving={false} />)
+  it('calls onSave with the edited config when บันทึก is clicked', () => {
+    const onSave = vi.fn()
+    render(<SettingsPanel config={config} onSave={onSave} loading={false} error={null} saveError={null} saving={false} />)
 
-    fireEvent.click(screen.getByText('โหลดข้อมูล'))
+    fireEvent.change(screen.getByLabelText('Owner'), { target: { value: 'new-owner' } })
+    fireEvent.click(screen.getByText('บันทึก'))
 
-    expect(onLoad).toHaveBeenCalled()
+    expect(onSave).toHaveBeenCalledWith({ ...config, owner: 'new-owner' })
+  })
+
+  it('disables บันทึก until every field is filled', () => {
+    render(<SettingsPanel config={{ ...config, token: '' }} onSave={vi.fn()} loading={false} error={null} saveError={null} saving={false} />)
+
+    expect(screen.getByText('บันทึก')).toBeDisabled()
   })
 
   it('displays error messages', () => {
-    render(<SettingsPanel config={config} onChange={vi.fn()} onLoad={vi.fn()} loading={false} error="Not Found" saveError="Conflict" saving={false} />)
+    render(<SettingsPanel config={config} onSave={vi.fn()} loading={false} error="Not Found" saveError="Conflict" saving={false} />)
 
     expect(screen.getByText('โหลดล้มเหลว: Not Found')).toBeInTheDocument()
     expect(screen.getByText('บันทึกล้มเหลว: Conflict')).toBeInTheDocument()

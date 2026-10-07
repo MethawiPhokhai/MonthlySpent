@@ -1,9 +1,9 @@
+import { useState } from 'react'
 import type { GitHubConfig } from '../api/github'
 
 interface SettingsPanelProps {
   readonly config: GitHubConfig
-  readonly onChange: (config: GitHubConfig) => void
-  readonly onLoad: () => void
+  readonly onSave: (config: GitHubConfig) => void
   readonly loading: boolean
   readonly error: string | null
   readonly saveError: string | null
@@ -13,19 +13,23 @@ interface SettingsPanelProps {
 const inputClass = 'input'
 const labelClass = 'kicker'
 
-/** GitHub connection settings with a load action and status messages. */
+/**
+ * GitHub connection settings with a save action and status messages. Typing edits a local
+ * draft only; the config (and the data load it triggers) changes when "บันทึก" is pressed.
+ */
 export function SettingsPanel({
   config,
-  onChange,
-  onLoad,
+  onSave,
   loading,
   error,
   saveError,
   saving,
 }: SettingsPanelProps) {
-  /** Merge one field change into the current config. */
+  const [draft, setDraft] = useState<GitHubConfig>(config)
+
+  /** Merge one field change into the draft. */
   function updateField<K extends keyof GitHubConfig>(field: K, value: GitHubConfig[K]) {
-    onChange({ ...config, [field]: value })
+    setDraft((prev) => ({ ...prev, [field]: value }))
   }
 
   return (
@@ -39,7 +43,7 @@ export function SettingsPanel({
           <input
             id="gh-owner"
             type="text"
-            value={config.owner}
+            value={draft.owner}
             onChange={(e) => updateField('owner', e.target.value)}
             className={inputClass}
           />
@@ -51,7 +55,7 @@ export function SettingsPanel({
           <input
             id="gh-repo"
             type="text"
-            value={config.repo}
+            value={draft.repo}
             onChange={(e) => updateField('repo', e.target.value)}
             className={inputClass}
           />
@@ -63,7 +67,7 @@ export function SettingsPanel({
           <input
             id="gh-token"
             type="password"
-            value={config.token}
+            value={draft.token}
             onChange={(e) => updateField('token', e.target.value)}
             placeholder="ghp_..."
             className={inputClass}
@@ -74,11 +78,11 @@ export function SettingsPanel({
       <div className="mt-3 flex items-center gap-3">
         <button
           type="button"
-          onClick={onLoad}
-          disabled={!config.owner || !config.repo || !config.token || loading}
+          onClick={() => onSave(draft)}
+          disabled={!draft.owner || !draft.repo || !draft.token || loading}
           className="btn btn-primary"
         >
-          {loading ? 'กำลังโหลด...' : 'โหลดข้อมูล'}
+          {loading ? 'กำลังโหลด...' : 'บันทึก'}
         </button>
         {(loading || saving) && <span className="meta">กำลังทำงาน...</span>}
       </div>

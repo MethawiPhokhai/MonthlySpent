@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { GitHubConfig } from './api/github'
 import { CategoryBreakdown } from './components/CategoryBreakdown'
 import { CategoryDetail } from './components/CategoryDetail'
@@ -30,12 +30,23 @@ export default function App() {
   const [showSettings, setShowSettings] = useState(false)
   const { theme, toggleTheme } = useTheme()
 
-  const { data, loading, saving, error, saveError, load, save, addExpense, updateExpense, deleteExpense, updateIncome } =
+  const { data, loading, saving, error, saveError, save, addExpense, updateExpense, deleteExpense, updateIncome } =
     useBudget(config)
 
   const activeScenario = data?.scenarios.find((scenario) => scenario.id === activeScenarioId) ?? data?.scenarios[0]
   const totalExpenses = activeScenario?.expenses.reduce((sum, item) => sum + item.amount, 0) ?? 0
   const selectedCategory = data?.categories.find((category) => category.id === selectedCategoryId)
+
+  // Lifecycle: when the load started by saving the settings finishes, fold the panel on success
+  // and keep it open on failure so the error stays visible.
+  const closeSettingsAfterLoadRef = useRef(false)
+  useEffect(() => {
+    if (loading || !closeSettingsAfterLoadRef.current) return
+    closeSettingsAfterLoadRef.current = false
+    if (!error) {
+      setShowSettings(false)
+    }
+  }, [loading, error])
 
   // Lifecycle: start each screen (summary / category detail) at the top of the page.
   useEffect(() => {
@@ -67,11 +78,10 @@ export default function App() {
     setIsModalOpen(false)
   }
 
-  /** Load from GitHub; on success fold the settings panel away so the budget is in view. */
-  async function handleLoad() {
-    if (await load()) {
-      setShowSettings(false)
-    }
+  /** Save the GitHub settings; useBudget reloads for the new config and the panel folds once that succeeds. */
+  function handleSaveSettings(next: GitHubConfig) {
+    closeSettingsAfterLoadRef.current = true
+    setConfig(next)
   }
 
   /** Delete the expense after confirmation; useBudget auto-saves the change. */
@@ -112,8 +122,7 @@ export default function App() {
         {showSettings && (
           <SettingsPanel
             config={config}
-            onChange={setConfig}
-            onLoad={handleLoad}
+            onSave={handleSaveSettings}
             loading={loading}
             error={error}
             saveError={saveError}
@@ -182,7 +191,7 @@ export default function App() {
           </main>
         ) : (
           <div className="card empty-state mt-8">
-            <p className="title-md">กดเมนู ☰ → ตั้งค่า GitHub แล้วกด "โหลดข้อมูล" เพื่อเริ่มใช้งาน</p>
+            <p className="title-md">กดเมนู ☰ → ตั้งค่า GitHub กรอกข้อมูลแล้วกด "บันทึก" เพื่อเริ่มใช้งาน</p>
             <p className="meta mt-2">ต้องการ Personal Access Token ที่มีสิทธิ์ Contents ของ repo นี้</p>
           </div>
         )}

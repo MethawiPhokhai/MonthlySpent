@@ -22,8 +22,7 @@ export interface UseBudgetState {
 }
 
 export interface UseBudgetActions {
-  /** Resolves true when the budget was fetched, false on error or missing config. */
-  load: () => Promise<boolean>
+  load: () => Promise<void>
   save: () => Promise<void>
   addExpense: (scenarioId: string, item: Omit<ExpenseItem, 'id'>) => void
   updateExpense: (scenarioId: string, item: ExpenseItem) => void
@@ -64,19 +63,18 @@ export function useBudget(
 
   /** Lifecycle 2: fetch budget.json from GitHub and mark it as the last-persisted snapshot. */
   const load = useCallback(async () => {
-    if (!config) return false
+    if (!config) return
     setLoading(true)
     setError(null)
     const result = await fetchBudgetFile(config)
     setLoading(false)
     if ('error' in result) {
       setError(result.error)
-      return false
+      return
     }
     lastSavedDataRef.current = result.data
     setData(result.data)
     setSha(result.sha)
-    return true
   }, [config, fetchBudgetFile])
 
   /** Lifecycle 3: PUT data to GitHub with the current sha; on conflict (409) reload the remote version. */

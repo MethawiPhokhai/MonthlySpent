@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import App from '../App'
 import { useBudget } from '../hooks/useBudget'
@@ -173,33 +173,56 @@ describe('App', () => {
     expect(screen.queryByRole('menu')).not.toBeInTheDocument()
   })
 
-  it('closes the settings panel after a successful load', async () => {
-    const load = vi.fn().mockResolvedValue(true)
-    mockUseBudget({ load })
+  it('does not pass typed settings to useBudget until บันทึก is clicked', () => {
+    mockUseBudget()
 
     render(<App />)
 
     fireEvent.click(screen.getByLabelText('เมนู'))
     fireEvent.click(screen.getByText('⚙️ ตั้งค่า GitHub'))
     fillGitHubSettings()
-    fireEvent.click(screen.getByText('โหลดข้อมูล'))
 
-    await waitFor(() => expect(screen.queryByText('ตั้งค่า GitHub')).not.toBeInTheDocument())
-    expect(load).toHaveBeenCalled()
+    expect(useBudget).toHaveBeenLastCalledWith({ owner: '', repo: 'MonthlySpent', token: '' })
+
+    fireEvent.click(screen.getByText('บันทึก'))
+
+    expect(useBudget).toHaveBeenLastCalledWith({ owner: 'tuscaffy', repo: 'MonthlySpent', token: 'token' })
   })
 
-  it('keeps the settings panel open when the load fails', async () => {
-    const load = vi.fn().mockResolvedValue(false)
-    mockUseBudget({ load, error: 'Bad credentials' })
+  it('closes the settings panel once the load after saving succeeds', () => {
+    mockUseBudget()
 
-    render(<App />)
+    const { rerender } = render(<App />)
 
     fireEvent.click(screen.getByLabelText('เมนู'))
     fireEvent.click(screen.getByText('⚙️ ตั้งค่า GitHub'))
     fillGitHubSettings()
-    fireEvent.click(screen.getByText('โหลดข้อมูล'))
+    fireEvent.click(screen.getByText('บันทึก'))
 
-    await waitFor(() => expect(load).toHaveBeenCalled())
+    mockUseBudget({ loading: true })
+    rerender(<App />)
+    expect(screen.getByText('ตั้งค่า GitHub')).toBeInTheDocument()
+
+    mockUseBudget({ loading: false })
+    rerender(<App />)
+    expect(screen.queryByText('ตั้งค่า GitHub')).not.toBeInTheDocument()
+  })
+
+  it('keeps the settings panel open when the load after saving fails', () => {
+    mockUseBudget()
+
+    const { rerender } = render(<App />)
+
+    fireEvent.click(screen.getByLabelText('เมนู'))
+    fireEvent.click(screen.getByText('⚙️ ตั้งค่า GitHub'))
+    fillGitHubSettings()
+    fireEvent.click(screen.getByText('บันทึก'))
+
+    mockUseBudget({ loading: true })
+    rerender(<App />)
+    mockUseBudget({ loading: false, error: 'Bad credentials' })
+    rerender(<App />)
+
     expect(screen.getByText('ตั้งค่า GitHub')).toBeInTheDocument()
     expect(screen.getByText('โหลดล้มเหลว: Bad credentials')).toBeInTheDocument()
   })
