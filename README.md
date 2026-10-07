@@ -58,6 +58,18 @@ layout เป็นคอลัมน์เดียวขนาดมือถ�
 
 โหมดมืดเป็นค่าเริ่มต้น (`<html class="dark">` ใน `index.html` กันจอวาบ)
 
+class ของ layout v3 (อยู่ใน theme.css เหมือนกัน)
+
+| class | ใช้ที่ |
+|---|---|
+| `.shell-narrow` · `.screen` · `.sticky-action` · `.btn-block` | คอลัมน์ขนาดมือถือ, กรอบหน้าจอ, ปุ่มหลักที่ติดด้านล่าง |
+| `.balance` · `.balance-value.is-over` · `.badge-ok` / `.badge-over` | ยอดคงเหลือตัวใหญ่ + ป้าย อยู่ในงบ / จ่ายเกินรายรับ |
+| `.stat-edit` · `.stat-input` | แก้รายรับในการ์ดสีเขียว |
+| `.share-bar` · `.list-row` · `.chevron` · `.swatch` | แถบสัดส่วนหมวด และแถวรายการ (หมวด / รายการในหมวด) |
+| `.icon-btn` · `.menu` · `.menu-item` | ปุ่มสี่เหลี่ยม (กลับ / แก้ / ลบ / ☰) และเมนูแฮมเบอร์เกอร์ |
+
+ภาพด้านล่างคือหน้าสรุป (ข้อมูลจาก `data/budget.json`) ในธีมมืดและสว่าง
+
 ![MonthlySpent retro theme — dark](docs/images/theme-dark.png)
 ![MonthlySpent retro theme — light](docs/images/theme-light.png)
 
@@ -118,15 +130,16 @@ graphify path "App()" "ExpenseItem"
 
 - เปิดดูแบบ interactive: [dataflow.html](https://methawiphokhai.github.io/MonthlySpent/dataflow.html)
 - ต้นฉบับที่ใช้สร้าง (source of truth): [`docs/diagrams/budget-data-flow.dataflow.json`](docs/diagrams/budget-data-flow.dataflow.json)
+- ต้นฉบับ JSON อัปเดตตาม layout v3 แล้ว แต่ภาพ PNG / `dataflow.html` ยังเป็นรุ่นก่อน redesign — รัน `npm run diagram` (ต้องใช้ archify 3.x) เพื่อ render ใหม่
 
 ### 4 stages
 
 | Stage | Node | หน้าที่ |
 |---|---|---|
-| 01 Source of truth | `GitHub repo` · `GitHub token` | `data/budget.json` บน `master` + PAT ที่เก็บใน localStorage |
+| 01 Source of truth | `GitHub repo` · `GitHub token` | `data/budget.json` บน `master` + PAT ที่เก็บใน localStorage (เขียนลง localStorage ตอนกด "บันทึก" ในแผงตั้งค่าเท่านั้น ไม่ใช่ทุกครั้งที่พิมพ์) |
 | 02 GitHub API | `Contents API` · `saveBudgetFile` | ครึ่งอ่าน (GET + base64) และครึ่งเขียน (PUT + sha) |
 | 03 State | `useBudget` | load → edit → auto-save (state เดียว ไม่มี store) |
-| 04 Dashboard UI | `App` · `Dashboard UI` | render จาก props เท่านั้น ไม่เขียนข้อมูลเอง |
+| 04 Dashboard UI | `App` · `Dashboard UI` | หน้าสรุป (`SummaryCards`, `CategoryBreakdown`) และหน้าหมวด (`CategoryDetail`) — render จาก props การแก้ไขทุกอย่าง (รายรับในการ์ดสีเขียว, เพิ่ม/แก้/ลบรายการ) ส่งผ่าน mutator ของ `useBudget` ไม่เรียก API เอง |
 
 **เส้นทางข้อมูล:** `read file` → `Bearer PAT` → `BudgetData` → `scenarios + expenses` → `render`
 **เส้นทางเขียนกลับ:** `changed data` (auto-save) → `PUT commits budget.json`

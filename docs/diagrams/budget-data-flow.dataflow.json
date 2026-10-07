@@ -13,7 +13,7 @@
       "url": "https://github.com/MethawiPhokhai/MonthlySpent.git",
       "provider": "github",
       "link_mode": "web",
-      "revision": "93319550f172794b6d6304907278b4fd4f2d89fb"
+      "revision": "b7e210437a7fa9f3129c7eee0c5afd6d1ed1da4a"
     }
   },
   "stages": [
@@ -55,7 +55,7 @@
       "id": "token",
       "type": "security",
       "label": "GitHub token",
-      "sublabel": "localStorage · owner / repo",
+      "sublabel": "localStorage · saved on บันทึก",
       "tag": "PAT · read+write",
       "stage": 0,
       "row": 1,
@@ -66,9 +66,19 @@
         },
         {
           "path": "src/components/SettingsPanel.tsx",
-          "line": 61,
-          "end_line": 66,
+          "line": 68,
           "label": "PAT field"
+        },
+        {
+          "path": "src/components/SettingsPanel.tsx",
+          "line": 81,
+          "label": "save draft"
+        },
+        {
+          "path": "src/App.tsx",
+          "line": 81,
+          "end_line": 84,
+          "label": "store config"
         }
       ]
     },
@@ -111,14 +121,14 @@
       "sources": [
         {
           "path": "src/hooks/useBudget.ts",
-          "line": 64,
+          "line": 65,
           "end_line": 78,
           "label": "load"
         },
         {
           "path": "src/hooks/useBudget.ts",
           "line": 112,
-          "end_line": 119,
+          "end_line": 122,
           "label": "auto-save"
         }
       ]
@@ -134,8 +144,8 @@
       "sources": [
         {
           "path": "src/App.tsx",
-          "line": 31,
-          "end_line": 35
+          "line": 33,
+          "end_line": 36
         }
       ]
     },
@@ -143,22 +153,25 @@
       "id": "views",
       "type": "frontend",
       "label": "Dashboard UI",
-      "sublabel": "cards · donut · table",
+      "sublabel": "summary · category detail",
       "tag": "presentational",
       "stage": 3,
       "row": 1,
       "sources": [
         {
           "path": "src/components/SummaryCards.tsx",
-          "line": 9,
-          "end_line": 12,
-          "label": "cards"
+          "line": 62,
+          "label": "summary"
         },
         {
-          "path": "src/components/BudgetTable.tsx",
-          "line": 156,
-          "end_line": 171,
-          "label": "table"
+          "path": "src/components/CategoryBreakdown.tsx",
+          "line": 12,
+          "label": "categories"
+        },
+        {
+          "path": "src/components/CategoryDetail.tsx",
+          "line": 21,
+          "label": "detail"
         }
       ]
     },
@@ -311,7 +324,7 @@
         "data/budget.json is the only store — the browser reads and writes it through the GitHub Contents API",
         "No backend and no database: a page reload shows exactly the last commit",
         "The PUT closes the loop: each save is a real commit on master",
-        "localStorage holds only the token/config and the theme"
+        "localStorage holds only the token/config (written when บันทึก is pressed, not per keystroke) and the theme"
       ]
     },
     {
@@ -330,7 +343,7 @@
         "PUT carries the sha of the last known revision",
         "A 409 means the remote moved: useBudget reloads the remote version instead of overwriting it",
         "auto-save compares data against the last persisted snapshot, so an unchanged render never writes",
-        "Edits never touch the API directly: the UI calls useBudget mutators and the effect persists"
+        "Edits never touch the API directly: income (green card), add/edit/delete call useBudget mutators and the effect persists"
       ]
     }
   ]
