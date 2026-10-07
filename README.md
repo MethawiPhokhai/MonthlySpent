@@ -165,13 +165,25 @@ archify render   dataflow docs/diagrams/budget-data-flow.dataflow.json   # เ�
 
 ```bash
 npm install
-npm run dev        # รัน dev server
+npm run dev        # รัน dev server (ใช้ port 5173 หรือ port อื่นถ้า 5173 ถูกใช้งาน)
 npm run build      # build สำหรับ production
 npm run test       # รัน tests
 npm run typecheck  # เช็ค TypeScript types
 npm run graph      # สร้าง knowledge graph ของโค้ดใหม่
 npm run diagram    # validate + render data flow diagram ใหม่
 ```
+
+### Dev Server (Vite + autoPort)
+
+Dev server อ่านจาก environment variable `PORT` และจะเลือก port ว่างอัตโนมัติถ้าพอร์ตตั้งต้น (5173) ถูกใช้งาน:
+
+```bash
+npm run dev              # หรือ: vite (ถ้า 5173 ว่าง ใช้ 5173 ถ้าไม่ ใช้ port อื่น)
+PORT=3000 npm run dev    # บังคับใช้ port 3000 (ระบบ autoPort จะยิง 3000 หรือค่นหา port อื่น)
+```
+
+- **Launch config** (`.claude/launch.json`): `"autoPort": true` — ให้ preview system ใช้ port อื่นถ้า 5173 ถูกใช้งาน
+- **Vite config** (`vite.config.ts`): `server: { port: Number(process.env.PORT) || 5173 }` — อ่านจาก env variable
 
 ## Deploy
 
