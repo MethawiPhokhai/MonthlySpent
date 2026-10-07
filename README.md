@@ -22,7 +22,7 @@ layout เป็นคอลัมน์เดียวขนาดมือถ�
 
 **หน้าสรุป**
 - ยอดคงเหลือตัวใหญ่ พร้อมป้าย "อยู่ในงบ" หรือ "จ่ายเกินรายรับ" (สีแดง) เมื่อรายจ่ายเกินรายรับ
-- การ์ดรายรับรวม / รายจ่ายรวม และช่องแก้ไขรายได้ทั้งหมด
+- การ์ดรายรับรวม / รายจ่ายรวม — แตะตัวเลขในการ์ดรายรับรวม (สีเขียว) เพื่อแก้ไข กด Enter หรือแตะที่อื่นเพื่อบันทึก, Esc เพื่อยกเลิก
 - แถบสัดส่วนรายจ่ายตามหมวด + รายการหมวดพร้อม % และยอดรวม — แตะหมวดเพื่อเข้าหน้ารายละเอียด
 - ปุ่ม "+ เพิ่มรายการ" ติดอยู่ด้านล่างเสมอ
 - แถบสลับสถานการณ์แสดงเฉพาะเมื่อมีมากกว่า 1 scenario ใน JSON
@@ -81,7 +81,7 @@ repo นี้มี **knowledge graph ของโค้ดตัวเอง**
 | App shell + ธีม (29) | `App.tsx`, `HeaderMenu`, `ItemModal`, `ThemeToggle`, `constants.ts` | ประกอบหน้า (สรุป ↔ รายละเอียดหมวด), modal, สลับธีม |
 | Category screens | `components/CategoryBreakdown.tsx`, `components/CategoryDetail.tsx` | แถบสัดส่วน + รายการหมวด และหน้ารายการในหมวด (แทน `BudgetTable`, `DonutChart`, `Collapsible` เดิม) |
 | useBudget state machine (14) | `hooks/useBudget.ts` | load → edit → auto-save |
-| Summary & formatting (12) | `SummaryCards.tsx`, `TotalIncomeInput.tsx`, `utils/format.ts` | การ์ดสรุปยอด + จัดรูปเงิน/class |
+| Summary & formatting (12) | `SummaryCards.tsx`, `utils/format.ts` | การ์ดสรุปยอด (แก้รายรับได้ในการ์ด) + จัดรูปเงิน/class |
 | GitHub API client (10) | `api/github.ts` | GitHub Contents API (fetch/save `data/budget.json`) |
 | Scenario tabs & types (10) | `types/budget.ts`, `components/ScenarioTabs.tsx` | type ของ domain |
 | Settings panel (7) | `components/SettingsPanel.tsx` | owner/repo/token + สถานะ sync |

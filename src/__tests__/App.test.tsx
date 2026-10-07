@@ -60,7 +60,7 @@ describe('App', () => {
 
     expect(screen.getByText('MonthlySpent')).toBeInTheDocument()
     expect(screen.getByText('รายรับรวม')).toBeInTheDocument()
-    expect(screen.getAllByText('🪙103,000')).toHaveLength(2)
+    expect(screen.getByLabelText('แก้ไขรายรับรวม')).toHaveTextContent('🪙103,000')
     expect(screen.getByText('กิน')).toBeInTheDocument()
   })
 
@@ -117,7 +117,10 @@ describe('App', () => {
 
     render(<App />)
 
-    fireEvent.change(screen.getByLabelText('รายได้ทั้งหมด'), { target: { value: '90000' } })
+    expect(screen.queryByLabelText('รายได้ทั้งหมด')).not.toBeInTheDocument()
+    fireEvent.click(screen.getByLabelText('แก้ไขรายรับรวม'))
+    fireEvent.change(screen.getByLabelText('รายรับรวม'), { target: { value: '90000' } })
+    fireEvent.keyDown(screen.getByLabelText('รายรับรวม'), { key: 'Enter' })
 
     expect(updateIncome).toHaveBeenCalledWith('employed', 90000)
   })

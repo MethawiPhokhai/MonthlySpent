@@ -543,6 +543,31 @@ body {
     line-height: 1;
   }
 
+  /* Income amount doubles as its own edit control. */
+  .stat-edit {
+    display: block;
+    width: 100%;
+    text-align: left;
+    color: inherit;
+    cursor: text;
+  }
+
+  .stat-edit:hover {
+    text-decoration: underline dashed;
+    text-underline-offset: 0.25em;
+  }
+
+  .stat-input {
+    display: block;
+    width: 100%;
+    border: 2px solid var(--primary-ink);
+    border-radius: var(--radius-md);
+    background-color: color-mix(in srgb, var(--ground) 25%, transparent);
+    color: var(--primary-ink);
+    padding: 0 0.25rem;
+    outline: none;
+  }
+
   .stat-value-lg {
     font-size: 2.75rem;
     line-height: 1.2;

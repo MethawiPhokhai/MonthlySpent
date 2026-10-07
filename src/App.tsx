@@ -8,7 +8,6 @@ import { ScenarioTabs } from './components/ScenarioTabs'
 import { SettingsPanel } from './components/SettingsPanel'
 import { SummaryCards } from './components/SummaryCards'
 import { ThemeToggle } from './components/ThemeToggle'
-import { TotalIncomeInput } from './components/TotalIncomeInput'
 import { DEFAULT_SCENARIO_ID, LOCAL_STORAGE_CONFIG_KEY } from './constants'
 import { useBudget } from './hooks/useBudget'
 import { useLocalStorage } from './hooks/useLocalStorage'
@@ -160,16 +159,10 @@ export default function App() {
                 )}
 
                 <div className="mt-6">
-                  <SummaryCards income={activeScenario.income.total} expenses={totalExpenses} />
-                </div>
-
-                <div className="mt-7">
-                  <label htmlFor="total-income" className="field-label">
-                    รายได้ทั้งหมด
-                  </label>
-                  <TotalIncomeInput
-                    total={activeScenario.income.total}
-                    onChange={(total) => updateIncome(activeScenario.id, total)}
+                  <SummaryCards
+                    income={activeScenario.income.total}
+                    expenses={totalExpenses}
+                    onIncomeChange={(total) => updateIncome(activeScenario.id, total)}
                   />
                 </div>
 
