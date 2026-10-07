@@ -1,15 +1,16 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { BudgetData, ExpenseItem } from '../types/budget'
 import { fetchBudgetFile as defaultFetch, saveBudgetFile as defaultSave } from '../api/github'
-import type { GitHubConfig } from '../api/github'
+import type { GitHubConfig, FetchBudgetFileResult, SaveBudgetFileResult } from '../api/github'
+import { useDebounce } from './useDebounce'
 
 export interface UseBudgetDependencies {
-  fetchBudgetFile?: (config: GitHubConfig) => Promise<{ data: BudgetData; sha: string } | { error: string }>
+  fetchBudgetFile?: (config: GitHubConfig) => Promise<FetchBudgetFileResult>
   saveBudgetFile?: (
     config: GitHubConfig,
     data: BudgetData,
     sha: string,
-  ) => Promise<{ success: true; newSha: string } | { error: string; status?: number }>
+  ) => Promise<SaveBudgetFileResult>
 }
 
 export interface UseBudgetState {
@@ -48,6 +49,9 @@ export function useBudget(
   const fetchBudgetFile = deps.fetchBudgetFile ?? defaultFetch
   const saveBudgetFile = deps.saveBudgetFile ?? defaultSave
 
+  // Debounce config changes to prevent loads on every keystroke in SettingsPanel
+  const debouncedConfig = useDebounce(config, 500)
+
   // ----- Lifecycle stage 1: local state (data is null until the first successful load) -----
   const [data, setData] = useState<BudgetData | null>(null)
   const [sha, setSha] = useState<string | null>(null)
@@ -63,10 +67,10 @@ export function useBudget(
 
   /** Lifecycle 2: fetch budget.json from GitHub and mark it as the last-persisted snapshot. */
   const load = useCallback(async () => {
-    if (!config) return
+    if (!debouncedConfig) return
     setLoading(true)
     setError(null)
-    const result = await fetchBudgetFile(config)
+    const result = await fetchBudgetFile(debouncedConfig)
     setLoading(false)
     if ('error' in result) {
       setError(result.error)
@@ -75,22 +79,21 @@ export function useBudget(
     lastSavedDataRef.current = result.data
     setData(result.data)
     setSha(result.sha)
-  }, [config, fetchBudgetFile])
+  }, [debouncedConfig, fetchBudgetFile])
 
-  /** Lifecycle 3: PUT data to GitHub with the current sha; on conflict (409) reload the remote version. */
+  /** Lifecycle 3: PUT data to GitHub with the current sha; on conflict (409) show error, don't auto-reload. */
   const persist = useCallback(
     async (currentData: BudgetData, currentSha: string): Promise<boolean> => {
-      if (!config) return false
+      if (!debouncedConfig) return false
       savingRef.current = true
       setSaving(true)
       setSaveError(null)
-      const result = await saveBudgetFile(config, currentData, currentSha)
+      const result = await saveBudgetFile(debouncedConfig, currentData, currentSha)
       savingRef.current = false
       setSaving(false)
       if ('error' in result) {
         if (result.status === 409) {
-          setSaveError('ข้อมูลมีการเปลี่ยนแปลงบน server กรุณาโหลดข้อมูลล่าสุดแล้วลองอีกครั้ง')
-          await load()
+          setSaveError('ข้อมูลมีการเปลี่ยนแปลงบน server กรุณาเพิ่มเติมทำการบันทึกอีกครั้งหรือรีเฟรช')
         } else {
           setSaveError(result.error)
         }
@@ -99,7 +102,7 @@ export function useBudget(
       setSha(result.newSha)
       return true
     },
-    [config, saveBudgetFile, load],
+    [debouncedConfig, saveBudgetFile],
   )
 
   /** Manually persist the current state (header save button). */
@@ -186,10 +189,10 @@ export function useBudget(
 
   // ----- Lifecycle 0: initial load — fetch once the GitHub config is complete -----
   useEffect(() => {
-    if (config && config.owner && config.repo && config.token) {
+    if (debouncedConfig && debouncedConfig.owner && debouncedConfig.repo && debouncedConfig.token) {
       load()
     }
-  }, [load, config])
+  }, [load, debouncedConfig])
 
   // Memoized public API so the hook result keeps a stable identity between renders.
   return useMemo(

@@ -7,6 +7,9 @@ export interface GitHubConfig {
   token: string
 }
 
+export type FetchBudgetFileResult = { data: BudgetData; sha: string } | { error: string }
+export type SaveBudgetFileResult = { success: true; newSha: string } | { error: string; status?: number }
+
 const API_BASE = 'https://api.github.com'
 const FILE_PATH = BUDGET_FILE_PATH
 
@@ -27,7 +30,7 @@ function base64ToUtf8(base64: string): string {
 /** Fetch and decode data/budget.json from the repo; returns an error object instead of throwing. */
 export async function fetchBudgetFile(
   config: GitHubConfig,
-): Promise<{ data: BudgetData; sha: string } | { error: string }> {
+): Promise<FetchBudgetFileResult> {
   let response: Response
   try {
     response = await fetch(`${API_BASE}/repos/${config.owner}/${config.repo}/contents/${FILE_PATH}`, {
@@ -60,7 +63,7 @@ export async function saveBudgetFile(
   config: GitHubConfig,
   data: BudgetData,
   sha: string,
-): Promise<{ success: true; newSha: string } | { error: string; status?: number }> {
+): Promise<SaveBudgetFileResult> {
   let response: Response
   try {
     response = await fetch(`${API_BASE}/repos/${config.owner}/${config.repo}/contents/${FILE_PATH}`, {
@@ -86,6 +89,14 @@ export async function saveBudgetFile(
     return { error: body.message || `Failed to save file: ${response.status}`, status: response.status }
   }
 
-  const result = await response.json()
-  return { success: true, newSha: result.content.sha as string }
+  try {
+    const result = await response.json()
+    const newSha = result.content?.sha
+    if (!newSha) {
+      return { error: 'Invalid response: missing sha' }
+    }
+    return { success: true, newSha }
+  } catch {
+    return { error: 'Failed to parse GitHub response' }
+  }
 }
