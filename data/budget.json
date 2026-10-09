@@ -248,7 +248,7 @@
         },
         {
           "name": "Mac",
-          "amount": 9000,
+          "amount": 8356,
           "categoryId": "utilities",
           "paymentMethodId": "kbank",
           "due": "",
