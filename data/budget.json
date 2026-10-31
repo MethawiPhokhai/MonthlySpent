@@ -256,8 +256,8 @@
           "id": "38693e4a-9286-41c7-9fe8-3c68be153dac"
         },
         {
-          "name": "ค่าโรงแรม",
-          "amount": 6400,
+          "name": "ค่าโรงแรม+รถ",
+          "amount": 8400,
           "categoryId": "utilities",
           "paymentMethodId": "make",
           "due": "",
