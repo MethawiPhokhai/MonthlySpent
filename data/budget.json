@@ -195,7 +195,7 @@
         {
           "id": "fd-1",
           "name": "กิน",
-          "amount": 5000,
+          "amount": 6000,
           "categoryId": "food",
           "paymentMethodId": "kbank",
           "due": "monthly",
