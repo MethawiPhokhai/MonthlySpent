@@ -13,6 +13,7 @@ import { useBudget } from './hooks/useBudget'
 import { useLocalStorage } from './hooks/useLocalStorage'
 import { useTheme } from './hooks/useTheme'
 import type { ExpenseItem } from './types/budget'
+import { buildExpenseReportHtml, downloadExpensePdf } from './utils/exportPdf'
 
 /** Root component: connects GitHub-backed budget state to the dashboard UI. */
 export default function App() {
@@ -63,6 +64,15 @@ export default function App() {
   function handleEdit(item: ExpenseItem) {
     setEditingItem(item)
     setIsModalOpen(true)
+  }
+
+  /** Build the category-grouped report for the active scenario and open the PDF print view. */
+  function handleDownloadPdf() {
+    if (!activeScenario || !data) return
+    const html = buildExpenseReportHtml(activeScenario, data.categories, data.paymentMethods)
+    if (!downloadExpensePdf(html)) {
+      alert('เบราว์เซอร์บล็อกหน้าต่าง กรุณาอนุญาต popup ของเว็บนี้แล้วลองใหม่')
+    }
   }
 
   /** Create or update the expense; useBudget auto-saves the change. */
@@ -172,6 +182,12 @@ export default function App() {
                     categories={data.categories}
                     onSelect={setSelectedCategoryId}
                   />
+                </div>
+
+                <div className="mt-4">
+                  <button type="button" onClick={handleDownloadPdf} className="btn btn-ghost btn-block">
+                    ⬇ ดาวน์โหลดรายจ่ายทั้งหมด (PDF แยกหมวด)
+                  </button>
                 </div>
 
                 <div className="sticky-action">
