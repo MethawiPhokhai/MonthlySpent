@@ -257,7 +257,7 @@
         },
         {
           "name": "ค่าโรงแรม+รถ",
-          "amount": 8400,
+          "amount": 4000,
           "categoryId": "utilities",
           "paymentMethodId": "make",
           "due": "",
