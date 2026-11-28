@@ -40,15 +40,6 @@
           "note": ""
         },
         {
-          "id": "sv-4",
-          "name": "ประกันอุบัติเหตุ เมืองไทยสไลฟ์",
-          "amount": 714,
-          "categoryId": "savings",
-          "paymentMethodId": "make",
-          "due": "8560 yearly (no end) 23 April",
-          "note": ""
-        },
-        {
           "id": "iv-2",
           "name": "กองทุนฟรอย",
           "amount": 2000,
